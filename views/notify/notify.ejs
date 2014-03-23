@@ -1,0 +1,18 @@
+<% include ../base-top.ejs %>
+<div class="container notify-section">
+    <div class="row">
+        <div class="col-md-8">
+            <% if (locals.error) { %>
+            <div class="alert alert-warning">
+                <strong><%= error %></strong>
+            </div>
+            <% } %>
+            <% if (locals.success) { %>
+            <div class="alert alert-success">
+                <strong><%= success %></strong>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<% include ../base-bottom.ejs %>
