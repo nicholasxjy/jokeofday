@@ -2,7 +2,7 @@ var config = require('./config');
 
 var site = require('./controllers/site');
 var sign = require('./controllers/sign');
-
+var user = require('./controllers/user');
 
 
 module.exports = function(app) {
@@ -23,8 +23,15 @@ module.exports = function(app) {
 
     app.get('/signout', sign.signout);
 
-    //password reset
+    //password find back
     app.get('/forgot-password', sign.showForgotPassword);
     app.post('/forgot-password', sign.findPassword);
+
+    //password reset
+    app.get('/reset-password', sign.resetPassword);
+    app.post('/reset-password', sign.updateNewPassword);
+
+    //user related operations
+    app.get('/user/:name', user.index);
 
 }

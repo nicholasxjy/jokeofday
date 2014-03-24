@@ -15,6 +15,10 @@ mongoose.connect(config.db, function(err) {
 
 require('./user');
 require('./message');
+require('./jokeitem');
+require('./relation');
 
 exports.User = mongoose.model('User');
 exports.Message = mongoose.model('Message');
+exports.Joke = mongoose.model('JokeItem');
+exports.Relation = mongoose.model('Relation');

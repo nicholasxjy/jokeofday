@@ -3,3 +3,4 @@
  */
 exports.User = require('./user');
 exports.Message = require('./message');
+exports.Relation = require('./relation');

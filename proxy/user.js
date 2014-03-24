@@ -58,6 +58,14 @@ exports.getUserById = function(id, callback) {
     User.findOne({_id:id}, callback);
 }
 /**
+ * 根据用户名查找唯一用户
+ * @param name
+ * @param callback
+ */
+exports.getUserByName = function(name, callback) {
+    User.findOne({name:name}, callback);
+}
+/**
  * 保存新注册用户
  * @param name
  * @param loginname
