@@ -14,6 +14,7 @@ var UserSchema = new Schema({
     location: {type:String},
     profile: {type:String},
     avatar: {type:String},
+    gender: {type:Number, default:0},//0:保密 1:不确定 2:男 3:女
     is_block: {type:Boolean, default:false},
 
     score: {type:Number, default:0},

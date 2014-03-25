@@ -105,6 +105,9 @@ and (min-device-width : 320px) and (max-device-width : 480px) {
 .notify-section {
     padding-top: 80px;
 }
+.user-section {
+    padding-top: 80px;
+}
 .signup-info {
     font-size: 14px;
     margin-bottom: 5px;

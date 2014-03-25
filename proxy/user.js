@@ -66,6 +66,14 @@ exports.getUserByName = function(name, callback) {
     User.findOne({name:name}, callback);
 }
 /**
+ * 根据user id查找用户
+ * @param id
+ * @param callback
+ */
+exports.getUserById = function(id, callback) {
+    User.findOne({_id: id}, callback);
+}
+/**
  * 保存新注册用户
  * @param name
  * @param loginname

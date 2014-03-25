@@ -7,6 +7,12 @@ var Joke = require('../proxy').Joke;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
 
+/**
+ * 用户主页
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.index = function(req, res, next) {
     var username = req.params.name;
     User.getUserByName(username, function(err, user) {
@@ -36,7 +42,7 @@ exports.index = function(req, res, next) {
         proxy.fail(next);
 
         var query = {author_id:user._id};
-        var opts = {limit: 5, sort:[['create_at', 'desc']]};
+        var opts = {limit: 5, sort:{create_at:'desc'}};
         Joke.getJokesByQuery(query, opts, proxy.done('recent_jokes'));
 
         if (!req.session.user) {
@@ -49,3 +55,33 @@ exports.index = function(req, res, next) {
 
     });
 };
+/**
+ * 显示settings页面，必须登录
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.showSettings = function(req, res, next) {
+    if (!req.session.user) {
+        res.redirect('home');
+        return;
+    }
+    User.getUserById(req.session.user._id, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (req.query.save === 'success') {
+            user.success = "保存成功";
+        }
+        user.error = null;
+        return res.render('user/settings', user);
+    });
+};
+
+exports.settings = function(req, res, next) {
+    if (!req.session.user) {
+        res.redirect('home');
+        return;
+    }
+
+}

@@ -33,5 +33,7 @@ module.exports = function(app) {
 
     //user related operations
     app.get('/user/:name', user.index);
+    app.get('/settings', user.showSettings);
+    app.post('/settings', user.settings);
 
 }
