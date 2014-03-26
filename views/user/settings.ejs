@@ -1,0 +1,64 @@
+<% include ../base-top.ejs %>
+<div class="container setting-section">
+    <div class="row">
+        <div class="col-md-6">
+            <% if (locals.error) { %>
+                <div class="alert-danger alert">
+                    <strong><%= error %></strong>
+                </div>
+            <% } %>
+            <% if (locals.success) { %>
+                <div class="alert alert-success">
+                    <strong><%= user.success %></strong>
+                </div>
+            <% } %>
+            <form action="/settings" method="post" role="form">
+                <div class="form-group">
+                    <label for="name" class="control-label">用户名</label>
+                    <input type="text" name="name" size="30" readonly="true" class="form-control"
+                           value="<%= user.name %>"/>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="control-label">邮箱地址</label>
+                    <input type="email" class="form-control" size="30" readonly="true" name="email"
+                           value="<%= user.email %>"/>
+                </div>
+                <div class="form-group">
+                    <label for="gender" class="control-label">性别</label>
+                    <input type="radio" value="0" name="gender" checked/>男
+                    <input type="radio" value="1" name="gender"/>女
+                </div>
+                <div class="form-group">
+                    <label for="location" class="control-label">所在地点</label>
+                    <% if (locals.user.location) { %>
+                        <input type="text" class="form-control" name="location" size="30"
+                               value="<% locals.user.location %>"/>
+                    <% } else { %>
+                        <input type="text" class="form-control" name="location" size="30" value=""/>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                    <label for="profile" class="control-label">个人简介</label>
+                    <% if (locals.user.profile) { %>
+                        <textarea name="profile" id="profile" rows="4"><%= locals.user.profile %></textarea>
+                    <% } else { %>
+                        <textarea class="form-control" name="profile" rows="4"></textarea>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                    <div id="uploader-demo">
+                        <div id="fileList" class="uploader-list"></div>
+                        <div id="filePicker">
+                            选择图片
+                        </div>
+                    </div>
+                </div>
+                <div class="form-action">
+                    <input type="submit" class="btn btn-info" value="确定"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include ../base-bottom.ejs %>

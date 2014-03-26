@@ -6,6 +6,7 @@ var User = require('../proxy').User;
 var Joke = require('../proxy').Joke;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
+var validator = require('validator');
 
 /**
  * 用户主页
@@ -74,7 +75,10 @@ exports.showSettings = function(req, res, next) {
             user.success = "保存成功";
         }
         user.error = null;
-        return res.render('user/settings', user);
+        return res.render('user/settings', {
+            user: user,
+            config: config
+        });
     });
 };
 
@@ -83,5 +87,11 @@ exports.settings = function(req, res, next) {
         res.redirect('home');
         return;
     }
+    var name = req.body.name;
+    var email = req.body.email;
+    var gender = req.body.gender;
+    var location = validator.trim(req.body.location.toString());
+    var profile = validator.trim(req.body.profile.toString());
+
 
 }

@@ -17,7 +17,7 @@ exports.showSignup = function(req, res) {
 };
 
 exports.signup = function(req, res, next) {
-    var name = validator.trim(req.body.name.toString());
+    var name = validator.trim(req.body.name.toString()) ;
     var loginname = name.toLowerCase();
     var pass = validator.trim(req.body.pass.toString());
     var email = validator.trim(req.body.email.toString());
@@ -42,9 +42,7 @@ exports.signup = function(req, res, next) {
         return;
     }
     //检查用户名只能包含字母和数字
-    try {
-        validator.isAlphanumeric(name);
-    } catch (e) {
+    if (!validator.isAlphanumeric(name)) {
         res.render('sign/signup', {
             error: '用户名只能包含字母和数字，亲!',
             name: name,
@@ -63,9 +61,7 @@ exports.signup = function(req, res, next) {
         return;
     }
     //检查邮箱地址是否正确
-    try {
-        validator.isEmail(email);
-    } catch (e) {
+    if (!validator.isEmail(email)) {
         res.render('sign/signup', {
             error: '邮箱地址不正确，请重新确认。',
             name: name,
@@ -168,9 +164,9 @@ exports.signin = function(req, res, next) {
         }
         //此处 做了cookie设置，得请教一下,why?
         generate_session(user, res);
-        var refer = req.session._loginReferer || 'home';
+        //var refer = req.session._loginReferer || 'home';
         req.session.user = user;
-        res.redirect(refer);
+        res.redirect('back');
     });
 };
 /**
@@ -181,7 +177,8 @@ exports.signin = function(req, res, next) {
 exports.signout = function(req, res, next) {
     req.session.destroy();//清空session
     res.clearCookie(config.auth_cookie_name, {path: '/'});//销毁cookie
-    res.redirect(req.headers.referer || 'home');//跳转
+    //res.redirect(req.headers.referer || 'home');//跳转
+    res.redirect('back');
 };
 /**
  * get 忘记密码
@@ -202,9 +199,7 @@ exports.showForgotPassword = function(req, res) {
 exports.findPassword = function findPassword(req, res, next) {
     var email = validator.trim(req.body.email.toString());
     email = email.toLowerCase();
-    try {
-        validator.isEmail(email);
-    } catch (e) {
+    if (!validator.isEmail(email)) {
         res.render('sign/forgot-password', {
             config: config,
             error: "邮箱地址不正确"
