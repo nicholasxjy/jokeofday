@@ -12,7 +12,7 @@
                     <strong><%= user.success %></strong>
                 </div>
             <% } %>
-            <form action="/settings" method="post" role="form">
+            <form action="/settings" method="post" role="form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name" class="control-label">用户名</label>
                     <input type="text" name="name" size="30" readonly="true" class="form-control"
@@ -46,12 +46,8 @@
                     <% } %>
                 </div>
                 <div class="form-group">
-                    <div id="uploader-demo">
-                        <div id="fileList" class="uploader-list"></div>
-                        <div id="filePicker">
-                            选择图片
-                        </div>
-                    </div>
+                    <label for="profile-image" class="control-label">更改头像</label>
+                    <input type="file" name="thumbnail" class="form-control"/>
                 </div>
                 <div class="form-action">
                     <input type="submit" class="btn btn-info" value="确定"/>

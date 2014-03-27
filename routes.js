@@ -35,5 +35,4 @@ module.exports = function(app) {
     app.get('/user/:name', user.index);
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
-
 }

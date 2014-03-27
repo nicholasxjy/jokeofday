@@ -7,7 +7,9 @@ var Joke = require('../proxy').Joke;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
 var validator = require('validator');
-
+var fs = require('fs');
+var ndir = require('ndir');
+var path = require('path');
 /**
  * 用户主页
  * @param req
@@ -87,11 +89,50 @@ exports.settings = function(req, res, next) {
         res.redirect('home');
         return;
     }
-    var name = req.body.name;
-    var email = req.body.email;
     var gender = req.body.gender;
     var location = validator.trim(req.body.location.toString());
     var profile = validator.trim(req.body.profile.toString());
+    var profileimage = req.files.thumbnail;
+    User.getUserById(req.session.user._id, function(err, user) {
+        user.gender = gender;
+        user.location = location;
+        user.profile = profile;
+        //这里修改头像，将上传图片经过处理的url赋给profile-image-url
+        //图片的路径赋值为uid/date.now+file.name
+        if (req.files && profileimage) {
+            var uid = user._id.toString();
+            var userDir = path.join(config.upload_dir, uid);
+            ndir.mkdir(userDir, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                var filename = Date.now() + '_' + profileimage.name;
+                var savepath = path.resolve(path.join(userDir, filename));
+                fs.rename(profileimage.path, savepath, function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    user.profile_image_url = savepath;
+                    user.save(function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+                    });
+                    fs.unlink(config.upload_dir, function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+                    });
+                });
+            });
+        } else {
+            user.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.redirect('/settings?save=success')
+            });
+        }
 
-
+    });
 }
