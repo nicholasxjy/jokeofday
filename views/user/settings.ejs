@@ -7,7 +7,7 @@
                     <strong><%= error %></strong>
                 </div>
             <% } %>
-            <% if (locals.success) { %>
+            <% if (locals.user.success) { %>
                 <div class="alert alert-success">
                     <strong><%= user.success %></strong>
                 </div>
@@ -25,22 +25,27 @@
                 </div>
                 <div class="form-group">
                     <label for="gender" class="control-label">性别</label>
-                    <input type="radio" value="0" name="gender" checked/>男
-                    <input type="radio" value="1" name="gender"/>女
+                    <% if (locals.user.gender === 0) { %>
+                        <input type="radio" value="0" name="gender" checked="true"/>男
+                        <input type="radio" value="1" name="gender"/>女
+                    <% } else {%>
+                        <input type="radio" value="0" name="gender"/>男
+                        <input type="radio" value="1" name="gender" checked="true" />女
+                    <% } %>
                 </div>
                 <div class="form-group">
                     <label for="location" class="control-label">所在地点</label>
                     <% if (locals.user.location) { %>
                         <input type="text" class="form-control" name="location" size="30"
-                               value="<% locals.user.location %>"/>
+                               value="<%= locals.user.location %>"/>
                     <% } else { %>
-                        <input type="text" class="form-control" name="location" size="30" value=""/>
+                        <input type="text" class="form-control" name="location" size="30"/>
                     <% } %>
                 </div>
                 <div class="form-group">
                     <label for="profile" class="control-label">个人简介</label>
                     <% if (locals.user.profile) { %>
-                        <textarea name="profile" id="profile" rows="4"><%= locals.user.profile %></textarea>
+                        <textarea name="profile" id="profile" rows="4" class="form-control"><%= locals.user.profile %></textarea>
                     <% } else { %>
                         <textarea class="form-control" name="profile" rows="4"></textarea>
                     <% } %>

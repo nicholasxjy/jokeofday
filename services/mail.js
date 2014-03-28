@@ -30,7 +30,7 @@ exports.sendActiveEmail = function(touser, token, name) {
     var to = touser;
     var subject = config.name + " 账号激活";
     var html = "<p>您好，</p>" + "<p>感谢注册 " + config.name + ", 请点击下面链接以激活账户</p>" +
-        "<a href='" + SITE_ROOT_URL +"active_account?key="+ token + "&name="+ name +"'>激活链接</a>"
+        "<a href='" + SITE_ROOT_URL +"/active_account?key="+ token + "&name="+ name +"'>激活链接</a>"
         +"<p>再次欢迎您的到来，Having fun here!</p>";
     sendEmail({
         from: from,
@@ -50,7 +50,7 @@ exports.sendResetPasswordEmail = function(touser, key, name) {
     var to = touser;
     var subject = config.name + "重置密码";
     var html = "<p>您好，</p>" + "<p>请在24小时内点击下面的链接，来重置您的密码。</p>" +
-        "<a href='" + SITE_ROOT_URL +"reset-pass?key="+ key +"&name="+ name +"'>重置密码链接</a>";
+        "<a href='" + SITE_ROOT_URL +"/reset-pass?key="+ key +"&name="+ name +"'>重置密码链接</a>";
     sendEmail({
         from: from,
         to: to,

@@ -108,29 +108,28 @@ exports.settings = function(req, res, next) {
                 }
                 var filename = Date.now() + '_' + profileimage.name;
                 var savepath = path.resolve(path.join(userDir, filename));
+                user.profile_image_url = config.site_static_host + '/userprofile/images/'+uid+'/'+filename;
                 fs.rename(profileimage.path, savepath, function(err) {
                     if (err) {
                         return next(err);
                     }
-                    user.profile_image_url = savepath;
                     user.save(function(err) {
                         if (err) {
                             return next(err);
                         }
-                    });
-                    fs.unlink(config.upload_dir, function(err) {
-                        if (err) {
-                            return next(err);
-                        }
+						return res.redirect('/settings?save=success');
                     });
                 });
             });
         } else {
+            if (user.profile_image_url) {
+                user.profile_image_url = user.profile_image_url;
+            }
             user.save(function(err) {
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('/settings?save=success')
+                return res.redirect('/settings?save=success');
             });
         }
 

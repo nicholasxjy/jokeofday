@@ -90,6 +90,6 @@ exports.newAndSave = function(name, loginname, pass, email, avatar_url, active, 
     user.pass = pass;
     user.email = email;
     user.avatar_url = avatar_url;
-    user.active = false;//需要发送激活邮件，来激活
+    user.active = active;//需要发送激活邮件，来激活，注册调用默认为false
     user.save(callback);
 }

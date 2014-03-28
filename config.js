@@ -17,7 +17,7 @@
     host: 'http://127.0.0.1:3000',
  	site_icon: '',//网站小图标
     site_static_host: 'http://127.0.0.1:3000',
- 	upload_dir: path.join(__dirname, 'public', 'userproifile', 'images'),
+ 	upload_dir: path.join(__dirname, 'public', 'userprofile', 'images'),
 
  	db: 'mongodb://127.0.0.1/jokeday_dev',
  	session_secret: 'jokeday',
@@ -53,8 +53,8 @@
  		host: 'smtp.126.com',
  		port: 25,
  		auth: {
- 			user: 'jokeday@126.com',
- 			pass: 'hilarious'
+ 			user: 'jokeofday@126.com',
+ 			pass: 'hilarious4862'
  		}
  	},
      //管理员认证，富有一定的权限

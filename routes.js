@@ -21,6 +21,8 @@ module.exports = function(app) {
     app.get('/signin', sign.showSignin);
     app.post('/signin', sign.signin);
 
+    app.get('/active_account', sign.active_account);
+
     app.get('/signout', sign.signout);
 
     //password find back

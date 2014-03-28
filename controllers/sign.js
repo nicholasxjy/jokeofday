@@ -106,6 +106,41 @@ exports.signup = function(req, res, next) {
 };
 
 /**
+*
+*/
+exports.active_account = function(req, res, next) {
+    var name = req.query.name;
+    var key = req.query.key;
+    User.getUserByName(name, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (!user || md5(user.email + config.session_secret) !== key) {
+            return res.render('notify/notify', {
+                config: config,
+                error: '信息有误，账号无法激活'
+            });
+        }
+        if (user.active) {
+            return res.render('notify/notify', {
+                config: config,
+                error: '此账号已经激活'
+            });
+        }
+        user.active = true;
+        user.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+            return res.render('notify/notify', {
+                config: config,
+                success: '账号已被激活，请登录'
+            });
+        });
+    });
+}
+
+/**
  * 展示login page
  * @param req
  * @param res
@@ -164,9 +199,9 @@ exports.signin = function(req, res, next) {
         }
         //此处 做了cookie设置，得请教一下,why?
         generate_session(user, res);
-        //var refer = req.session._loginReferer || 'home';
+        var refer = req.session._loginReferer || '/';
         req.session.user = user;
-        res.redirect('back');
+        res.redirect(refer);
     });
 };
 /**
@@ -177,8 +212,7 @@ exports.signin = function(req, res, next) {
 exports.signout = function(req, res, next) {
     req.session.destroy();//清空session
     res.clearCookie(config.auth_cookie_name, {path: '/'});//销毁cookie
-    //res.redirect(req.headers.referer || 'home');//跳转
-    res.redirect('back');
+    res.redirect(req.headers.referer || '/');//跳转
 };
 /**
  * get 忘记密码
@@ -340,23 +374,29 @@ function getAvatarURL(user) {
  * @returns {*}
  */
 exports.auth_user = function(req, res, next) {
-    var user = req.session.user;
-    if (user) {
-        if (config.admins.hasOwnProperty(user.name)) {
-            user.is_admin = true;
-        }
-        //TODO接下来获取，用户的消息数量等
-        Message.getMessageCount(user._id, function(err, count) {
+    if (req.session.user) {
+        //此处不能直接用user，必须从数据库重新获取，因为可能更新了数据
+        User.getUserById(req.session.user._id, function(err, user) {
             if (err) {
                 return next(err);
             }
-            user.messages_count = count;
-            if (!user.avatar_url) {
-                user.avatar_url = getAvatarURL(user);
+            if (config.admins.hasOwnProperty(user.name)) {
+                user.is_admin = true;
             }
-            res.locals({current_user: user});
-            return next();
+            //TODO接下来获取，用户的消息数量等
+            Message.getMessageCount(user._id, function(err, count) {
+                if (err) {
+                    return next(err);
+                }
+                user.messages_count = count;
+                if (!user.avatar_url) {
+                    user.avatar_url = getAvatarURL(user);
+                }
+                res.locals({current_user: user});
+                return next();
+            });
         });
+
     } else {
         var cookie = req.cookies[config.auth_cookie_name];
         if (!cookie) {
