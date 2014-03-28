@@ -1,13 +1,4 @@
 <% include base-top.ejs %>
 <% include header.ejs %>
-<div class="container user-section">
-	<div class="row">
-		<div class="col-md-4">
-			<% if (current_user) { %>
-				<img src="<%= current_user.profile_image_url %>" class="" width="100" height="100">
-
-			<% } %>
-		</div>
-	</div>
-</div>
+<% include post_joke.ejs %>
 <% include base-bottom.ejs %>

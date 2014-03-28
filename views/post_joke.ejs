@@ -1,0 +1,57 @@
+<div class="container user-section">
+    <div class="row">
+        <div class="col-md-4">
+            <% if (locals.current_user) { %>
+            <div class="thumbnail">
+                <% if (locals.current_user.profile_image_url) { %>
+                <img src="<%= locals.current_user.profile_image_url %>" class="img-circle img-responsive"
+                     width="50" height="50" title="<%= locals.current_user.name %>">
+                <% } else if (locals.user.avatar) { %>
+                <img src="<%= locals.current_user.avatar %>" class="img-circle img-responsive"
+                     width="50" height="50" title="<%= locals.current_user.name %>">
+                <% } else { %>
+                <img src="<%= locals.config.default_image %>" class="img-circle img-responsive"
+                     width="50" height="50" title="<%= locals.current_user.name %>">
+                <% } %>
+                <div class="caption">
+                    <h3>
+                        <a href="/user/<%= locals.current_user.loginname %>">
+                            <%= locals.current_user.name %>
+                        </a>
+                    </h3>
+                </div>
+                <button class="btn btn-info" data-toggle="modal" data-target="#postJokes">发表Joke</button>
+                <div class="modal fade" id="postJokes" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">What's Your Jokes?</h4>
+                            </div>
+                            <form action="/joke/create" method="post" role="form">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="title" class="control-label">标题</label>
+                                        <input type="text" class="form-control" name="title" value=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content" class="control-label">内容</label>
+                                        <textarea name="content" id="content" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-info">发送</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <% } %>
+        </div>
+    </div>
+</div>

@@ -86,7 +86,7 @@ exports.showSettings = function(req, res, next) {
 
 exports.settings = function(req, res, next) {
     if (!req.session.user) {
-        res.redirect('home');
+        res.redirect('/');
         return;
     }
     var gender = req.body.gender;

@@ -18,7 +18,7 @@
  	site_icon: '',//网站小图标
     site_static_host: 'http://127.0.0.1:3000',
  	upload_dir: path.join(__dirname, 'public', 'userprofile', 'images'),
-
+    default_image: 'http://127.0.0.1:3000/images/default_user_icon.png',
  	db: 'mongodb://127.0.0.1/jokeday_dev',
  	session_secret: 'jokeday',
  	auth_cookie_name: 'jokeday',
