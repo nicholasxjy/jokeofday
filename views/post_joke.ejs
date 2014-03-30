@@ -1,6 +1,11 @@
 <div class="container user-section">
     <div class="row">
         <div class="col-md-4">
+            <% if (locals.error) { %>
+            <div class="alert alert-warning">
+                <strong><%= error %></strong>
+            </div>
+            <% } %>
             <% if (locals.current_user) { %>
             <div class="thumbnail">
                 <% if (locals.current_user.profile_image_url) { %>
@@ -30,15 +35,19 @@
                                 </button>
                                 <h4 class="modal-title" id="myModalLabel">What's Your Jokes?</h4>
                             </div>
-                            <form action="/joke/create" method="post" role="form">
+                            <form action="/joke/create" method="post" role="form" enctype="multipart/form-data">
                                 <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="title" class="control-label">标题</label>
-                                        <input type="text" class="form-control" name="title" value=""/>
-                                    </div>
                                     <div class="form-group">
                                         <label for="content" class="control-label">内容</label>
                                         <textarea name="content" id="content" rows="4" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="link" class="control-label">链接</label>
+                                        <input type="text" class="form-control" name="link" value=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pictures" class="control-label">分享图片</label>
+                                        <input type="file" name="pictures" multiple/>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

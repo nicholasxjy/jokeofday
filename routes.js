@@ -3,7 +3,7 @@ var config = require('./config');
 var site = require('./controllers/site');
 var sign = require('./controllers/sign');
 var user = require('./controllers/user');
-
+var joke = require('./controllers/joke');
 
 module.exports = function(app) {
     //home page
@@ -37,4 +37,6 @@ module.exports = function(app) {
     app.get('/user/:name', user.index);
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
+
+    app.post('/joke/create', joke.createJoke);
 }

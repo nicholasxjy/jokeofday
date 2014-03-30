@@ -2,7 +2,8 @@
 <div class="container user-section">
     <div class="row">
         <div class="col-md-4">
-            <img src="" alt="<%= user.name %>"/>
+            <img src="<%= user.profile_image_url %>" alt="<%= user.name %>" width="50" height="50"
+                 class="img-responsive img-circle" title="<%= user.name %>"/>
             <div class="username"><%= user.name %></div>
             <div class="user-info">
                 <span><%= user.follower_count %>粉丝</span>

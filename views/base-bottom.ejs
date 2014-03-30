@@ -27,7 +27,7 @@
             swf: '<%= config.site_static_host %>/public/Uploader.swf',
 
             // 文件接收服务端。
-            server: '<%= config.host %>/settings/profile-image/upload',
+            server: '<%= config.host %>/joke/create',
 
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -44,7 +44,7 @@
         // 当有文件添加进来的时候
         uploader.on( 'fileQueued', function( file ) {
             var $li = $(
-                            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                            '<div id="' + file.id + '" class="file-item">' +
                                     '<img>' +
                                     '<div class="info">' + file.name + '</div>' +
                                     '</div>'
