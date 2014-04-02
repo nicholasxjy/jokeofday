@@ -63,11 +63,11 @@ exports.createJoke = function(req, res, next) {
 
         var picDir = path.join(config.upload_pictures_dir, Date.now().toString());
         if (upload_pics.length > 1) {
-            upload_pics.forEach(function(picture) {
-                ndir.mkdir(picDir, function(err) {
-                    if (err) {
-                        return next(err);
-                    }
+            ndir.mkdir(picDir, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                upload_pics.forEach(function(picture) {
                     var filename = Date.now() + '_' + picture.name;
                     var savepath = path.resolve(path.join(picDir, filename));
                     var pic_url = config.site_static_host + '/upload_pics/pictures/' + filename;
