@@ -4,6 +4,7 @@ var site = require('./controllers/site');
 var sign = require('./controllers/sign');
 var user = require('./controllers/user');
 var joke = require('./controllers/joke');
+var auth = require('./middlewares/auth');
 
 module.exports = function(app) {
     //home page
@@ -38,5 +39,6 @@ module.exports = function(app) {
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
 
+    app.get('/joke/create', auth.signInRequired, joke.showCreate);
     app.post('/joke/create', joke.createJoke);
 }

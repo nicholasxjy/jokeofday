@@ -1,0 +1,30 @@
+<% include ../base-top.ejs %>
+<div class="container section-create">
+    <div class="row">
+        <div class="col-md-6">
+            <% if (locals.error) { %>
+                <div class="alert alert-danger">
+                    <strong><%= error %></strong>
+                </div>
+            <% } %>
+            <form action="/joke/create" method="post" role="form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="content" class="control-label">内容</label>
+                        <textarea name="content" id="content" rows="4" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="control-label">链接</label>
+                        <input type="text" class="form-control" name="link" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pictures" class="control-label">分享图片</label>
+                        <input type="file" name="pictures" multiple/>
+                    </div>
+                <div class="form-action">
+                    <button type="submit" class="btn btn-info">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<% include ../base-bottom.ejs %>

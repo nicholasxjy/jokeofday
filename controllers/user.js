@@ -99,7 +99,7 @@ exports.settings = function(req, res, next) {
         user.profile = profile;
         //这里修改头像，将上传图片经过处理的url赋给profile-image-url
         //图片的路径赋值为uid/date.now+file.name
-        if (req.files && profileimage) {
+        if (profileimage.name !== '') {
             var uid = user._id.toString();
             var userDir = path.join(config.upload_dir, uid);
             ndir.mkdir(userDir, function(err) {

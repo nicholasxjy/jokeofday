@@ -30,7 +30,7 @@
                     <% if (joke.pictures) { %>
                         <div class="joke-pictures">
                             <% joke.pictures.forEach(function(picture) { %>
-                              <img src="<%= picture%>" alt="shared pictures"/>
+                              <img src="<%= picture.url %>" alt="shared pictures"/>
                             <% }); %>
                         </div>
                     <% } %>
