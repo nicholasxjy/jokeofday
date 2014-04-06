@@ -1,23 +1,8 @@
 <% include ../base-top.ejs %>
+<% include ../common/header.ejs %>
 <div class="container user-section">
     <div class="row">
-        <div class="col-md-4">
-            <img src="<%= user.profile_image_url %>" alt="<%= user.name %>" width="50" height="50"
-                 class="img-responsive img-circle" title="<%= user.name %>"/>
-            <div class="username"><%= user.name %></div>
-            <div class="user-info">
-                <span><%= user.follower_count %>粉丝</span>
-                <span><%= user.following_count %>关注</span>
-                <span><%= user.score %>分数</span>
-            </div>
-            <div class="follow-button">
-                <% if (locals.relation) { %>
-                <button class="btn btn-success btn-unfollow">取消关注</button>
-                <% } else { %>
-                <button class="btn btn-success btn-follow">加入关注</button>
-                <% } %>
-            </div>
-        </div>
+        <% include ../common/sidebar.ejs %>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -52,4 +37,5 @@
     </div>
 </div>
 
+<% include ../common/footer.ejs %>
 <% include ../base-bottom.ejs %>

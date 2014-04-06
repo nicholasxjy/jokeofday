@@ -1,15 +1,12 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6,
 p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
 em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
-b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
+b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
 legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
 details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
 output, ruby, section, summary, time, mark, audio, video {
-    margin: 0;
     padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
+    margin: 0;
     vertical-align: baseline;
     outline: none;
     -webkit-box-sizing: border-box;
@@ -17,12 +14,10 @@ output, ruby, section, summary, time, mark, audio, video {
     box-sizing: border-box;
 }
 html { height: 101%; }
-body { font-size: 62.5%; line-height: 1; font-family: Arial, Tahoma, sans-serif; }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
 ol, ul { list-style: none; }
 blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
-strong { font-weight: bold; }
 table { border-collapse: collapse; border-spacing: 0; }
 img { border: 0; max-width: 100%; }
 p { font-size: 1.2em; line-height: 1.0em; color: #333; }
@@ -93,6 +88,9 @@ and (min-device-width : 320px) and (max-device-width : 480px) {
 /*******************/
 /*****sign up*******/
 /*******************/
+.main-section {
+    padding-top: 80px;
+}
 .signup-section {
     padding-top: 80px;
 }
@@ -114,7 +112,80 @@ and (min-device-width : 320px) and (max-device-width : 480px) {
 .section-create {
     padding-top: 80px;
 }
-.signup-info {
+body {
+    background: none repeat scroll 0 0 #f7f7f7;
+    padding: 0;
+}
+/* sidebar  */
+.no-user-info, .user-info {
+    box-shadow: 0 1px 1px rgba(102, 102, 102, .47);
+    padding: 0;
+    background-color: #ffffff;
+}
+.info-header {
+    background-color: #d9edf7;
+    padding: 7px 10px;
+    box-shadow: 0 1px 0 #e0e0e0;
+}
+.info-content {
+    padding: 10px;
+}
+
+.info-data ul li i {
+    padding-right: 0.3em;
+}
+
+.info-message a i {
+    padding-right: 0.3em;
+}
+.info-message a:first-child {
+    color: #000000;
+    text-decoration: none;
+}
+.btn-post-joke {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+/* signin form */
+.signin-form {
+    margin-top: 80px;
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+    height: 320px;
+}
+.sign-form-header {
+    border-bottom: 3px solid #e1e1e1;
+    margin-bottom: 20px;
+}
+.sign-form-header h3 {
+    padding: 10px;
+    color: #d2322d;
+}
+.sign-form-content form .form-group {
+    margin-top: 20px;
+}
+.forgot-pass-part a {
+    padding-top: 10px;
+    color: #c0c0c0;
     font-size: 14px;
-    margin-bottom: 5px;
+    text-decoration: none;
+}
+/* signin form */
+.signup-form {
+    margin-top: 80px;
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+}
+
+.forgot-pass-form {
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+}
+.setting-form {
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
 }

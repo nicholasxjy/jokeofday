@@ -13,6 +13,14 @@ exports.getJokesByQuery = function(query, opts, callback) {
     Joke.find(query, {}, opts, callback);
 }
 /**
+ * 根据条件查出Jokes的个数
+ * @param query
+ * @param callback
+ */
+exports.getJokesCountByQuery = function(query, callback) {
+    Joke.count(query, callback);
+}
+/**
  * 新增joke
  * @param authotid
  * @param content

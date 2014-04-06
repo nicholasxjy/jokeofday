@@ -87,8 +87,8 @@ exports.createJoke = function(req, res, next) {
                 });
             });
         } else {
+            proxy.assign('joke_saved', render);
             if (upload_pics.name !== '') {
-                proxy.assign('joke_saved', render);
                 ndir.mkdir(picDir, function(err) {
                     if (err) {
                         return next(err);
@@ -106,6 +106,8 @@ exports.createJoke = function(req, res, next) {
                         proxy.emit('joke_saved');
                     });
                 });
+            } else {
+                proxy.emit('joke_saved');
             }
         }
     });

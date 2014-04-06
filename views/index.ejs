@@ -1,4 +1,12 @@
 <% include base-top.ejs %>
-<% include header.ejs %>
-<% include post_joke.ejs %>
+<% include common/header.ejs %>
+<div class="main-section">
+    <div class="container">
+        <div class="row">
+            <% include common/content.ejs %>
+            <% include common/sidebar.ejs %>
+        </div>
+    </div>
+</div>
+<% include common/footer.ejs %>
 <% include base-bottom.ejs %>

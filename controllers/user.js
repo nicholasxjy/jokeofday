@@ -18,6 +18,8 @@ var path = require('path');
  */
 exports.index = function(req, res, next) {
     var username = req.params.name;
+    var messages = [];
+
     User.getUserByName(username, function(err, user) {
         if (err) {
             return next(err);
@@ -37,7 +39,8 @@ exports.index = function(req, res, next) {
                 user: user,
                 config:config,
                 recent_jokes: recent_jokes,
-                relation: relation
+                relation: relation,
+                messages: messages
             });
         }
         var proxy = new EventProxy();

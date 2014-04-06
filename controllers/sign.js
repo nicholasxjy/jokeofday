@@ -199,9 +199,9 @@ exports.signin = function(req, res, next) {
         }
         //此处 做了cookie设置，得请教一下,why?
         generate_session(user, res);
-        var refer = req.session._loginReferer || '/';
+        //var refer = req.session._loginReferer || '/';
         req.session.user = user;
-        res.redirect(refer);
+        res.redirect('/');
     });
 };
 /**
@@ -212,7 +212,7 @@ exports.signin = function(req, res, next) {
 exports.signout = function(req, res, next) {
     req.session.destroy();//清空session
     res.clearCookie(config.auth_cookie_name, {path: '/'});//销毁cookie
-    res.redirect(req.headers.referer || '/');//跳转
+    res.redirect('/');//跳转
 };
 /**
  * get 忘记密码

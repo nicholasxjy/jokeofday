@@ -1,54 +1,71 @@
 <% include ../base-top.ejs %>
-
-<div class="container signup-section">
-    <div class="row">
-        <div class="col-md-5">
-            <% if (locals.error) { %>
-                <div class="alert alert-warning">
-                    <strong><%= error %></strong>
-                </div>
-            <% } %>
-            <% if (locals.success) { %>
-                <div class="alert alert-success">
-                    <strong><%= success %></strong>
-                </div>
-            <% } else { %>
-            <form action="/signup" role="form" id="signup-form" method="post">
+<% include ../common/header.ejs %>
+<div class="col-md-6 col-md-offset-3 signup-section">
+    <% if (locals.error) { %>
+    <div class="alert alert-warning">
+        <strong><%= error %></strong>
+    </div>
+    <% } %>
+    <% if (locals.success) { %>
+    <div class="alert alert-success">
+        <strong><%= success %></strong>
+    </div>
+    <% } else { %>
+    <div class=" signup-form">
+        <div class="sign-form-header">
+            <h3>注册新用户</h3>
+        </div>
+        <div class="sign-form-content">
+            <form action="/signup" role="form" id="signup-form" method="post" class="form-horizontal">
                 <!--csrf could be here-->
 
                 <div class="form-group">
-                    <label for="name" class="signup-info">用户名：</label>
-                    <% if (locals.name) { %>
-                    <input type="text" class="form-control" name="name" size="30" value="<%= name %>"/>
-                    <% } else { %>
-                    <input type="text" class="form-control" name="name" size="30" value=""/>
-                    <% } %>
+                    <label for="name" class="control-label col-sm-3">用户名：</label>
+                    <div class="col-sm-9">
+                        <% if (locals.name) { %>
+                        <input type="text" class="form-control" name="name" size="30" value="<%= name %>"/>
+                        <% } else { %>
+                        <input type="text" class="form-control" name="name" size="30" value=""
+                               placeholder="用户名由字母和数字组成"/>
+                        <% } %>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="email" class="signup-info">邮箱：</label>
-                    <% if (locals.email) { %>
-                    <input type="email" class="form-control" name="email" size="30" value="<%= email %>"/>
-                    <% } else { %>
-                    <input type="email" class="form-control" name="email" size="30" value="">
-                    <% } %>
+                    <label for="email" class="control-label col-sm-3">邮箱：</label>
+                    <div class="col-sm-9">
+                        <% if (locals.email) { %>
+                        <input type="email" class="form-control" name="email" size="30" value="<%= email %>"/>
+                        <% } else { %>
+                        <input type="email" class="form-control" name="email" size="30" value=""
+                               placeholder="输入正确邮箱地址">
+                        <% } %>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="pass" class="signup-info">密码：</label>
-                    <input type="password" class="form-control" name="pass" size="30" value=""/>
+                    <label for="pass" class="control-label col-sm-3">密码：</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="pass" size="30" value=""
+                               placeholder="输入密码,最少长度6位"/>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="re_pass" class="signup-info">确认密码：</label>
-                    <input type="password" class="form-control" name="repass" size="30" value=""/>
+                    <label for="re_pass" class="control-label col-sm-3">确认密码：</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="repass" size="30" value=""
+                               placeholder="确认密码"/>
+                    </div>
                 </div>
-                <div class="form-action">
-                    <input type="submit" class="btn-primary btn" value="注册"/>
-                    <a href="/signin" class="already-signup">已有账号,登录</a>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" class="btn-info btn" value="注册"/>
+                        <a href="/signin" class="already-signup">已有账号,登录</a>
+                    </div>
                 </div>
             </form>
-            <% } %>
         </div>
     </div>
-
+    <% } %>
 </div>
 
+<% include ../common/footer.ejs %>
 <% include ../base-bottom.ejs %>

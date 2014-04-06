@@ -10,7 +10,7 @@ var UserSchema = new Schema({
     loginname: {type:String, unique: true},
     pass: {type:String},
     email: {type:String, unique:true},
-    profile_image_url: {type:String},
+    profile_image_url: {type:String, default: config.default_image},
     location: {type:String},
     profile: {type:String},
     avatar: {type:String},

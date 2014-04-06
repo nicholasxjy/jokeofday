@@ -1,0 +1,47 @@
+<% if (locals.current_user) { %>
+<div class="col-md-4 user-info">
+    <div class="info-header">
+        个人信息
+    </div>
+    <div class="info-content">
+        <div class="info-thumbnail">
+            <ul class="list-inline">
+                <li>
+                    <a href="/user/<%= locals.current_user.name %>">
+                        <img src="<%= locals.current_user.profile_image_url %>"
+                             alt="profile thumbnail" title="<%= locals.current_user.name %>"
+                             class="img-circle img-responsive" width="50" height="50"/>
+                    </a>
+                </li>
+                <li class="info-username">
+                    <a href="/user/<%= locals.current_user.name %>"><%= locals.current_user.name %></a>
+                </li>
+            </ul>
+        </div>
+        <div class="info-data">
+            <ul class="list-inline">
+                <li title="粉丝"><i class="fa fa-users"></i><%= locals.current_user.follower_count %></li>
+                <li title="关注"><i class="fa fa-heart"></i><%= locals.current_user.following_count %></li>
+                <li title="分数"><i class="fa fa-star"></i><%=locals.current_user.score %></li>
+            </ul>
+        </div>
+        <div class="info-message">
+            <a href="/user/<%= locals.current_user.name %>/messages">
+                <i class="fa fa-comment fa-lg"></i><%= locals.messages.length %> 条未读信息
+            </a>
+            <a href="/joke/create" class="btn btn-success pull-right btn-post-joke">发表文章</a>
+        </div>
+    </div>
+</div>
+<% } else { %>
+<div class="col-md-4 no-user-info">
+    <div class="info-header">
+        Joke of Day
+    </div>
+    <div class="info-content">
+        这里有每天最搞笑的事情发生，分享每一个搞笑瞬间，<br>
+        赶快加入，分享最hilarious的精彩瞬间!<br>
+        你又偷着笑了吗？
+    </div>
+</div>
+<% } %>
