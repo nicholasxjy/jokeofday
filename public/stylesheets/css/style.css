@@ -90,27 +90,34 @@ and (min-device-width : 320px) and (max-device-width : 480px) {
 /*******************/
 .main-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .signup-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .signin-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .forgot-pass-section {
     padding-top: 80px;
 }
 .notify-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .user-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .setting-section {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 .section-create {
     padding-top: 80px;
+    padding-bottom: 30px;
 }
 body {
     background: none repeat scroll 0 0 #f7f7f7;

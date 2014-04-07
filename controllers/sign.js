@@ -383,18 +383,11 @@ exports.auth_user = function(req, res, next) {
             if (config.admins.hasOwnProperty(user.name)) {
                 user.is_admin = true;
             }
-            //TODO接下来获取，用户的消息数量等
-            Message.getMessageCount(user._id, function(err, count) {
-                if (err) {
-                    return next(err);
-                }
-                user.messages_count = count;
-                if (!user.avatar_url) {
-                    user.avatar_url = getAvatarURL(user);
-                }
-                res.locals({current_user: user});
-                return next();
-            });
+            if (!user.avatar_url) {
+                user.avatar_url = getAvatarURL(user);
+            }
+            res.locals({current_user: user});
+            return next();
         });
 
     } else {
@@ -413,15 +406,9 @@ exports.auth_user = function(req, res, next) {
                 if (config.admins.hasOwnProperty(user.name)) {
                     user.is_admin = true;
                 }
-                Message.getMessageCount(user._id, function(err, count) {
-                    if (err) {
-                        return next(err);
-                    }
-                    user.messages_count = count;
-                    req.session.user = user;
-                    res.locals({current_user:user});
-                    return next();
-                });
+                req.session.user = user;
+                res.locals({current_user:user});
+                return next();
             } else {
                 return next();
             }

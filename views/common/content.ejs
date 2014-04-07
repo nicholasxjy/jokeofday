@@ -1,14 +1,20 @@
 <div class="col-md-8 jokes-content">
-    <% if (locals.recent_jokes.length > 0) { %>
+    <% if (locals.recent_jokes && locals.recent_jokes.length > 0) { %>
         <% locals.recent_jokes.forEach(function(joke) { %>
         <div class="col-md-4">
             <div class="thumbnail">
                 <div class="user-card">
-                    <a href="/user/<%= joke.user.name %>">
-                        <img src="<%= joke.user.profile_image_url %>" alt="<%= joke.user.name %>"
-                             title="<%= joke.user.name %>"/>
-                    </a>
-                    <a href="/user/<%= joke.user.name %>"><%= joke.user.name %></a>
+                    <div class="user-card-thumbnail">
+                        <a href="/user/<%= joke.author.name %>">
+                            <img src="<%= joke.author.profile_image_url %>" alt="<%= joke.author.name %>"
+                                 title="<%= joke.author.name %>"/>
+                        </a>
+                    </div>
+                    <div class="user-card-name">
+                        <a href="/user/<%= joke.author.name %>"><%= joke.author.name %></a>
+                        <span>Shared publicly on <%= joke.friendly_create_time %></span>
+                    </div>
+
                 </div>
                 <img alt="300x200" src="http://lorempixel.com/600/200/people" />
                 <div class="caption">
@@ -30,7 +36,4 @@
             <strong>Oops! 还没有人分享最搞笑瞬间，赶快成为第一个天使。</strong>
         </div>
     <% } %>
-
-
-
 </div>

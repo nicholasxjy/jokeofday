@@ -33,10 +33,14 @@ app.use(express.bodyParser({uploadDir: config.upload_dir}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret: config.session_secret}));
+
+
+app.use(require('./controllers/sign').auth_user);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view cache', false);
 
-app.use(require('./controllers/sign').auth_user);
+
 
 // development only
 if ('development' == app.get('env')) {
