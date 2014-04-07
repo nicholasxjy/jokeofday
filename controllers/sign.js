@@ -32,9 +32,9 @@ exports.signup = function(req, res, next) {
         });
         return;
     }
-    if (name.length < 6) {
+    if (pass.length < 6) {
         res.render('sign/signup', {
-            error: '用户名至少6位!',
+            error: '密码至少6位!',
             name: name,
             email: email,
             config: config
@@ -197,7 +197,7 @@ exports.signin = function(req, res, next) {
             });
             return;
         }
-        //此处 做了cookie设置，得请教一下,why?
+        //此处 做了cookie设置
         generate_session(user, res);
         //var refer = req.session._loginReferer || '/';
         req.session.user = user;
