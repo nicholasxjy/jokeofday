@@ -40,4 +40,16 @@ exports.getCommentsByJokeId = function(jokeid, callback) {
             });
         }
     });
+};
+
+/**
+*
+*/
+exports.newAndSave = function(content, joke_id, author_id, reply_to_id, callback) {
+    var comment = new Comment();
+    comment.content = content;
+    comment.joke_id = joke_id;
+    comment.author_id = author_id;
+    comment.reply_to_id = reply_to_id;
+    comment.save(callback);
 }

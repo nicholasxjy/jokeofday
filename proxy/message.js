@@ -5,7 +5,7 @@ var Message = require('../models').Message;
  * @param id
  * @param callback
  */
-exports.getMessageCount = function(id, callback) {
+exports.getMessageCountByUserId = function(id, callback) {
     Message.count({masterid:id, has_read:false}, callback);
 }
 /**
@@ -15,4 +15,15 @@ exports.getMessageCount = function(id, callback) {
  */
 exports.getMessageByUserId = function(userid, callback) {
     Message.find({masterid: id, has_read: false}, callback);
+}
+
+
+exports.newAndSave = function(type, masterid, authorid, jokeid, replyid, callback) {
+	var message = new Message();
+	message.type = type;
+	message.masterid = masterid;
+	message.authorid = authorid;
+	message.jokeid = jokeid;
+	message.replyid = replyid;
+	message.save(callback);
 }

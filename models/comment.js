@@ -11,8 +11,8 @@ var CommentSchema = new Schema({
     joke_id: {type: ObjectId},
     author_id: {type: ObjectId},
     reply_to_id: {type: ObjectId},
-    like_count: {type: Number},
-    create_at: {type: ObjectId}
+    like_count: {type: Number, default: 0},
+    create_at: {type: Date, default: Date.now}
 });
 
 mongoose.model('Comment', CommentSchema);

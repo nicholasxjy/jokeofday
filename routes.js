@@ -41,4 +41,9 @@ module.exports = function(app) {
 
     app.get('/joke/create', auth.signInRequired, joke.showCreate);
     app.post('/joke/create', joke.createJoke);
+
+    //like or cancel like
+    app.post('/joke/like-or-not', auth.signInRequired, joke.plusOne);//这里设置需要登录才可点赞
+    //comment
+    
 }

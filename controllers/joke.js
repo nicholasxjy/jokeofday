@@ -111,4 +111,54 @@ exports.createJoke = function(req, res, next) {
             }
         }
     });
+};
+
+
+exports.plusOne = function(req, res, next) {
+    var user = req.session.user;
+    var isPlus = req.body.isPlus;
+    var jokeid = req.body.jokeId;
+    Joke.getJokeById(jokeid, function(err, joke) {
+        if (err) {
+            return next(err);
+        }
+        if (!joke) {
+            res.json({status: 'failed'});
+        }
+        //如果是点赞操作，此处做两件事 发信息提醒joke作者有人点赞(即保存信息)  joke的like_count++
+        //如果是取消赞， 只需like_count--,不提醒了
+        var render = function() {
+            res.json({status: 'success'});
+        }
+        if (isPlus === 'true') {//不知道传过来的是什么类型，需测试
+            var proxy = EventProxy.create('message_save', 'joke_save', render);
+            proxy.fail(next);
+            Message.newAndSave('add like', joke.author._id, user._id, joke._id, joke.author._id, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('message_save');
+            });
+            joke.like_count = joke.like_count + 1;
+            joke.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('joke_save');
+            });
+        } else {
+            var proxy = EventProxy.create('joke_save', render);
+            if (joke.like_count > 0) {
+                joke.like_count = joke.like_count - 1;
+            } else {
+                joke.like_count = 0;
+            }
+            joke.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('joke_save');
+            });
+        }
+    });
 }

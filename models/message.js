@@ -10,7 +10,7 @@ var MessageSchema = new Schema({
     type: {type:String},
     masterid: {type:ObjectId, index:true},
     authorid: {type:ObjectId},
-    topicid: {type:ObjectId},
+    jokeid: {type:ObjectId},
     replyid: {type:ObjectId},
     has_read: {type:Boolean, default:false},
     create_at: {type:Date, default:Date.now}

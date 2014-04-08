@@ -386,8 +386,16 @@ exports.auth_user = function(req, res, next) {
             if (!user.avatar_url) {
                 user.avatar_url = getAvatarURL(user);
             }
-            res.locals({current_user: user});
-            return next();
+            Message.getMessageCountByUserId(user._id, function(err, count) {
+                if (err) {
+                    return next(err);
+                }
+                count = count || 0;
+                user.message_not_read = count;
+                req.session.user = user;
+                res.locals({current_user: user});
+                return next();
+            });
         });
 
     } else {
@@ -406,9 +414,16 @@ exports.auth_user = function(req, res, next) {
                 if (config.admins.hasOwnProperty(user.name)) {
                     user.is_admin = true;
                 }
-                req.session.user = user;
-                res.locals({current_user:user});
-                return next();
+                Message.getMessageCountByUserId(user._id, function(err, count) {
+                    if (err) {
+                        return next(err);
+                    }
+                    count = count || 0;
+                    user.message_not_read = count;
+                    req.session.user = user;
+                    res.locals({current_user: user});
+                    return next();
+                });
             } else {
                 return next();
             }
