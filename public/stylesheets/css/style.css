@@ -1,0 +1,204 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label,
+legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+output, ruby, section, summary, time, mark, audio, video {
+    padding: 0;
+    margin: 0;
+    vertical-align: baseline;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html { height: 101%; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+img { border: 0; max-width: 100%; }
+p { font-size: 1.2em; line-height: 1.0em; color: #333; }
+
+.transparent {
+    filter: alpha(opacity=50); /* internet explorer */
+    -khtml-opacity: 0.5;      /* khtml, old safari */
+    -moz-opacity: 0.5;       /* mozilla, netscape */
+    opacity: 0.5;           /* fx, safari, opera */
+}
+
+#container {
+    -webkit-border-radius: 4px 3px 6px 10px;
+    -moz-border-radius: 4px 3px 6px 10px;
+    -o-border-radius: 4px 3px 6px 10px;
+    border-radius: 4px 3px 6px 10px;
+}
+/* alternative syntax broken into each line */
+#container {
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-rightright-radius: 3px;
+    -webkit-border-bottom-rightright-radius: 6px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 10px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px) and (max-device-width : 480px) {
+    /* Styles */
+}
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+    /* Styles */
+}
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+    /* Styles */
+}
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    /* Styles */
+}
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+    /* Styles */
+}
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+    /* Styles */
+}
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+    /* Styles */
+}
+/* Large screens ----------- */
+@media only screen and (min-width : 1824px) {
+    /* Styles */
+}
+/* iPhone 4 ----------- */
+@media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-device-pixel-ratio:1.5) {
+    /* Styles */
+}
+
+/*******************/
+/*****sign up*******/
+/*******************/
+.main-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.signup-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.signin-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.forgot-pass-section {
+    padding-top: 80px;
+}
+.notify-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.user-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.setting-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+.section-create {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+body {
+    background: none repeat scroll 0 0 #f7f7f7;
+    padding: 0;
+}
+/* sidebar  */
+.no-user-info, .user-info {
+    box-shadow: 0 1px 1px rgba(102, 102, 102, .47);
+    padding: 0;
+    background-color: #ffffff;
+}
+.info-header {
+    background-color: #d9edf7;
+    padding: 7px 10px;
+    box-shadow: 0 1px 0 #e0e0e0;
+}
+.info-content {
+    padding: 10px;
+}
+
+.info-data ul li i {
+    padding-right: 0.3em;
+}
+
+.info-message a i {
+    padding-right: 0.3em;
+}
+.info-message a:first-child {
+    color: #000000;
+    text-decoration: none;
+}
+.btn-post-joke {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+/* signin form */
+.signin-form {
+    margin-top: 80px;
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+    height: 320px;
+}
+.sign-form-header {
+    border-bottom: 3px solid #e1e1e1;
+    margin-bottom: 20px;
+}
+.sign-form-header h3 {
+    padding: 10px;
+    color: #d2322d;
+}
+.sign-form-content form .form-group {
+    margin-top: 20px;
+}
+.forgot-pass-part a {
+    padding-top: 10px;
+    color: #c0c0c0;
+    font-size: 14px;
+    text-decoration: none;
+}
+/* signin form */
+.signup-form {
+    margin-top: 80px;
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+}
+
+.forgot-pass-form {
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+}
+.setting-form {
+    border: 1px solid #e1e1e1;
+    padding: 20px 60px 20px 60px;
+    background-color: #ffffff;
+}
+/* home page */
+.user-card-thumbnail a {
+    display: block;
+    width: 50px;
+    height: 50px;
+}
