@@ -6,6 +6,7 @@ var config = require('../config');
 var Joke = require('../proxy').Joke;
 var validator = require('validator');
 var User = require('../proxy').User;
+var Message = require('../proxy').Message;
 var ndir = require('ndir');
 var path = require('path');
 var fs = require('fs');
@@ -118,7 +119,8 @@ exports.plusOne = function(req, res, next) {
     var user = req.session.user;
     var isPlus = req.body.isPlus;
     var jokeid = req.body.jokeId;
-    Joke.getJokeById(jokeid, function(err, joke) {
+    var likes = 0;
+    Joke.getJokeById(jokeid, function(err, joke, author, comments) {
         if (err) {
             return next(err);
         }
@@ -128,24 +130,27 @@ exports.plusOne = function(req, res, next) {
         //如果是点赞操作，此处做两件事 发信息提醒joke作者有人点赞(即保存信息)  joke的like_count++
         //如果是取消赞， 只需like_count--,不提醒了
         var render = function() {
-            res.json({status: 'success'});
+            res.json({status: 'success', id: joke._id, likes: likes});
         }
-        if (isPlus === 'true') {//不知道传过来的是什么类型，需测试
+
+        if (isPlus === 'true') {
             var proxy = EventProxy.create('message_save', 'joke_save', render);
             proxy.fail(next);
-            Message.newAndSave('add like', joke.author._id, user._id, joke._id, joke.author._id, function(err) {
+            Message.newAndSave('add like', author._id, user._id, joke._id, joke.author_id, function(err) {
                 if (err) {
                     return next(err);
                 }
                 proxy.emit('message_save');
             });
             joke.like_count = joke.like_count + 1;
+            likes = joke.like_count;
             joke.save(function(err) {
                 if (err) {
                     return next(err);
                 }
                 proxy.emit('joke_save');
             });
+
         } else {
             var proxy = EventProxy.create('joke_save', render);
             if (joke.like_count > 0) {
@@ -153,12 +158,14 @@ exports.plusOne = function(req, res, next) {
             } else {
                 joke.like_count = 0;
             }
+            likes = joke.like_count;
             joke.save(function(err) {
                 if (err) {
                     return next(err);
                 }
                 proxy.emit('joke_save');
             });
+
         }
     });
 }

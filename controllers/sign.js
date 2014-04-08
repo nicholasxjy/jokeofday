@@ -7,7 +7,7 @@ var config = require('../config');
 var User = require('../proxy').User;
 var Message = require('../proxy').Message;
 var mail = require('../services/mail');
-
+var EventProxy = require('eventproxy');
 
 //注册系列操作
 exports.showSignup = function(req, res) {
@@ -374,28 +374,30 @@ function getAvatarURL(user) {
  * @returns {*}
  */
 exports.auth_user = function(req, res, next) {
+
     if (req.session.user) {
         //此处不能直接用user，必须从数据库重新获取，因为可能更新了数据
         User.getUserById(req.session.user._id, function(err, user) {
             if (err) {
                 return next(err);
             }
-            if (config.admins.hasOwnProperty(user.name)) {
-                user.is_admin = true;
-            }
-            if (!user.avatar_url) {
-                user.avatar_url = getAvatarURL(user);
-            }
-            Message.getMessageCountByUserId(user._id, function(err, count) {
-                if (err) {
-                    return next(err);
+            if (user) {
+                if (config.admins.hasOwnProperty(user.name)) {
+                    user.is_admin = true;
                 }
-                count = count || 0;
-                user.message_not_read = count;
-                req.session.user = user;
-                res.locals({current_user: user});
+                Message.getMessageCountByUserId(user._id, function(err, count) {
+                    if (err) {
+                        return next(err);
+                    }
+                    count = count || 0;
+                    user.message_not_read = count;
+                    req.session.user = user;
+                    res.locals({current_user: user});
+                    return next();
+                });
+            } else {
                 return next();
-            });
+            }
         });
 
     } else {
@@ -424,8 +426,9 @@ exports.auth_user = function(req, res, next) {
                     res.locals({current_user: user});
                     return next();
                 });
+
             } else {
-                return next();
+               return next();
             }
         });
     }
