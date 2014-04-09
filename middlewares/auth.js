@@ -9,7 +9,6 @@ exports.signInRequired = function(req, res, next) {
             error: "请先登录。",
             config: config
         });
-        return;
     }
     next();
 }

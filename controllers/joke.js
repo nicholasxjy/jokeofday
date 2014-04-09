@@ -116,6 +116,9 @@ exports.createJoke = function(req, res, next) {
 
 
 exports.plusOne = function(req, res, next) {
+    if (!req.session.user) {
+        res.json({status: 'failed', error: '请先登录!'});
+    }
     var user = req.session.user;
     var isPlus = req.body.isPlus;
     var jokeid = req.body.jokeId;

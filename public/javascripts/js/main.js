@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    //add or cancel plus one
     $('.btn-plus-like').click(function() {
         var isPlus = (this.title === 'plus one');
         var jokeId = this.id;
@@ -15,6 +16,23 @@ $(document).ready(function() {
                     $btn.addClass('btn-primary');
                 }
                 $btn.next('strong').html(data.likes);
+            } else {
+                if (data.error) {
+                    alert(data.error);
+                }
+            }
+        }, 'json');
+    });
+    // add comment
+    $('.btn-add-comment').click(function() {
+        var jokeid = $(this).attr('index');
+        var content = $(this).prev('input').val();
+
+        $.post('/comment/add-comment', {'jokeid': jokeid, 'content': content}, function(data) {
+            if (data.status === 'success') {
+                alert('hello world');
+            } else {
+                alert(data.error);
             }
         }, 'json');
     });

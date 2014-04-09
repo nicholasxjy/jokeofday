@@ -5,6 +5,7 @@ var sign = require('./controllers/sign');
 var user = require('./controllers/user');
 var joke = require('./controllers/joke');
 var auth = require('./middlewares/auth');
+var comment = require('./controllers/comment');
 
 module.exports = function(app) {
     //home page
@@ -43,7 +44,9 @@ module.exports = function(app) {
     app.post('/joke/create', joke.createJoke);
 
     //like or cancel like
-    app.post('/joke/like-or-not', auth.signInRequired, joke.plusOne);//这里设置需要登录才可点赞
+    app.post('/joke/like-or-not', joke.plusOne);//这里设置需要登录才可点赞
     //comment
+
+    app.post('/comment/add-comment', comment.addComment);
     
 }

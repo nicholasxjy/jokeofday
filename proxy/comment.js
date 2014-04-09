@@ -19,32 +19,47 @@ exports.getCommentsByJokeId = function(jokeid, callback) {
         if (comments && comments.length === 0) {
             return callback(null, []);
         }
-        //var allcomments = [];
+        var allcomments = [];
         var proxy = new EventProxy();
-        proxy.after('comment_save', comments.length, function(allcomments) {
+        proxy.after('comment_save', comments.length, function() {
             return callback(null, allcomments);
         });
         proxy.fail(callback);
-        for(var i = 0; i < comments.length; i++) {
-            var ep = EventProxy.create('author_save', 'touser_save', function() {
-                proxy.emit('comment_save', comments[i]);
+        comments.forEach(function(acomment) {
+            exports.getCommentById(acomment._id, function(err, comment) {
+                if (err) {
+                    return next(err);
+                }
+                User.getUserById(comment.author_id, function(err, author) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    comment.author = author;
+                    comment.friendly_create_time = Util.formatDate(comment.create_at, true);
+                    allcomments.push(comment);
+                    proxy.emit('comment_save');
+                });
             });
-            User.getUserById(comments[i].author_id, function(author) {
-                comments[i].author = author;
-                comments[i].friendly_create_time = Util.formatDate(comments[i].create_at, true);
-                ep.emit('author_save', comments[i]);
-            });
-            User.getUserById(comments[i].reply_to_id, function(touser) {
-                comments[i].touser = touser;
-                ep.emit('touser_save', comments[i]);
-            });
-        }
+        });
     });
 };
+/**
+ * 根据id 查询Comment
+ * @param id
+ * @param callback
+ */
+exports.getCommentById = function(id, callback) {
+    Comment.findOne({_id: id}, callback);
+}
 
 /**
-*
-*/
+ * 创建新评论
+ * @param content
+ * @param joke_id
+ * @param author_id
+ * @param reply_to_id
+ * @param callback
+ */
 exports.newAndSave = function(content, joke_id, author_id, reply_to_id, callback) {
     var comment = new Comment();
     comment.content = content;

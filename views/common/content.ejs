@@ -35,14 +35,20 @@
                     </p>
                 </div>
                 <% if (joke.comments.length > 0) { %>
+                    <div><%= joke.comments.length %></div>
                     <div class="joke-comments">
-                        <% joke.comments.forEach(function(comment) { %>
-                            <div><%= comment.content %></div>
-                        <% }); %>
+                        <% for(var i=0; i<joke.comments.length; i++ ) { %>
+                            <div><%= joke.comments[i].content %>
+                                <span>created by <%= joke.comments[i].author.name %>
+                                    on <%= joke.comments[i].friendly_create_time %> </span>
+
+                            </div>
+                        <% } %>
                     </div>
                 <% } %>
                 <div class="joke-add-comment">
                     <input type="text" id="add-new-comment" placeholder="添加新评论">
+                    <button class="btn btn-info btn-add-comment" index="<%= joke._id %>">确定</button>
                 </div>
             </div>
         </div>
