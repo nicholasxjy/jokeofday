@@ -3,6 +3,7 @@ var User = require('../proxy').User;
 var EventProxy = require('EventProxy');
 var Joke = require('../proxy').Joke;
 var Message = require('../proxy').Message;
+var LikeRelation = require('../proxy').LikeRelation;
 var Util = require('../libs/util');
 
 exports.index = function(req, res, next) {
@@ -22,9 +23,43 @@ exports.index = function(req, res, next) {
 
     //查询jokes 分页
     var options = {skip: (page - 1)*limit, limit: limit, sort: {create_at: 'desc'}};
+    if (!req.session.user) {
+        Joke.getJokesByQuery({}, options, proxy.done('recent_jokes'));
+    } else {
+        var user = req.session.user;
+        var recent_jokes = [];
+        Joke.getJokesByQuery({}, options, function(err, jokes) {
+            if (err) {
+                return next(err);
+            }
+            var ep = new EventProxy();
+            ep.after('push_joke', jokes.length, function() {
+                proxy.emit('recent_jokes', recent_jokes);
+            });
+            ep.fail(next);
 
-    Joke.getJokesByQuery({}, options, proxy.done('recent_jokes'));
-
+            jokes.forEach(function(joke) {
+                LikeRelation.getLikeRelationByJokeId(joke._id, function(err, docs) {
+                    if (err) {
+                        return next(err);
+                    }
+                    joke.has_plus_one = false;
+                    var i = 0;
+                    while(i < docs.length) {
+                        console.log(i);
+                        if (docs[i].user_id.toString() === user._id.toString()) {
+                            joke.has_plus_one = true;
+                            break;
+                        }
+                        i = i + 1;
+                    }
+                    recent_jokes.push(joke);
+                    ep.emit('push_joke');
+                });
+            });
+        });
+    }
+    
     Joke.getJokesCountByQuery({}, proxy.done(function(pages_count) {
         var pages = Math.ceil(pages_count/limit);
         proxy.emit('pages', pages);

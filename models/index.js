@@ -18,9 +18,11 @@ require('./message');
 require('./jokeitem');
 require('./relation');
 require('./comment');
+require('./likerelation');
 
 exports.User = mongoose.model('User');
 exports.Message = mongoose.model('Message');
 exports.Joke = mongoose.model('JokeItem');
 exports.Relation = mongoose.model('Relation');
 exports.Comment = mongoose.model('Comment');
+exports.LikeRelation = mongoose.model('LikeRelation');

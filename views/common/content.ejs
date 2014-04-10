@@ -1,6 +1,6 @@
 <div class="col-md-8 jokes-content">
     <% if (locals.recent_jokes && locals.recent_jokes.length > 0) { %>
-        <% locals.recent_jokes.forEach(function(joke) { %>
+        <% locals.recent_jokes.forEach(function(joke, index) { %>
         <div class="col-md-5">
             <div class="thumbnail">
                 <div class="user-card">
@@ -31,24 +31,28 @@
                         <% }); %>
                     <% } %>
                     <p>
-                        <button class="btn btn-primary btn-plus-like" id= "<%= joke._id %>" title="plus one">+1</button><strong><%= joke.like_count %></strong>
+                        <% if (joke.has_plus_one) { %>
+                        <button class="btn btn-danger btn-plus-like" id="<%= joke._id%>" title="sub one">-1</button>
+                        <% } else { %>
+                        <button class="btn btn-primary btn-plus-like" id= "<%= joke._id %>" title="plus one">+1</button>
+                        <% } %>
+                        <strong><%= joke.like_count %></strong>
                     </p>
                 </div>
-                <% if (joke.comments.length > 0) { %>
-                    <div><%= joke.comments.length %></div>
-                    <div class="joke-comments">
-                        <% for(var i=0; i<joke.comments.length; i++ ) { %>
-                            <div><%= joke.comments[i].content %>
-                                <span>created by <%= joke.comments[i].author.name %>
-                                    on <%= joke.comments[i].friendly_create_time %> </span>
-
+                <div class="joke-comment-<%= index %>">
+                    <% if (joke.comments.length > 0) { %>
+                    
+                        <% joke.comments.forEach(function(comment) { %>
+                            <div><%= comment.content %>
+                                <span>created by <%= comment.author.name %>
+                                    on <%= comment.friendly_create_time %> </span>
                             </div>
-                        <% } %>
-                    </div>
-                <% } %>
+                        <% }); %>
+                    <% } %>
+                </div>
                 <div class="joke-add-comment">
-                    <input type="text" id="add-new-comment" placeholder="添加新评论">
-                    <button class="btn btn-info btn-add-comment" index="<%= joke._id %>">确定</button>
+                    <input type="text" placeholder="添加新评论">
+                    <button class="btn btn-info btn-add-comment" index="<%= index %>" title="<%= joke._id %>">确定</button>
                 </div>
             </div>
         </div>

@@ -10,10 +10,12 @@ $(document).ready(function() {
                     $btn.attr('title', 'sub one');
                     $btn.removeClass('btn-primary');
                     $btn.addClass('btn-danger');
+                    $btn.html('-1');
                 } else {
                     $btn.attr('title', 'plus one')
                     $btn.removeClass('btn-danger');
                     $btn.addClass('btn-primary');
+                    $btn.html('+1');
                 }
                 $btn.next('strong').html(data.likes);
             } else {
@@ -25,12 +27,16 @@ $(document).ready(function() {
     });
     // add comment
     $('.btn-add-comment').click(function() {
-        var jokeid = $(this).attr('index');
+        var jokeid = $(this).attr('title');
         var content = $(this).prev('input').val();
-
+        var btn = $(this);
+        var index = $(this).attr('index');
         $.post('/comment/add-comment', {'jokeid': jokeid, 'content': content}, function(data) {
             if (data.status === 'success') {
-                alert('hello world');
+                var html = "<div>"+ data.content + "<span> created by "
+                + data.user.name +" on 刚刚</span></div>";
+                $('.joke-comment-'+index).prepend(html);
+                btn.prev('input').val('');
             } else {
                 alert(data.error);
             }

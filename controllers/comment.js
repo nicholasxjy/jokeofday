@@ -4,17 +4,18 @@ var Joke = require('../proxy').Joke;
 var Comment = require('../proxy').Comment;
 var Message = require('../proxy').Message;
 var EventProxy = require('eventproxy');
+var Util = require('../libs/util');
 
 exports.addComment = function(req, res, next) {
     if (!req.session.user) {
-        res.json({status: 'failed', error: '请先登录!'});
+        res.json({status: 'failed', error: '请先登录'});
+        return;
     }
     var user = req.session.user;
     var jokeid = req.body.jokeid;
     var content = req.body.content;
-
     var proxy = EventProxy.create('new_comment', 'new_message', function() {
-       res.json({status: 'success', jokeid: jokeid, content: 'content'});
+       res.json({status: 'success', jokeid: jokeid, content: content, user: user});
     });
     proxy.fail(next);
     Joke.getJokeById(jokeid, function(err, joke, author, comments) {

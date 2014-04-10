@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by nicholas_xue on 14-3-30.
  */
 
@@ -7,6 +7,7 @@ var Joke = require('../proxy').Joke;
 var validator = require('validator');
 var User = require('../proxy').User;
 var Message = require('../proxy').Message;
+var LikeRelation = require('../proxy').LikeRelation;
 var ndir = require('ndir');
 var path = require('path');
 var fs = require('fs');
@@ -117,7 +118,8 @@ exports.createJoke = function(req, res, next) {
 
 exports.plusOne = function(req, res, next) {
     if (!req.session.user) {
-        res.json({status: 'failed', error: '请先登录!'});
+        res.json({status: 'failed', error: '请先登录'});
+        return;
     }
     var user = req.session.user;
     var isPlus = req.body.isPlus;
@@ -137,7 +139,7 @@ exports.plusOne = function(req, res, next) {
         }
 
         if (isPlus === 'true') {
-            var proxy = EventProxy.create('message_save', 'joke_save', render);
+            var proxy = EventProxy.create('message_save', 'joke_save', 'like_relation_save', render);
             proxy.fail(next);
             Message.newAndSave('add like', author._id, user._id, joke._id, joke.author_id, function(err) {
                 if (err) {
@@ -153,9 +155,15 @@ exports.plusOne = function(req, res, next) {
                 }
                 proxy.emit('joke_save');
             });
+            LikeRelation.newAndSave(joke._id, user._id, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('like_relation_save');
+            });
 
         } else {
-            var proxy = EventProxy.create('joke_save', render);
+            var proxy = EventProxy.create('joke_save', 'remove_like_relation', render);
             if (joke.like_count > 0) {
                 joke.like_count = joke.like_count - 1;
             } else {
@@ -168,7 +176,12 @@ exports.plusOne = function(req, res, next) {
                 }
                 proxy.emit('joke_save');
             });
-
+            LikeRelation.removeLikeRelationByQuery({joke_id: joke._id, user_id: user._id}, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('remove_like_relation');
+            });
         }
     });
 }
