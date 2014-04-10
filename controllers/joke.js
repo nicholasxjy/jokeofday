@@ -14,6 +14,58 @@ var fs = require('fs');
 var EventProxy = require('eventproxy');
 
 
+exports.index = function(req, res, next) {
+    var jokeid = req.params.jokeid;
+
+    Joke.getJokeById(jokeid, function(err, joke, author, comments) {
+        if (err) {
+            return next(err);
+        }
+        joke.view_count += 1;
+        joke.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+        });
+        joke.visit_count = joke.view_count;
+        if (!req.session.user) {
+                joke.has_plus_one = false; 
+                res.render('joke/index', {
+                    joke: joke,
+                    author: author,
+                    comments: comments,
+                    config: config
+                });
+            } else {
+                var user = req.session.user;
+                LikeRelation.getLikeRelationByJokeId(joke._id, function(err, docs) {
+                    if (err) {
+                        return next(err);
+                    }
+                    joke.has_plus_one = false;
+                    var i = 0;
+                    while(i < docs.length) {
+                        if (docs[i].user_id.toString() === user._id.toString()) {
+                            joke.has_plus_one = true;
+                            break;
+                        }
+                        i = i + 1;
+                    }
+                    res.render('joke/index', {
+                        joke: joke,
+                        author: author,
+                        comments: comments,
+                        config: config
+                    });
+                });
+            }
+    });
+}
+
+
+
+
+
 
 exports.showCreate = function(req, res, next) {
     res.render('joke/create', {
@@ -125,6 +177,7 @@ exports.plusOne = function(req, res, next) {
     var isPlus = req.body.isPlus;
     var jokeid = req.body.jokeId;
     var likes = 0;
+    var views = 0;
     Joke.getJokeById(jokeid, function(err, joke, author, comments) {
         if (err) {
             return next(err);
@@ -135,7 +188,7 @@ exports.plusOne = function(req, res, next) {
         //如果是点赞操作，此处做两件事 发信息提醒joke作者有人点赞(即保存信息)  joke的like_count++
         //如果是取消赞， 只需like_count--,不提醒了
         var render = function() {
-            res.json({status: 'success', id: joke._id, likes: likes});
+            res.json({status: 'success', id: joke._id, likes: likes, views: views});
         }
 
         if (isPlus === 'true') {
@@ -148,7 +201,9 @@ exports.plusOne = function(req, res, next) {
                 proxy.emit('message_save');
             });
             joke.like_count = joke.like_count + 1;
+            joke.visit_count = joke.visit_count + 1;
             likes = joke.like_count;
+            views = joke.visit_count;
             joke.save(function(err) {
                 if (err) {
                     return next(err);
@@ -169,7 +224,9 @@ exports.plusOne = function(req, res, next) {
             } else {
                 joke.like_count = 0;
             }
+            joke.visit_count += 1;
             likes = joke.like_count;
+            views = joke.visit_count;
             joke.save(function(err) {
                 if (err) {
                     return next(err);

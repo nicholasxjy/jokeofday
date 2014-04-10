@@ -5,33 +5,38 @@
         <% include ../common/sidebar.ejs %>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <% if (locals.recent_jokes.length > 0) { %>
                 <% locals.recent_jokes.forEach(function(joke){ %>
-                    <div class="joke-title"><%= joke.title %></div>
-                    <% if (joke.content) { %>
-                        <div class="joke-content"><%= joke.content%></div>
-                    <% } %>
-                    <% if (joke.pictures) { %>
-                        <div class="joke-pictures">
-                            <% joke.pictures.forEach(function(picture) { %>
-                              <img src="<%= picture.url %>" alt="shared pictures"/>
-                            <% }); %>
-                        </div>
-                    <% } %>
-                    <% if (joke.link) { %>
-                        <div class="joke-link">
-                            <a href="<%= joke.link %>"><%= joke.link %></a>
-                        </div>
-                    <% } %>
-                    <div class="joke-info">
-                        <span class="likes"><%= joke.like_count %>喜欢</span>
-                        <span class="views"><%= joke.visit_count %>看过</span>
-                        <div class="create-time">
-                            <%= joke.create_at %>创建
+                    <div class="thumbnail">
+                        <% if (joke.content) { %>
+                            <div class="joke-content"><%= joke.content %></div>
+                        <% } %>
+                        <% if (joke.pictures) { %>
+                            <div class="joke-pictures">
+                                <% joke.pictures.forEach(function(picture) { %>
+                                  <img src="<%= picture.url %>" alt="shared pictures"/>
+                                <% }); %>
+                            </div>
+                        <% } %>
+                        <% if (joke.link) { %>
+                            <div class="joke-link">
+                                <a href="<%= joke.link %>"><%= joke.link %></a>
+                            </div>
+                        <% } %>
+                        <div class="joke-info">
+                            <span class="likes"><%= joke.like_count %>喜欢</span>
+                            <span class="views"><%= joke.visit_count %>看过</span>
+                            <div class="create-time">
+                                <%= joke.friendly_create_time %>创建
+                            </div>
                         </div>
                     </div>
-                <% }); %>
+                <% }); %>  
+            <% } else { %>
+                <div class="alert alert-success">
+                    <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
+                </div>
             <% } %>
         </div>
     </div>

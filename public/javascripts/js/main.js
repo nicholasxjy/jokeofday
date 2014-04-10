@@ -18,6 +18,7 @@ $(document).ready(function() {
                     $btn.html('+1');
                 }
                 $btn.next('strong').html(data.likes);
+                $btn.next('strong').next('strong').html(data.views);
             } else {
                 if (data.error) {
                     alert(data.error);
@@ -37,6 +38,7 @@ $(document).ready(function() {
                 + data.user.name +" on 刚刚</span></div>";
                 $('.joke-comment-'+index).prepend(html);
                 btn.prev('input').val('');
+                $('#'+ data.jokeid).next('strong').next('strong').html(data.views);
             } else {
                 alert(data.error);
             }

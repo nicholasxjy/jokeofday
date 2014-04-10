@@ -1,0 +1,63 @@
+<% include ../base-top.ejs %>
+<% include ../common/header.ejs %>
+<div class="main-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+            	<div class="thumbnail">
+					<div class="user-card">
+	                    <div class="user-card-thumbnail">
+	                        <a href="/user/<%= author.name %>">
+	                            <img src="<%= author.profile_image_url %>" alt="<%= author.name %>"
+	                                 title="<%= author.name %>" width="50" height="50"
+	                                 class="img-circle img-responsive"/>
+	                        </a>
+	                    </div>
+	                    <div class="user-card-name">
+	                        <a href="/user/<%= author.name %>"><%= author.name %></a>
+	                        <span>Shared publicly on <%= joke.friendly_create_time %></span>
+	                    </div>
+	                </div>
+	                <div class="caption">
+						<% if (joke.content) { %>
+							<p><%= joke.content %></p>
+						<% } %>
+						<% if (joke.link) { %>
+							<a href="<%= joke.link %>"><%= joke.link %></a>
+						<% } %>
+	                    <% if (joke.pictures.length > 0) { %>
+	                        <% joke.pictures.forEach(function(pic){ %>
+	                          <img alt="300x200" src="<%= pic.url %>" />
+	                        <% }); %>
+	                    <% } %>
+	                    <p>
+	                        <% if (joke.has_plus_one) { %>
+	                        <button class="btn btn-danger btn-plus-like" id="<%= joke._id%>" title="sub one">-1</button>
+	                        <% } else { %>
+	                        <button class="btn btn-primary btn-plus-like" id= "<%= joke._id %>" title="plus one">+1</button>
+	                        <% } %>
+	                        <strong><%= joke.like_count %></strong> | <strong><%= joke.visit_count %></strong>
+	                    </p>
+	                </div>
+	                <div class="joke-comment-0">
+	                    <% if (comments.length > 0) { %>
+	                    
+	                        <% comments.forEach(function(comment) { %>
+	                            <div><%= comment.content %>
+	                                <span>created by <%= comment.author.name %>
+	                                    on <%= comment.friendly_create_time %> </span>
+	                            </div>
+	                        <% }); %>
+	                    <% } %>
+	                </div>
+	                <div class="joke-add-comment">
+	                    <input type="text" placeholder="添加新评论">
+	                    <button class="btn btn-info btn-add-comment" index="0" title="<%= joke._id %>">确定</button>
+	                </div>
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../common/footer.ejs %>
+<% include ../base-bottom.ejs %>

@@ -14,8 +14,9 @@ exports.addComment = function(req, res, next) {
     var user = req.session.user;
     var jokeid = req.body.jokeid;
     var content = req.body.content;
-    var proxy = EventProxy.create('new_comment', 'new_message', function() {
-       res.json({status: 'success', jokeid: jokeid, content: content, user: user});
+    var views = 0;
+    var proxy = EventProxy.create('joke_save', 'new_comment', 'new_message', function() {
+       res.json({status: 'success', jokeid: jokeid, content: content, user: user, views: views});
     });
     proxy.fail(next);
     Joke.getJokeById(jokeid, function(err, joke, author, comments) {
@@ -25,6 +26,14 @@ exports.addComment = function(req, res, next) {
         if (!joke) {
             res.json({status: 'failed', error: '信息有误!'});
         }
+        joke.visit_count += 1;
+        views = joke.visit_count;
+        joke.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+            proxy.emit('joke_save');
+        });
         Comment.newAndSave(content, jokeid, user._id, author._id, function(err) {
             if (err) {
                 return next(err);
