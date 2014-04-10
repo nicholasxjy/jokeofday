@@ -40,9 +40,11 @@ module.exports = function(app) {
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
 
+    app.get('/joke/create', auth.signInRequired, joke.showCreate);
 
     app.get('/joke/:jokeid', joke.index);
-    app.get('/joke/create', auth.signInRequired, joke.showCreate);
+
+
     app.post('/joke/create', joke.createJoke);
 
     //like or cancel like

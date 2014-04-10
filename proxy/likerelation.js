@@ -1,9 +1,6 @@
 var model = require('../models');
 var LikeRelation = model.LikeRelation;
 
-
-
-
 exports.getLikeRelationByJokeId = function(jokeid, callback) {
 	LikeRelation.find({joke_id: jokeid}, {}, {}, callback);
 }

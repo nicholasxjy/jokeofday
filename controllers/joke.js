@@ -21,13 +21,14 @@ exports.index = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        joke.view_count += 1;
+        joke.visit_count += 1;
+        console.log()
         joke.save(function(err) {
             if (err) {
                 return next(err);
             }
         });
-        joke.visit_count = joke.view_count;
+
         if (!req.session.user) {
                 joke.has_plus_one = false; 
                 res.render('joke/index', {
@@ -61,11 +62,6 @@ exports.index = function(req, res, next) {
             }
     });
 }
-
-
-
-
-
 
 exports.showCreate = function(req, res, next) {
     res.render('joke/create', {

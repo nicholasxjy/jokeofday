@@ -51,8 +51,8 @@ exports.getJokesByQuery = function(query, opts, callback) {
             return callback(null, []);
         }
         var joke_ids = [];
-        for(var i = 0; i < jokes.length; i++) {
-            joke_ids.push(jokes[i]._id);
+        for(var j = 0; j < jokes.length; j++) {
+            joke_ids.push(jokes[j]._id);
         }
         var proxy = new EventProxy();
         proxy.after('joke_save', joke_ids.length, function(recent_jokes) {
