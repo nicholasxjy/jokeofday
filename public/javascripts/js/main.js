@@ -44,6 +44,29 @@ $(document).ready(function() {
             }
         }, 'json');
     });
+
+    // add or cancel follow
+    $('.btn-follow').click(function() {
+        var action = $(this).attr('action');
+        var userid = this.id;
+        var btn = $(this);
+        $.post('/user/follow', {'action': action, 'userid': userid}, function(data) {
+            if (data.status === 'success') {
+                $('#fans').html(data.count);
+                if (action === 'add-follow') {
+                    btn.removeClass('btn-success').addClass('btn-default');
+                    btn.html('取消关注');
+                    btn.attr('action', 'cancel-follow');
+                } else {
+                    btn.removeClass('btn-default').addClass('btn-success');
+                    btn.html('加入关注');
+                    btn.attr('action', 'add-follow');
+                }
+            } else {
+                alert(data.error);
+            }
+        }, 'json');
+    });
 });
 
 

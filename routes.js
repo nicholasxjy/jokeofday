@@ -39,6 +39,9 @@ module.exports = function(app) {
     app.get('/user/:name', user.index);
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
+    //follow unfollow
+    app.post('/user/follow', user.addFollow);
+
 
     app.get('/joke/create', auth.signInRequired, joke.showCreate);
 

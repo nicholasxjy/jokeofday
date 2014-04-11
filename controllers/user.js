@@ -5,6 +5,7 @@ var config = require('../config');
 var User = require('../proxy').User;
 var Joke = require('../proxy').Joke;
 var Relation = require('../proxy').Relation;
+var Message = require('../proxy').Message;
 var EventProxy = require('eventproxy');
 var validator = require('validator');
 var fs = require('fs');
@@ -18,8 +19,6 @@ var path = require('path');
  */
 exports.index = function(req, res, next) {
     var username = req.params.name;
-    var messages = [];
-
     User.getUserByName(username, function(err, user) {
         if (err) {
             return next(err);
@@ -27,24 +26,31 @@ exports.index = function(req, res, next) {
         if (!user) {
             res.render('notify/notify', {
                 error: "该用户不存在。",
-                config: config
+                config: config,
             });
             return;
         }
         //接下来 要根据此user查出该user的 未读message数量 关注几个人 被关注几人  最近发表的joke
         //此处需要 eventproxy，不然会嵌套太深，掉坑里。
         //npm new package
-        var render = function(recent_jokes, relation) {
+        var isUser = false;//判断访问的是否是自己
+        if (req.session.user) {
+            if (req.session.user._id.toString() === user._id.toString()) {
+                isUser = true;
+            }
+        }
+        var render = function(recent_jokes, relation, messages) {
             res.render('user/index', {
                 user: user,
                 config:config,
                 recent_jokes: recent_jokes,
                 relation: relation,
-                messages: messages
+                messages: messages,
+                isUser: isUser
             });
         }
         var proxy = new EventProxy();
-        proxy.assign('recent_jokes', 'relation', render);
+        proxy.assign('recent_jokes', 'relation', 'messages', render);
         proxy.fail(next);
 
         var query = {author_id:user._id};
@@ -56,9 +62,9 @@ exports.index = function(req, res, next) {
         } else {
             //获取 user 和req.session.user的关注关系，user是通过url的name参数获得的，而req.session.user是当前登录用户
             //也就是说当前登录用户，去查看别的用户主页
-            Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));//此处是为了前端显示 关注还是取消关注
+            Relation.getRelation(user._id, req.session.user._id, proxy.done('relation'));//此处是为了前端显示 关注还是取消关注
         }
-
+        Message.getMessageCountByUserId(user._id, proxy.done('messages'));
     });
 };
 /**
@@ -137,4 +143,95 @@ exports.settings = function(req, res, next) {
         }
 
     });
+};
+
+exports.addFollow = function(req, res, next) {
+    if (!req.session.user) {
+        res.json({status: 'failed', error: '请先登录'});
+        return;
+    }
+    var user = req.session.user;
+    var follow_userid = req.body.userid;
+    var action = req.body.action;
+    var count = 0;
+    var render = function() {
+        res.json({status: 'success', count: count});
+    }
+    var proxy = EventProxy.create('relation_save', 'followed_save', 'following_save', render);
+    proxy.fail(next);
+    if (action === 'add-follow') {
+        Relation.newAndSave(follow_userid, user._id, function(err) {
+            if (err) {
+                return next(err);
+            }
+            proxy.emit('relation_save');
+        });
+        User.getUserById(follow_userid, function(err, doc) {
+            if (err) {
+                return next(err);
+            }
+            doc.follower_count = parseInt(doc.follower_count) + 1;
+            count = parseInt(doc.follower_count);
+            doc.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('followed_save');
+            });
+        });
+        User.getUserById(user._id, function(err, doc) {
+            if (err) {
+                return next(err);
+            }
+            doc.following_count = parseInt(doc.following_count) + 1;
+            doc.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('following_save')
+            });
+        });
+    } else {
+        Relation.removeRelation(follow_userid, user._id, function(err) {
+            if (err) {
+                return next(err);
+            }
+            proxy.emit('relation_save');
+        });
+        User.getUserById(follow_userid, function(err, doc) {
+            if (err) {
+                return next(err);
+            }
+            if (parseInt(doc.follower_count) > 0) {
+                doc.follower_count = parseInt(doc.follower_count) - 1;
+            } else {
+                doc.follower_count = 0;
+            }
+            count = parseInt(doc.follower_count);
+            doc.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('followed_save');
+            });
+        });
+        User.getUserById(user._id, function(err, doc) {
+            if (err) {
+                return next(err);
+            }
+            if (parseInt(doc.following_count) > 0) {
+                doc.following_count = parseInt(doc.following_count) - 1;
+            } else {
+                doc.following_count = 0;
+            }
+            doc.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                proxy.emit('following_save')
+            });
+        });
+    }
 }
+
+
