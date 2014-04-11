@@ -33,9 +33,7 @@ exports.getJokeById = function(id, callback) {
         Comment.getCommentsByJokeId(joke._id, proxy.done('comments'));
 
     }));
-}
-
-
+};
 /**
  * 根据关键字 查找一组jokeitem
  * @param query
@@ -73,7 +71,7 @@ exports.getJokesByQuery = function(query, opts, callback) {
             }));
         }
     });
-}
+};
 /**
  * 根据条件查出Jokes的个数
  * @param query
@@ -81,7 +79,7 @@ exports.getJokesByQuery = function(query, opts, callback) {
  */
 exports.getJokesCountByQuery = function(query, callback) {
     Joke.count(query, callback);
-}
+};
 /**
  * 新增joke
  * @param authotid
@@ -97,4 +95,4 @@ exports.newAndSave = function(authotid, content, pictures, link, callback) {
     joke.pictures = pictures;
     joke.link = link;
     joke.save(callback);
-}
+};

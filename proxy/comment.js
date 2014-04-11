@@ -50,8 +50,7 @@ exports.getCommentsByJokeId = function(jokeid, callback) {
  */
 exports.getCommentById = function(id, callback) {
     Comment.findOne({_id: id}, callback);
-}
-
+};
 /**
  * 创建新评论
  * @param content
@@ -67,4 +66,4 @@ exports.newAndSave = function(content, joke_id, author_id, reply_to_id, callback
     comment.author_id = author_id;
     comment.reply_to_id = reply_to_id;
     comment.save(callback);
-}
+};

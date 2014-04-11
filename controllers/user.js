@@ -48,7 +48,7 @@ exports.index = function(req, res, next) {
                 messages: messages,
                 isUser: isUser
             });
-        }
+        };
         var proxy = new EventProxy();
         proxy.assign('recent_jokes', 'relation', 'messages', render);
         proxy.fail(next);
@@ -92,7 +92,12 @@ exports.showSettings = function(req, res, next) {
         });
     });
 };
-
+/**
+ * 用户setting信息
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.settings = function(req, res, next) {
     if (!req.session.user) {
         res.redirect('/');
@@ -144,7 +149,12 @@ exports.settings = function(req, res, next) {
 
     });
 };
-
+/**
+ * 用户之间的 关注 取消等操作
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.addFollow = function(req, res, next) {
     if (!req.session.user) {
         res.json({status: 'failed', error: '请先登录'});
@@ -156,7 +166,7 @@ exports.addFollow = function(req, res, next) {
     var count = 0;
     var render = function() {
         res.json({status: 'success', count: count});
-    }
+    };
     var proxy = EventProxy.create('relation_save', 'followed_save', 'following_save', render);
     proxy.fail(next);
     if (action === 'add-follow') {
@@ -232,6 +242,92 @@ exports.addFollow = function(req, res, next) {
             });
         });
     }
-}
+};
+/**
+ * 根据用户名获得其粉丝信息
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getMyFans = function(req, res, next) {
+    var username = req.params.username;
+    if (!username) {
+        res.render('notify/notify', {
+            error: '信息有误',
+            config: config
+        });
+        return;
+    }
+    var fansids = [];
+    User.getUserByName(username, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        Relation.getFansByUserId(user._id, function(err, docs) {
+            if (docs && docs.length > 0) {
+                for(var i = 0; i < docs.length; i++) {
+                    fansids.push(docs[i].follow_id);
+                }
+                User.getUsersByIds(fansids, function(err, fans) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('user/fans', {
+                        config: config,
+                        fans: fans
+                    });
+                });
+            } else {
+                res.render('user/fans', {
+                    config: config,
+                    fans: []
+                })
+            }
+        });
+    });
+};
+/**
+ * 根据用户 获得其关注人
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getFollowings = function(req, res, next) {
+    var username = req.params.username;
+    if (!username) {
+        res.render('notify/notify', {
+            error: '信息有误',
+            config: config
+        });
+        return;
+    }
+    var followids = [];
+    User.getUserByName(username, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        Relation.getFollowingsByUserId(user._id, function(err, docs) {
+            if (docs && docs.length > 0) {
+                for(var i = 0; i < docs.length; i++) {
+                    followids.push(docs[i].user_id);
+                }
+                User.getUsersByIds(followids, function(err, followings) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('user/followings', {
+                        config: config,
+                        followings: followings
+                    });
+                });
+            } else {
+                res.render('user/followings', {
+                    config: config,
+                    followings: []
+                });
+            }
+        });
+    });
+};
 
 

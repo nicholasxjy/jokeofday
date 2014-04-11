@@ -1,0 +1,46 @@
+<% include ../base-top.ejs %>
+<% include ../common/header.ejs %>
+<div class="followings-section">
+    <div class="container">
+        <div class="row">
+            <% if (locals.followings.length > 0) { %>
+            <% locals.followings.forEach(function(following){ %>
+            <div class="col-md-4 user-info">
+                <div class="info-header">
+                    个人信息
+                </div>
+                <div class="info-content">
+                    <div class="info-thumbnail">
+                        <ul class="list-inline">
+                            <li>
+                                <a href="/user/<%= following.name %>">
+                                    <img src="<%= following.profile_image_url %>"
+                                         alt="profile thumbnail" title="<%= following.name %>"
+                                         class="img-circle img-responsive" width="50" height="50"/>
+                                </a>
+                            </li>
+                            <li class="info-username">
+                                <a href="/user/<%= following.name %>"><%= following.name %></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="info-data">
+                        <ul class="list-inline">
+                            <li title="粉丝"><i class="fa fa-users"></i><%= following.follower_count %></li>
+                            <li title="关注"><i class="fa fa-heart"></i><%= following.following_count %></li>
+                            <li title="分数"><i class="fa fa-star"></i><%= following.score %></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+            <% } else { %>
+            <div class="alert alert-success">
+                <strong>Oops!还没有关注任何人。</strong>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<% include ../common/footer.ejs %>
+<% include ../base-bottom.ejs %>

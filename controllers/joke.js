@@ -22,7 +22,6 @@ exports.index = function(req, res, next) {
             return next(err);
         }
         joke.visit_count += 1;
-        console.log()
         joke.save(function(err) {
             if (err) {
                 return next(err);
@@ -162,8 +161,12 @@ exports.createJoke = function(req, res, next) {
         }
     });
 };
-
-
+/**
+ * Ajax点赞 和 取消功能
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.plusOne = function(req, res, next) {
     if (!req.session.user) {
         res.json({status: 'failed', error: '请先登录'});
@@ -237,4 +240,4 @@ exports.plusOne = function(req, res, next) {
             });
         }
     });
-}
+};

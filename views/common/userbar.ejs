@@ -19,8 +19,16 @@
         </div>
         <div class="info-data">
             <ul class="list-inline">
-                <li title="粉丝"><i class="fa fa-users"></i><span id="fans"><%= locals.user.follower_count %><span></li>
-                <li title="关注"><i class="fa fa-heart"></i><%= locals.user.following_count %></li>
+                <li title="粉丝">
+                    <a href="/<%= locals.user.name %>/fans">
+                        <i class="fa fa-users"></i><span id="fans"><%= locals.user.follower_count %></span>
+                    </a>
+                </li>
+                <li title="关注">
+                    <a href="/<%= locals.user.name %>/followings">
+                        <i class="fa fa-heart"></i><span><%= locals.user.following_count %></span>
+                    </a>
+                </li>
                 <li title="分数"><i class="fa fa-star"></i><%=locals.user.score %></li>
             </ul>
         </div>
@@ -30,9 +38,11 @@
             </a>
             <% if (!locals.isUser) { %>
                 <% if (!locals.relation) { %>
-                    <button class="btn btn-success pull-right btn-follow" action="add-follow" id="<%= locals.user._id %>">加入关注</button>
+                    <button class="btn btn-success pull-right btn-follow" action="add-follow"
+                            id="<%= locals.user._id %>">加入关注</button>
                 <% } else { %>
-                    <button class="btn btn-default pull-right btn-follow" action="cancel-follow" id="<%= locals.user._id %>">取消关注</button>
+                    <button class="btn btn-default pull-right btn-follow" action="cancel-follow"
+                            id="<%= locals.user._id %>">取消关注</button>
                 <% } %>
             <% } %>
         </div>

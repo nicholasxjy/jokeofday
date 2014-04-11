@@ -7,7 +7,7 @@ var Message = require('../models').Message;
  */
 exports.getMessageCountByUserId = function(id, callback) {
     Message.count({masterid:id, has_read:false}, callback);
-}
+};
 /**
  * 根据用户id 查出其未读信息
  * @param userid
@@ -15,7 +15,7 @@ exports.getMessageCountByUserId = function(id, callback) {
  */
 exports.getMessageByUserId = function(userid, callback) {
     Message.find({masterid: id, has_read: false}, callback);
-}
+};
 /**
  * 新消息
  * @param type
@@ -33,4 +33,4 @@ exports.newAndSave = function(type, masterid, authorid, jokeid, replyid, callbac
 	message.jokeid = jokeid;
 	message.replyid = replyid;
 	message.save(callback);
-}
+};

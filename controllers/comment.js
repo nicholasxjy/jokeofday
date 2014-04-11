@@ -5,7 +5,12 @@ var Comment = require('../proxy').Comment;
 var Message = require('../proxy').Message;
 var EventProxy = require('eventproxy');
 var Util = require('../libs/util');
-
+/**
+ * 添加评论
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.addComment = function(req, res, next) {
     if (!req.session.user) {
         res.json({status: 'failed', error: '请先登录'});

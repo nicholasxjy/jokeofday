@@ -17,10 +17,9 @@ exports.index = function(req, res, next) {
             recent_jokes: recent_jokes,
             limit: limit
         });
-    }
+    };
     var proxy = EventProxy.create('recent_jokes', 'pages', render);
     proxy.fail(next);
-
     //查询jokes 分页
     var options = {skip: (page - 1)*limit, limit: limit, sort: {create_at: 'desc'}};
     if (!req.session.user) {
@@ -59,9 +58,8 @@ exports.index = function(req, res, next) {
             });
         });
     }
-    
     Joke.getJokesCountByQuery({}, proxy.done(function(pages_count) {
         var pages = Math.ceil(pages_count/limit);
         proxy.emit('pages', pages);
     }));
-}
+};

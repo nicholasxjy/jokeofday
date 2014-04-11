@@ -56,6 +56,13 @@ exports.getUserByQuery = function(name, key, callback) {
  */
 exports.getUserById = function(id, callback) {
     User.findOne({_id:id}, callback);
+};
+
+exports.getUsersByIds = function(ids, callback) {
+    if (ids.length === 0) {
+        return callback(null, []);
+    }
+    User.find({_id: {$in: ids}}, callback);
 }
 /**
  * 根据用户名查找唯一用户
@@ -64,15 +71,7 @@ exports.getUserById = function(id, callback) {
  */
 exports.getUserByName = function(name, callback) {
     User.findOne({name:name}, callback);
-}
-/**
- * 根据user id查找用户
- * @param id
- * @param callback
- */
-exports.getUserById = function(id, callback) {
-    User.findOne({_id: id}, callback);
-}
+};
 /**
  * 保存新注册用户
  * @param name
@@ -92,4 +91,4 @@ exports.newAndSave = function(name, loginname, pass, email, avatar_url, active, 
     user.avatar_url = avatar_url;
     user.active = active;//需要发送激活邮件，来激活，注册调用默认为false
     user.save(callback);
-}
+};

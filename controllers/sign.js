@@ -104,10 +104,12 @@ exports.signup = function(req, res, next) {
         });
     });
 };
-
 /**
-*
-*/
+ * 激活邮件链接 过来的激活操作
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.active_account = function(req, res, next) {
     var name = req.query.name;
     var key = req.query.key;

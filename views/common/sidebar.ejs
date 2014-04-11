@@ -20,8 +20,14 @@
         </div>
         <div class="info-data">
             <ul class="list-inline">
-                <li title="粉丝"><i class="fa fa-users"></i><%= locals.current_user.follower_count %></li>
-                <li title="关注"><i class="fa fa-heart"></i><%= locals.current_user.following_count %></li>
+                <li title="粉丝">
+                    <a href="/<%= locals.current_user.name %>/fans">
+                        <i class="fa fa-users"></i><%= locals.current_user.follower_count %>
+                    </a>
+                </li>
+                <li title="关注">
+                    <a href="/<%= locals.current_user.name %>/followings"><i class="fa fa-heart"></i><%= locals.current_user.following_count %></a>
+                </li>
                 <li title="分数"><i class="fa fa-star"></i><%=locals.current_user.score %></li>
             </ul>
         </div>
