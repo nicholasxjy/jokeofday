@@ -1,4 +1,11 @@
 $(document).ready(function() {
+
+    var msnry = new Masonry('#container', {
+        "itemSelector": '.item',
+        "columnWidth": 255,
+        "gutter": 30
+    });
+
     //add or cancel plus one
     $('.btn-plus-like').click(function() {
         var isPlus = (this.title === 'plus one');
@@ -8,17 +15,13 @@ $(document).ready(function() {
                 var $btn = $('#'+ data.id);
                 if ($btn.attr('title') === 'plus one') {
                     $btn.attr('title', 'sub one');
-                    $btn.removeClass('btn-primary');
-                    $btn.addClass('btn-danger');
-                    $btn.html('-1');
+                    $btn.css('color', '#f64c3f');
+                    $btn.find('span').html(data.likes);
                 } else {
-                    $btn.attr('title', 'plus one')
-                    $btn.removeClass('btn-danger');
-                    $btn.addClass('btn-primary');
-                    $btn.html('+1');
+                    $btn.attr('title', 'plus one');
+                    $btn.css('color', '#8d8d8d');
+                    $btn.find('span').html(data.likes);
                 }
-                $btn.next('strong').html(data.likes);
-                $btn.next('strong').next('strong').html(data.views);
             } else {
                 if (data.error) {
                     alert(data.error);
@@ -26,6 +29,13 @@ $(document).ready(function() {
             }
         }, 'json');
     });
+
+    //show comment
+    $('.show-comment').click(function() {
+       var index = $(this).attr('index');
+        $('#joke-comment-'+index).show();
+    });
+
     // add comment
     $('.btn-add-comment').click(function() {
         var jokeid = $(this).attr('title');

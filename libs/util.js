@@ -31,7 +31,7 @@ exports.formatDate = function(date, friendly) {
             }
         }
         var thisyear = new Date().getFullYear();
-        var year = (thisyear === year) ? '': (year+'-');
-        return year + month + '-' + day + ' ' + hour + ':' + minutes;
+        var year = (thisyear === year) ? '': (year+' 年 ');
+        return year + (month+1) + ' 月 ' + (day+1) + ' 日 ' + hour + ':' + minutes;
     }
 }

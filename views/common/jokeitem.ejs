@@ -1,0 +1,105 @@
+<% if (locals.recent_jokes && locals.recent_jokes.length > 0) { %>
+<% locals.recent_jokes.forEach(function(joke, index) { %>
+<% if (joke.pictures.length > 3) { %>
+    <div class="item box-medium">
+<% } else { %>
+    <div class="item box-small">
+<% } %>
+    <div class="joke-item-head modal-header">
+        <div class="author-card-thumbnail">
+            <a href="/user/<%= joke.author.name %>">
+                <img src="<%= joke.author.profile_image_url %>" alt="<%= joke.author.name %>"
+                     title="<%= joke.author.name %>" width="50" height="50"
+                     class="img-circle img-responsive"/>
+            </a>
+        </div>
+        <div class="author-card">
+            <div class="author-card-name">
+                <a href="/user/<%= joke.author.name %>"><%= joke.author.name %></a>
+            </div>
+            <div class="joke-post-time">
+                分享于 <%= joke.friendly_create_time %>
+            </div>
+        </div>
+    </div>
+    <div class="joke-item-content modal-body">
+        <% if (joke.content) { %>
+        <p><%= joke.content %></p>
+        <% } %>
+        <% if (joke.link) { %>
+        <a href="<%= joke.link %>"><%= joke.link %></a>
+        <% } %>
+        <% if (joke.pictures.length > 1) { %>
+        <ul class="list-inline">
+            <% joke.pictures.forEach(function(pic){ %>
+            <li>
+                <img alt="300x200" src="<%= pic.url %>" width="130" height="130" class="img-responsive"/>
+            </li>
+            <% }); %>
+        </ul>
+        <% } else if (joke.pictures.length === 1) { %>
+        <ul class="list-inline">
+            <% joke.pictures.forEach(function(pic){ %>
+            <li>
+                <img alt="300x200" src="<%= pic.url %>" class="img-responsive"/>
+            </li>
+            <% }); %>
+        </ul>
+        <% } %>
+    </div>
+    <div class="joke-item-foot modal-footer">
+        <div class="joke-item-footer-bar">
+            <% if (joke.pictures.length > 3) { %>
+            <div class="cell cell-comment">
+                <a class="show-comment" index="<%= index %>" href="/joke/<%= joke._id %>">
+                    <i class="fa fa-comments"></i>  comments
+                </a>
+            </div>
+            <div class="cell-spacer"></div>
+            <div class="cell cell-likes">
+                <% if (!joke.has_plus_one) { %>
+                    <a class="btn-plus-like" title="plus one" id="<%= joke._id %>"><i class="fa fa-heart"></i>
+                        <span><%= joke.like_count %></span>  likes
+                    </a>
+                <% } else { %>
+                    <a class="btn-plus-like" title="sub one" id="<%= joke._id %>" style="color:#f64c3f"><i class="fa fa-heart"></i>
+                        <span><%= joke.like_count %></span>  likes
+                    </a>
+                <% } %>
+            </div>
+            <div class="cell-spacer"></div>
+            <div class="cell cell-share">
+                <a><i class="fa fa-share"></i>  share</a>
+            </div>
+            <% } else { %>
+            <div class="cell cell-comment">
+                <a class="show-comment" index="<%= index %>" href="/joke/<%= joke._id %>">
+                    <i class="fa fa-comments"></i>
+                </a>
+            </div>
+            <div class="cell-spacer"></div>
+            <div class="cell cell-likes">
+                <% if (!joke.has_plus_one) { %>
+                <a class="btn-plus-like" title="plus one" id="<%= joke._id %>"><i class="fa fa-heart"></i>
+                    <span><%= joke.like_count %></span>
+                </a>
+                <% } else { %>
+                <a class="btn-plus-like" title="sub one" id="<%= joke._id %>" style="color:#f64c3f"><i class="fa fa-heart"></i>
+                    <span><%= joke.like_count %></span>
+                </a>
+                <% } %>
+            </div>
+            <div class="cell-spacer"></div>
+            <div class="cell cell-share">
+                <a><i class="fa fa-share"></i></a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<% }); %>
+<% } else { %>
+<div class="alert alert-success">
+    <strong>Oops! 还没有人分享最搞笑瞬间，赶快成为第一个天使。</strong>
+</div>
+<% } %>

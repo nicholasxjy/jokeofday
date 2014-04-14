@@ -1,46 +1,59 @@
 <% include ../base-top.ejs %>
-<% include ../common/header.ejs %>
-<div class="container user-section">
+<div class="container" id="container">
     <div class="row">
-        <% include ../common/userbar.ejs %>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
+            <div class="item box-small">
+                <% include ../common/userbar.ejs %>
+            </div>
             <% if (locals.recent_jokes.length > 0) { %>
-                <% locals.recent_jokes.forEach(function(joke){ %>
-                    <div class="thumbnail">
-                        <% if (joke.content) { %>
-                            <div class="joke-content"><%= joke.content %></div>
-                        <% } %>
-                        <% if (joke.pictures) { %>
-                            <div class="joke-pictures">
-                                <% joke.pictures.forEach(function(picture) { %>
-                                  <img src="<%= picture.url %>" alt="shared pictures"/>
-                                <% }); %>
-                            </div>
-                        <% } %>
-                        <% if (joke.link) { %>
-                            <div class="joke-link">
-                                <a href="<%= joke.link %>"><%= joke.link %></a>
-                            </div>
-                        <% } %>
-                        <div class="joke-info">
-                            <span class="likes"><%= joke.like_count %>喜欢</span>
-                            <span class="views"><%= joke.visit_count %>看过</span>
-                            <div class="create-time">
-                                <%= joke.friendly_create_time %>创建
-                            </div>
+            <% locals.recent_jokes.forEach(function(joke){ %>
+            <div class="item box-medium">
+                <div class="thumbnail">
+                    <% if (joke.content) { %>
+                    <div class="joke-content"><%= joke.content %></div>
+                    <% } %>
+                    <% if (joke.pictures) { %>
+                    <div class="joke-pictures">
+                        <ul class="list-inline">
+                            <% if (joke.pictures.length > 1) { %>
+                            <% joke.pictures.forEach(function(picture) { %>
+                            <li>
+                                <img src="<%= picture.url %>" alt="shared pictures" class="img-responsive"
+                                     width="130px" height="130px"/>
+                            </li>
+                            <% }); %>
+                            <% } else { %>
+                            <% joke.pictures.forEach(function(picture) { %>
+                            <li>
+                                <img src="<%= picture.url %>" alt="shared pictures" class="img-responsive"/>
+                            </li>
+                            <% }); %>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% } %>
+                    <% if (joke.link) { %>
+                    <div class="joke-link">
+                        <a href="<%= joke.link %>"><%= joke.link %></a>
+                    </div>
+                    <% } %>
+                    <div class="joke-info">
+                        <span class="likes"><%= joke.like_count %>喜欢</span>
+                        <span class="views"><%= joke.visit_count %>看过</span>
+                        <div class="create-time">
+                            <%= joke.friendly_create_time %>创建
                         </div>
                     </div>
-                <% }); %>  
-            <% } else { %>
-                <div class="alert alert-success">
-                    <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
                 </div>
+            </div>
+            <% }); %>
+            <% } else { %>
+            <div class="alert alert-success">
+                <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
+            </div>
             <% } %>
         </div>
     </div>
 </div>
-
 <% include ../common/footer.ejs %>
 <% include ../base-bottom.ejs %>

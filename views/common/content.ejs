@@ -1,13 +1,13 @@
-<div class="col-md-8 jokes-content">
+<div class="col-md-8 jokes-content" id="container">
     <% if (locals.recent_jokes && locals.recent_jokes.length > 0) { %>
         <% locals.recent_jokes.forEach(function(joke, index) { %>
-        <div class="col-md-5">
+        <div class="item" data-scroll-reveal="enter from the bottom after 0.5s">
             <div class="thumbnail">
                 <div class="user-card">
                     <div class="user-card-thumbnail">
                         <a href="/user/<%= joke.author.name %>">
                             <img src="<%= joke.author.profile_image_url %>" alt="<%= joke.author.name %>"
-                                 title="<%= joke.author.name %>" width="50" height="50"
+                                 title="<%= joke.author.name %>" width="40" height="40"
                                  class="img-circle img-responsive"/>
                         </a>
                     </div>
@@ -25,7 +25,7 @@
 					<% } %>
                     <% if (joke.pictures.length > 0) { %>
                         <% joke.pictures.forEach(function(pic){ %>
-                          <img alt="300x200" src="<%= pic.url %>" />
+                          <img alt="300x200" src="<%= pic.url %>" width="100" height="100" class="img-responsive"/>
                         <% }); %>
                     <% } %>
                     <p>

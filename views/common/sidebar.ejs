@@ -1,23 +1,21 @@
-<% if (locals.current_user) { %>
-<div class="col-md-4 user-info">
-    <div class="info-header">
-        个人信息
-    </div>
+<div class="user-info">
+    <% if (locals.current_user) { %>
+    <a href="/user/<%= locals.current_user.name %>">
+        <img src="<%= locals.current_user.profile_image_url %>"
+             alt="profile thumbnail" title="<%= locals.current_user.name %>"
+             class="avatar"/>
+    </a>
     <div class="info-content">
-        <div class="info-thumbnail">
-            <ul class="list-inline">
-                <li>
-                    <a href="/user/<%= locals.current_user.name %>">
-                        <img src="<%= locals.current_user.profile_image_url %>"
-                             alt="profile thumbnail" title="<%= locals.current_user.name %>"
-                             class="img-circle img-responsive" width="50" height="50"/>
-                    </a>
-                </li>
-                <li class="info-username">
-                    <a href="/user/<%= locals.current_user.name %>"><%= locals.current_user.name %></a>
-                </li>
-            </ul>
-        </div>
+        <h1><a href="/user/<%= locals.current_user.name %>"><%= locals.current_user.name %></a></h1>
+        <% if (locals.current_user.profile) { %>
+            <div class="user-profile">
+                <%= locals.current_user.profile %>
+            </div>
+        <% } else { %>
+            <div class="user-profile">
+                赶快写点东西，向大家详细的介绍你自己吧。
+            </div>
+        <% } %>
         <div class="info-data">
             <ul class="list-inline">
                 <li title="粉丝">
@@ -26,28 +24,67 @@
                     </a>
                 </li>
                 <li title="关注">
-                    <a href="/<%= locals.current_user.name %>/followings"><i class="fa fa-heart"></i><%= locals.current_user.following_count %></a>
+                    <a href="/<%= locals.current_user.name %>/followings">
+                        <i class="fa fa-heart"></i><%= locals.current_user.following_count %>
+                    </a>
                 </li>
-                <li title="分数"><i class="fa fa-star"></i><%=locals.current_user.score %></li>
+                <li title="分数">
+                    <a href="/scores/ranking">
+                        <i class="fa fa-star"></i><%=locals.current_user.score %>
+                    </a>
+                </li>
+                <li>
+                    <a href="/joke/create" class="btn btn-success">Post</a>
+                </li>
             </ul>
         </div>
-        <div class="info-message">
-            <a href="/user/messages">
-                <i class="fa fa-comment fa-lg"></i><%= locals.current_user.message_not_read %> 条未读信息
-            </a>
-            <a href="/joke/create" class="btn btn-success pull-right btn-post-joke">发表文章</a>
+    </div>
+<% } else { %>
+    <a href="">
+        <img src="<%= locals.config.default_image %>"
+             alt="profile thumbnail" title="joke of day"
+             class="avatar"/>
+    </a>
+    <div class="info-content">
+        <h1><a href="">Joke of Day</a></h1>
+        <div class="user-profile">
+            这里有每天最搞笑的事情发生，分享每一个搞笑瞬间，
+            赶快加入，分享最hilarious的精彩瞬间!
+            你又偷着笑了吗？
         </div>
     </div>
-</div>
-<% } else { %>
-<div class="col-md-4 no-user-info">
-    <div class="info-header">
-        Joke of Day
-    </div>
-    <div class="info-content">
-        这里有每天最搞笑的事情发生，分享每一个搞笑瞬间，<br>
-        赶快加入，分享最hilarious的精彩瞬间!<br>
-        你又偷着笑了吗？
-    </div>
-</div>
 <% } %>
+    <ul id="navigation-bar">
+        <li>
+            <a href="/"><i class="fa fa-home"></i>首页</a>
+        </li>
+        <li>
+            <a href="/about"><i class="fa fa-info"></i>关于</a>
+        </li>
+        <% if (locals.current_user) { %>
+        <li><a href="/settings"><i class="fa fa-gear"></i>设置</a></li>
+        <li>
+            <a href="/user/messages">
+                <i class="fa fa-envelope"></i>消息
+                <% if (locals.current_user.message_not_read !== 0) { %>
+                    <span class="badge"><%= locals.current_user.message_not_read %></span>
+                <% } %>
+            </a>
+        </li>
+        <li><a href="/signout"><i class="fa fa-sign-out"></i>退出</a></li>
+        <% } else { %>
+        <li><a href="/signup"><i class="fa fa-user"></i>注册</a></li>
+        <li><a href="/signin"><i class="fa fa-sign-in"></i>登录</a></li>
+        <% } %>
+        <li>
+            <form action="/search" method="post" id="search-form">
+                <div class="input-group">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="q" id="search" value="Search"
+                           onfocus="if (this.value === 'Search') this.value='';"
+                           onblur="if (this.value=== '') this.value='Search';"/>
+                </div>
+            </form>
+        </li>
+    </ul>
+</div>
