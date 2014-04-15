@@ -20,8 +20,9 @@ exports.addComment = function(req, res, next) {
     var jokeid = req.body.jokeid;
     var content = req.body.content;
     var views = 0;
+    var comment_count = 0;
     var proxy = EventProxy.create('joke_save', 'new_comment', 'new_message', function() {
-       res.json({status: 'success', jokeid: jokeid, content: content, user: user, views: views});
+       res.json({status: 'success', jokeid: jokeid, content: content, user: user, comment_count: comment_count});
     });
     proxy.fail(next);
     Joke.getJokeById(jokeid, function(err, joke, author, comments) {
@@ -33,6 +34,7 @@ exports.addComment = function(req, res, next) {
         }
         joke.visit_count += 1;
         views = joke.visit_count;
+        comment_count = comments.length + 1;
         joke.save(function(err) {
             if (err) {
                 return next(err);
@@ -52,4 +54,4 @@ exports.addComment = function(req, res, next) {
             proxy.emit('new_message');
         });
     });
-}
+};

@@ -31,30 +31,36 @@ $(document).ready(function() {
     });
 
     //show comment
-    $('.show-comment').click(function() {
-       var index = $(this).attr('index');
-        $('#joke-comment-'+index).show();
+    $('#add-a-comment').focus(function() {
+        $('#add-a-comment').hide();
+        $('#comment-show').show();
+    });
+    $('#cancel-post-comment').click(function() {
+        $('#comment-show').hide();
+        $('#add-a-comment').show();
     });
 
     // add comment
-    $('.btn-add-comment').click(function() {
-        var jokeid = $(this).attr('title');
-        var content = $(this).prev('input').val();
-        var btn = $(this);
-        var index = $(this).attr('index');
+    $('#post-comment').click(function() {
+        var jokeid = $('#joke-info-id').val();
+        var content = $('#new-comment-content').val();
+        if (content === '') {
+
+        }
         $.post('/comment/add-comment', {'jokeid': jokeid, 'content': content}, function(data) {
             if (data.status === 'success') {
-                var html = "<div>"+ data.content + "<span> created by "
-                + data.user.name +" on 刚刚</span></div>";
-                $('.joke-comment-'+index).prepend(html);
-                btn.prev('input').val('');
-                $('#'+ data.jokeid).next('strong').next('strong').html(data.views);
+                var html = '<li><a href="/user/'+ data.user.name +'"><img src="'+ data.user.profile_image_url +'" alt="<%= comment.author.name %>"width="20" height="20" class="img-responsive pull-left"/></a><a href="/user/'+ data.user.name +'" class="pull-left comment-author-name">'+ data.user.name +'&nbsp;</a><span class="pull-left">:&nbsp;'+ data.content +'</span><span class="pull-left comment-time">&nbsp;&nbsp;on just now</span></li>';
+                $('#comments-list').prepend(html);
+                $('#comments-count').html(data.comment_count);
+                $('#new-comment-content').val('');
+                $('#comments-list').prev('h3').removeClass('alert').removeClass('alert-success').html('Comments');
+                $('#comment-show').hide();
+                $('#add-a-comment').show();
             } else {
                 alert(data.error);
             }
         }, 'json');
     });
-
     // add or cancel follow
     $('.btn-follow').click(function() {
         var action = $(this).attr('action');

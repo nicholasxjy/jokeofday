@@ -1,60 +1,124 @@
 <% include ../base-top.ejs %>
-<% include ../common/header.ejs %>
-<div class="main-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-            	<div class="thumbnail">
-					<div class="user-card">
-	                    <div class="user-card-thumbnail">
-	                        <a href="/user/<%= author.name %>">
-	                            <img src="<%= author.profile_image_url %>" alt="<%= author.name %>"
-	                                 title="<%= author.name %>" width="50" height="50"
-	                                 class="img-circle img-responsive"/>
-	                        </a>
-	                    </div>
-	                    <div class="user-card-name">
-	                        <a href="/user/<%= author.name %>"><%= author.name %></a>
-	                        <span>Shared publicly on <%= joke.friendly_create_time %></span>
-	                    </div>
-	                </div>
-	                <div class="caption">
-						<% if (joke.content) { %>
-							<p><%= joke.content %></p>
-						<% } %>
-						<% if (joke.link) { %>
-							<a href="<%= joke.link %>"><%= joke.link %></a>
-						<% } %>
-	                    <% if (joke.pictures.length > 0) { %>
-	                        <% joke.pictures.forEach(function(pic){ %>
-	                          <img alt="300x200" src="<%= pic.url %>" />
-	                        <% }); %>
-	                    <% } %>
-	                    <p>
-	                        <% if (joke.has_plus_one) { %>
-	                        <button class="btn btn-danger btn-plus-like" id="<%= joke._id%>" title="sub one">-1</button>
-	                        <% } else { %>
-	                        <button class="btn btn-primary btn-plus-like" id= "<%= joke._id %>" title="plus one">+1</button>
-	                        <% } %>
-	                        <strong><%= joke.like_count %></strong> | <strong><%= joke.visit_count %></strong>
-	                    </p>
-	                </div>
-	                <div class="joke-comment-0">
-	                    <% if (comments.length > 0) { %>
-	                    
-	                        <% comments.forEach(function(comment) { %>
-	                            <div><%= comment.content %>
-	                                <span>created by <%= comment.author.name %>
-	                                    on <%= comment.friendly_create_time %> </span>
-	                            </div>
-	                        <% }); %>
-	                    <% } %>
-	                </div>
-	                <div class="joke-add-comment">
-	                    <input type="text" placeholder="添加新评论">
-	                    <button class="btn btn-info btn-add-comment" index="0" title="<%= joke._id %>">确定</button>
-	                </div>
-            	</div>
+<div id="container" class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="item box-small">
+                <% include ../common/sidebar.ejs %>
+            </div>
+            <div class="item box-medium">
+                <div class="joke-item-head modal-header">
+                    <div class="author-card-thumbnail">
+                        <a href="/user/<%= locals.author.name %>">
+                            <img src="<%= locals.author.profile_image_url %>" alt="<%= locals.author.name %>"
+                                 title="<%= locals.author.name %>" width="50" height="50"
+                                 class="img-circle img-responsive"/>
+                        </a>
+                    </div>
+                    <div class="author-card">
+                        <div class="author-card-name">
+                            <a href="/user/<%= locals.author.name %>"><%= locals.author.name %></a>
+                        </div>
+                        <div class="joke-post-time">
+                            分享于 <%= locals.joke.friendly_create_time %>
+                        </div>
+                    </div>
+                </div>
+                <div class="joke-item-content modal-body">
+                    <% if (locals.joke.content) { %>
+                    <p><%= locals.joke.content %></p>
+                    <% } %>
+                    <% if (locals.joke.link) { %>
+                    <a href="<%= locals.joke.link %>"><%= locals.joke.link %></a>
+                    <% } %>
+                    <% if (locals.joke.pictures.length > 1) { %>
+                    <ul class="list-inline">
+                        <% locals.joke.pictures.forEach(function(pic){ %>
+                        <li>
+                            <img alt="300x200" src="<%= pic.url %>" width="130" height="130" class="img-responsive"/>
+                        </li>
+                        <% }); %>
+                    </ul>
+                    <% } else if (locals.joke.pictures.length === 1) { %>
+                    <ul class="list-inline">
+                        <% locals.joke.pictures.forEach(function(pic){ %>
+                        <li>
+                            <img alt="300x200" src="<%= pic.url %>" class="img-responsive"/>
+                        </li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                </div>
+                <div class="joke-item-foot modal-footer">
+                    <div class="joke-item-footer-bar">
+                        <div class="cell cell-comment">
+                            <a class="show-comment-0">
+                                <i class="fa fa-comments"></i>  <span id="comments-count"><%= locals.comments.length %></span>  comments
+                            </a>
+                        </div>
+                        <div class="cell-spacer"></div>
+                        <div class="cell cell-likes">
+                            <% if (!locals.joke.has_plus_one) { %>
+                            <a class="btn-plus-like" title="plus one" id="<%= locals.joke._id %>"><i class="fa fa-heart"></i>
+                                <span><%= locals.joke.like_count %></span>  likes
+                            </a>
+                            <% } else { %>
+                            <a class="btn-plus-like" title="sub one" id="<%= locals.joke._id %>" style="color:#f64c3f"><i class="fa fa-heart"></i>
+                                <span><%= locals.joke.like_count %></span>  likes
+                            </a>
+                            <% } %>
+                        </div>
+                        <div class="cell-spacer"></div>
+                        <div class="cell cell-share">
+                            <a><i class="fa fa-share"></i>  share</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item box-medium">
+                <div class="joke-comments">
+                    <% if (locals.comments.length > 0) { %>
+                    <h3>Comments</h3>
+                    <ul class="list-inline" id="comments-list">
+                        <% locals.comments.forEach(function(comment){ %>
+                        <li>
+                            <a href="/user/<%= comment.author.name %>">
+                                <img src="<%= comment.author.profile_image_url %>" alt="<%= comment.author.name %>"
+                                        width="20" height="20" class="img-responsive pull-left"/>
+                            </a>
+                            <a href="/user/<%= comment.author.name %>" class="pull-left comment-author-name"><%= comment.author.name %>&nbsp;</a>
+                            <span class="pull-left">:&nbsp;<%= comment.content %></span>
+                            <span class="pull-left comment-time">&nbsp;&nbsp;on <%= comment.friendly_create_time %></span>
+                        </li>
+                        <% }); %>
+                        <li>
+                            <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
+                            <div id="comment-show" style="display: none">
+                                <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
+                                         width="40" height="40" class="img-responsive pull-left"/>
+                                <textarea id="new-comment-content" class="form-control"></textarea>
+                                <button id="post-comment" class="btn btn-success" value="">post comment</button>
+                                <button id="cancel-post-comment" class="btn btn-default">cancel</button>
+                                <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
+                            </div>
+                        </li>
+                    </ul>
+                    <% } else { %>
+                    <h3 class="alert alert-success">Oops!此条还没有任何评论</h3>
+                    <ul class="list-inline" id="comments-list">
+                        <li>
+                            <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
+                            <div id="comment-show" style="display: none">
+                                <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
+                                     width="40" height="40" class="img-responsive pull-left"/>
+                                <textarea id="new-comment-content" class="form-control"></textarea>
+                                <button id="post-comment" class="btn btn-success" value="">post comment</button>
+                                <button id="cancel-post-comment" class="btn btn-default">cancel</button>
+                                <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
+                            </div>
+                        </li>
+                    </ul>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>

@@ -249,6 +249,9 @@ body {
     background-color: #ffffff;
     min-height: 150px;
 }
+.joke-item-content ul li img {
+    max-width: 216px;
+}
 .joke-item-foot {
     margin: 0;
     padding: 0;
@@ -294,5 +297,64 @@ body {
     width: 1px;
     height: 1px;
 }
+.joke-comments {
+    background-color: #ffffff;
+    border-radius: 6px 6px 6px 6px;
+    min-height: 90px;
+}
 
-
+.joke-comments ul li {
+    width: 540px;
+    min-height: 30px;
+    line-height: 30px;
+    padding: 0;
+}
+.joke-comments ul li:nth-child(odd) {
+    background-color: #e8e9eb;
+}
+.joke-comments ul li:last-child {
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 0 0 6px 6px;
+}
+.joke-comments ul li input {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    width: 500px;
+}
+#new-comment-content {
+    float: left;
+    width:450px;
+    height: 65px;
+    margin-left: 10px;
+}
+#comment-show img {
+    padding-left: 10px;
+}
+#post-comment {
+    margin:20px 40px 20px 50px;
+}
+#cancel-post-comment {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.joke-comments h3 {
+    margin: 0;
+    padding: 10px 0 10px 10px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'PT Sans';
+}
+.joke-comments a img {
+    margin: 5px 10px 5px 10px;
+}
+.comment-author-name {
+    color:#f64c3f;
+    text-decoration: none;
+    font-size: 12px;
+}
+.comment-time {
+    color: #f64c3f;
+    font-size: 12px;
+}

@@ -12,7 +12,7 @@ var ndir = require('ndir');
 var path = require('path');
 var fs = require('fs');
 var EventProxy = require('eventproxy');
-
+var Util = require('../libs/util');
 
 exports.index = function(req, res, next) {
     var jokeid = req.params.jokeid;
@@ -22,6 +22,7 @@ exports.index = function(req, res, next) {
             return next(err);
         }
         joke.visit_count += 1;
+        joke.friendly_create_time = Util.formatDate(joke.create_at, true);
         joke.save(function(err) {
             if (err) {
                 return next(err);
@@ -60,14 +61,14 @@ exports.index = function(req, res, next) {
                 });
             }
     });
-}
+};
 
 exports.showCreate = function(req, res, next) {
     res.render('joke/create', {
         user: req.session.user,
         config: config
     });
-}
+};
 /**
  * 发表joke
  * @param req
@@ -108,10 +109,9 @@ exports.createJoke = function(req, res, next) {
                     return next(err);
                 }
                 res.redirect('/');
-                return;
             });
 
-        }
+        };
         var dateStamp = Date.now().toString();
         var picDir = path.join(config.upload_pictures_dir, dateStamp, user.name);
         if (upload_pics.length > 1) {
@@ -188,7 +188,7 @@ exports.plusOne = function(req, res, next) {
         //如果是取消赞， 只需like_count--,不提醒了
         var render = function() {
             res.json({status: 'success', id: joke._id, likes: likes, views: views});
-        }
+        };
 
         if (isPlus === 'true') {
             var proxy = EventProxy.create('message_save', 'joke_save', 'like_relation_save', render);
