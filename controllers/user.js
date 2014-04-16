@@ -11,6 +11,8 @@ var validator = require('validator');
 var fs = require('fs');
 var ndir = require('ndir');
 var path = require('path');
+var Util = require('../libs/util');
+var ndir = require('ndir');
 /**
  * 用户主页
  * @param req
@@ -55,7 +57,49 @@ exports.index = function(req, res, next) {
 
         var query = {author_id:user._id};
         var opts = {limit: 5, sort:{create_at:'desc'}};
-        Joke.getJokesByQuery(query, opts, proxy.done('recent_jokes'));
+        
+        Joke.getJokesByQuery(query, opts, function(err, recent_jokes) {
+            if (err) {
+                return next(err);
+            }
+            var jsondata = '{"timeline" :{"headline":' + '"'+ user.name +'\'s Timeline",'
+             + '"type":' + '"default",'
+             + '"startDate":' + '"'+ user.create_at.getFullYear() +'",'
+             + '"text":' +'"<p>'+ (user.profile ? user.profile: "") +'</p>",'
+             + '"asset": { '
+             + '"media":' + '"' + user.profile_image_url +'",'
+             + '"credit":' + '"",'
+             + '"caption":' + '""'
+             + '}, "date": [';
+            for(var i = 0; i < recent_jokes.length; i++) {
+                if (i === recent_jokes.length -1) {
+                   jsondata += Util.appendJokeString(recent_jokes[i], true);
+                } else {
+                    jsondata += Util.appendJokeString(recent_jokes[i], false);
+                }
+                
+            }
+            jsondata = jsondata + "] } }";
+            //var filedata = JSON.parse(jsondata);
+            //var data = JSON.stringify(filedata);
+            var pathdir= config.user_json_file;
+            var filename = (user.name + '.json').toString();
+            filename = path.resolve(path.join(pathdir,filename));
+            ndir.mkdir(pathdir, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                fs.writeFile(filename, jsondata, function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    proxy.emit('recent_jokes', recent_jokes);
+                });
+            });
+            
+        });
+        
+        
 
         if (!req.session.user) {
             proxy.emit('relation', null);

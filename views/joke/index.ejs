@@ -111,7 +111,7 @@
                                 <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
                                      width="40" height="40" class="img-responsive pull-left"/>
                                 <textarea id="new-comment-content" class="form-control"></textarea>
-                                <button id="post-comment" class="btn btn-success" value="">post comment</button>
+                                <button id="post-comment" class="btn btn-success" value="" disabled="disabled">post comment</button>
                                 <button id="cancel-post-comment" class="btn btn-default">cancel</button>
                                 <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
                             </div>

@@ -6,6 +6,14 @@ $(document).ready(function() {
         "gutter": 30
     });
 
+    //timeline
+    createStoryJS({
+        type: 'timeline',
+        source: 'http://127.0.0.1:3000/userprofile/json/frankchen.json',
+        width: '765',
+        height: '600',
+        embed_id: 'my-timeline'
+    });
     //add or cancel plus one
     $('.btn-plus-like').click(function() {
         var isPlus = (this.title === 'plus one');
@@ -39,14 +47,18 @@ $(document).ready(function() {
         $('#comment-show').hide();
         $('#add-a-comment').show();
     });
-
+    
+    $("#new-comment-content").keyup(function() {
+        if (this.value !== '') {
+            $("#post-comment").removeAttr('disabled');
+        } else {
+            $("#post-comment").attr('disabled', 'disabled');
+        }
+    });
     // add comment
     $('#post-comment').click(function() {
         var jokeid = $('#joke-info-id').val();
         var content = $('#new-comment-content').val();
-        if (content === '') {
-
-        }
         $.post('/comment/add-comment', {'jokeid': jokeid, 'content': content}, function(data) {
             if (data.status === 'success') {
                 var html = '<li><a href="/user/'+ data.user.name +'"><img src="'+ data.user.profile_image_url +'" alt="<%= comment.author.name %>"width="20" height="20" class="img-responsive pull-left"/></a><a href="/user/'+ data.user.name +'" class="pull-left comment-author-name">'+ data.user.name +'&nbsp;</a><span class="pull-left">:&nbsp;'+ data.content +'</span><span class="pull-left comment-time">&nbsp;&nbsp;on just now</span></li>';

@@ -34,4 +34,43 @@ exports.formatDate = function(date, friendly) {
         var year = (thisyear === year) ? '': (year+' 年 ');
         return year + (month+1) + ' 月 ' + (day+1) + ' 日 ' + hour + ':' + minutes;
     }
-}
+};
+
+exports.appendJokeString = function(joke, isLast) {
+    var jsondata = '';
+    var link = '';
+    var content = '';
+    var picture = '';
+    if (joke.link) {
+        link = joke.link;
+    }
+    if (joke.content) {
+        content = joke.content;
+    }
+    if (joke.pictures) {
+        picture = joke.pictures[0];
+    }
+    if (!isLast) {
+            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear() +'",'
+             + '"headline":' + '"'+ joke.title +'",'
+             + '"text":' +'"<p>'+ content +'</p><p>'
+             + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
+             + '"asset": { '
+             + '"media":' + '"' + picture.url +'",'
+             + '"credit":' + '"",'
+             + '"caption":' + '""'
+             + '}},';
+    } else {
+            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear() +'",'
+             + '"headline":' + '"'+ joke.title +'",'
+             + '"text":' +'"<p>'+ content +'</p><p>'
+             + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
+             + '"asset": { '
+             + '"media":' + '"' + picture.url +'",'
+             + '"credit":' + '"",'
+             + '"caption":' + '""'
+             + '}}';
+    }
+
+    return jsondata;
+};

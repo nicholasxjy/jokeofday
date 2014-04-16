@@ -20,6 +20,7 @@
  	upload_dir: path.join(__dirname, 'public', 'userprofile', 'images'),
     upload_pictures_dir: path.join(__dirname, 'public', 'upload_pics', 'pictures'),
     default_image: 'http://127.0.0.1:3000/userprofile/default_user_icon.jpg',
+    user_json_file: path.join(__dirname, 'public', 'userprofile', 'json'),
  	db: 'mongodb://127.0.0.1/jokeday_dev',
  	session_secret: 'jokeday',
  	auth_cookie_name: 'jokeday',

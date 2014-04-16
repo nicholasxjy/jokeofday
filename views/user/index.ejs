@@ -1,59 +1,18 @@
 <% include ../base-top.ejs %>
 <div class="container" id="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="item box-small">
-                <% include ../common/userbar.ejs %>
-            </div>
-            <% if (locals.recent_jokes.length > 0) { %>
-            <% locals.recent_jokes.forEach(function(joke){ %>
-            <div class="item box-medium">
-                <div class="thumbnail">
-                    <% if (joke.content) { %>
-                    <div class="joke-content"><%= joke.content %></div>
-                    <% } %>
-                    <% if (joke.pictures) { %>
-                    <div class="joke-pictures">
-                        <ul class="list-inline">
-                            <% if (joke.pictures.length > 1) { %>
-                            <% joke.pictures.forEach(function(picture) { %>
-                            <li>
-                                <img src="<%= picture.url %>" alt="shared pictures" class="img-responsive"
-                                     width="130px" height="130px"/>
-                            </li>
-                            <% }); %>
-                            <% } else { %>
-                            <% joke.pictures.forEach(function(picture) { %>
-                            <li>
-                                <img src="<%= picture.url %>" alt="shared pictures" class="img-responsive"/>
-                            </li>
-                            <% }); %>
-                            <% } %>
-                        </ul>
-                    </div>
-                    <% } %>
-                    <% if (joke.link) { %>
-                    <div class="joke-link">
-                        <a href="<%= joke.link %>"><%= joke.link %></a>
-                    </div>
-                    <% } %>
-                    <div class="joke-info">
-                        <span class="likes"><%= joke.like_count %>喜欢</span>
-                        <span class="views"><%= joke.visit_count %>看过</span>
-                        <div class="create-time">
-                            <%= joke.friendly_create_time %>创建
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <% }); %>
-            <% } else { %>
-            <div class="alert alert-success">
-                <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
-            </div>
-            <% } %>
-        </div>
+    <div class="item box-small">
+        <% include ../common/userbar.ejs %>
     </div>
+    <% if (locals.recent_jokes.length > 0) { %>
+           <div class="item box-large">
+               <div id="my-timeline"></div>
+           </div>     
+    <% } else { %>
+        <div class="alert alert-success">
+            <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
+        </div>
+    <% } %>
 </div>
 <% include ../common/footer.ejs %>
+
 <% include ../base-bottom.ejs %>
