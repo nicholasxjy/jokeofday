@@ -14,5 +14,18 @@
     <% } %>
 </div>
 <% include ../common/footer.ejs %>
-
+<% include ../jsfiles.ejs %>
+<script src="/js/storyjs-embed.js"></script>
+<script>
+    $(document).ready(function() {
+        //timeline
+        createStoryJS({
+            type: 'timeline',
+            source: 'http://127.0.0.1:3000/userprofile/json/<%= locals.user.name %>.json',
+            width: '765',
+            height: '600',
+            embed_id: 'my-timeline'
+        });
+    });
+</script>
 <% include ../base-bottom.ejs %>

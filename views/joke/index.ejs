@@ -5,7 +5,7 @@
             <div class="item box-small">
                 <% include ../common/sidebar.ejs %>
             </div>
-            <div class="item box-medium">
+            <div class="item box-large">
                 <div class="joke-item-head modal-header">
                     <div class="author-card-thumbnail">
                         <a href="/user/<%= locals.author.name %>">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item box-medium">
+            <div class="item box-large">
                 <div class="joke-comments">
                     <% if (locals.comments.length > 0) { %>
                     <h3>Comments</h3>
@@ -96,7 +96,7 @@
                                 <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
                                          width="40" height="40" class="img-responsive pull-left"/>
                                 <textarea id="new-comment-content" class="form-control"></textarea>
-                                <button id="post-comment" class="btn btn-success" value="">post comment</button>
+                                <button id="post-comment" class="btn btn-success" value="" disabled="disabled">post comment</button>
                                 <button id="cancel-post-comment" class="btn btn-default">cancel</button>
                                 <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
                             </div>
@@ -124,4 +124,5 @@
     </div>
 </div>
 <% include ../common/footer.ejs %>
+<% include ../jsfiles.ejs %>
 <% include ../base-bottom.ejs %>

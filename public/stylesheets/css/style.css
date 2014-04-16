@@ -163,13 +163,13 @@ body {
 }
 
 .item.box-small {
-    width: 255px;
+    width: 230px;
 }
 .item.box-medium {
-    width: 540px;
+    width: 390px;
 }
 .item.box-large {
-    width: 765px;
+    width: 540px;
 }
 /* signin form */
 .signin-form {
@@ -215,7 +215,13 @@ body {
     background-color: #ffffff;
 }
 /* home page */
-
+#left-sidebar {
+    margin: 30px auto 139px auto;
+    font-family: 'PT Sans';
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
 .joke-item-head {
     padding-top: 15px;
     padding-left: 15px;
@@ -276,7 +282,7 @@ body {
 .cell {
     display: table-cell;
     position: relative;
-    padding: 0 45px 0 26px;
+    padding: 0 45px 0 15px;
     min-width: 50px;
     white-space: nowrap;
     height: 48px;
@@ -358,4 +364,47 @@ body {
     color: #f64c3f;
     font-size: 12px;
 }
+.post-header {
+    padding-top: 15px;
+    padding-left: 15px;
+    border-bottom: none;
+    background: #ffffff;
+    height: 95px;
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    -o-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+    -ms-border-radius: 6px 6px 0 0;
+}
+.post-user-image {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+.post-content #content {
+    float: left;
+    width: 265px;
+    height: 65px;
 
+}
+.post-attach {
+    background-color: #ffffff;
+    padding: 0 15px 15px 15px;
+}
+.post-attach ul {
+    padding-left: 75px;
+}
+.post-attach ul li {
+    color: #222222;
+    font-size: 25px;
+    margin-right: 15px;
+}
+.post-attach ul li i.attach-camera {
+    color: #00b7ee;
+    cursor: pointer;
+}
+.post-attach ul li i.attach-link {
+    color: #ccaa00;
+    cursor: pointer;
+}

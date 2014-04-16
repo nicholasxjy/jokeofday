@@ -2,17 +2,8 @@ $(document).ready(function() {
 
     var msnry = new Masonry('#container', {
         "itemSelector": '.item',
-        "columnWidth": 255,
+        "columnWidth": 110,
         "gutter": 30
-    });
-
-    //timeline
-    createStoryJS({
-        type: 'timeline',
-        source: 'http://127.0.0.1:3000/userprofile/json/frankchen.json',
-        width: '765',
-        height: '600',
-        embed_id: 'my-timeline'
     });
     //add or cancel plus one
     $('.btn-plus-like').click(function() {

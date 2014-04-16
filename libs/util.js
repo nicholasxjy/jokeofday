@@ -40,15 +40,20 @@ exports.appendJokeString = function(joke, isLast) {
     var jsondata = '';
     var link = '';
     var content = '';
-    var picture = '';
+    var pic_url = '';
     if (joke.link) {
         link = joke.link;
     }
     if (joke.content) {
         content = joke.content;
     }
-    if (joke.pictures) {
-        picture = joke.pictures[0];
+    if (joke.pictures.length > 0) {
+        for(var i = 0; i < joke.pictures.length; i++) {
+           if (joke.pictures[i].url !== '') {
+               pic_url = joke.pictures[i].url;
+               break;
+           }
+        }
     }
     if (!isLast) {
             jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear() +'",'
@@ -56,7 +61,7 @@ exports.appendJokeString = function(joke, isLast) {
              + '"text":' +'"<p>'+ content +'</p><p>'
              + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
              + '"asset": { '
-             + '"media":' + '"' + picture.url +'",'
+             + '"media":' + '"' + pic_url +'",'
              + '"credit":' + '"",'
              + '"caption":' + '""'
              + '}},';
@@ -66,7 +71,7 @@ exports.appendJokeString = function(joke, isLast) {
              + '"text":' +'"<p>'+ content +'</p><p>'
              + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
              + '"asset": { '
-             + '"media":' + '"' + picture.url +'",'
+             + '"media":' + '"' + pic_url +'",'
              + '"credit":' + '"",'
              + '"caption":' + '""'
              + '}}';

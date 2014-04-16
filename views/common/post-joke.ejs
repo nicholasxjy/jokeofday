@@ -1,0 +1,18 @@
+<div class="item box-medium">
+    <div class="post-header modal-header">
+        <div class="post-user-image">
+            <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
+                 title="<%= locals.current_user.name %>" width="60" height="60"
+                 class="img-circle img-responsive"/>
+        </div>
+        <div class="post-content">
+            <textarea id="content" rows="4" class="form-control" placeholder="share what's new.."></textarea>
+        </div>
+    </div>
+    <div class="post-attach modal-body">
+        <ul class="list-inline">
+            <li><i class="fa fa-camera attach-camera"></i></li>
+            <li><i class="fa fa-link attach-link"></i></li>
+        </ul>
+    </div>
+</div>

@@ -1,11 +1,26 @@
 <% include base-top.ejs %>
 <div class="main-section">
-    <div id="container" class="container">
-        <div class="item box-small">
-            <% include common/sidebar.ejs %>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="item box-small" id="left-sidebar">
+                    <% include common/sidebar.ejs %>
+                </div>
+            </div>
+            <div class="col-md-9" id="container">
+                <% if (locals.current_user) { %>
+                    <% include common/post-joke.ejs %>
+                <% } %>
+                <% include common/jokeitem.ejs %>
+            </div>
         </div>
-        <% include common/jokeitem.ejs %>
     </div>
 </div>
 <% include common/footer.ejs %>
+<% include jsfiles.ejs %>
+<script>
+    $('#container').infinitescroll({
+
+    });
+</script>
 <% include base-bottom.ejs %>
