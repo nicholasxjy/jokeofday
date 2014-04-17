@@ -66,7 +66,8 @@ exports.appendJokeString = function(joke, isLast) {
              + '"caption":' + '""'
              + '}},';
     } else {
-            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear() +'",'
+            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','
+                + (joke.create_at.getDay()+1) +'",'
              + '"headline":' + '"'+ joke.title +'",'
              + '"text":' +'"<p>'+ content +'</p><p>'
              + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'

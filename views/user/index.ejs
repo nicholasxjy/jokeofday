@@ -6,7 +6,7 @@
     <% if (locals.recent_jokes.length > 0) { %>
            <div class="item box-large">
                <div id="my-timeline"></div>
-           </div>     
+           </div>
     <% } else { %>
         <div class="alert alert-success">
             <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
@@ -21,9 +21,10 @@
         //timeline
         createStoryJS({
             type: 'timeline',
+            debug: false,
             source: 'http://127.0.0.1:3000/userprofile/json/<%= locals.user.name %>.json',
             width: '765',
-            height: '600',
+            height: '500',
             embed_id: 'my-timeline'
         });
     });

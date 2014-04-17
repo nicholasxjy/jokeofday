@@ -159,7 +159,7 @@ body {
 
 .item {
     float: left;
-    margin-bottom: 30px;
+    margin: 0 30px 30px 0;
 }
 
 .item.box-small {
