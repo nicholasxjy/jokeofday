@@ -1,5 +1,67 @@
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/jquery.infinitescroll.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
-<script src="/javascripts/js/masonry.pkgd.min.js"></script>
+<script src="/javascripts/js/dropzone.min.js"></script>
+<script>
+    Dropzone.options.myDropzone = {
+        maxFilesize: 10,
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        init: function() {
+            var btnpost = document.getElementById('btn-post-photos');
+            var myDropzone = this;
+            btnpost.addEventListener('click', function() {
+                myDropzone.processQueue();
+            });
+        },
+
+        success: function(a, data) {
+            var pictures = '';
+            if (data.pictures.length > 1) {
+                for(var i = 0; i < data.pictures.length; i++) {
+                    pictures = pictures + ('<li>' + '<img alt="300x200" src="'+ data.pictures[i] +'" class="img-responsive" height="130" width="130"/>' +'</li>');
+                }
+            } else if(data.pictures.length === 1) {
+                pictures = pictures + ('<li>' + '<img alt="300x200" src="'+ data.pictures[i] +'" class="img-responsive"/>' +'</li>');
+            }
+
+            var html = '<div class="item box-medium"><div class="joke-item-head modal-header"><div class="author-card-thumbnail">'
+                    + '<a href="/user/'+data.username+'">'
+                    +'<img src="'+data.profileimage+'" alt="'+ data.username +'"'
+                    +'title="'+ data.username +'" width="50" height="50"'+'class="img-circle img-responsive"/>'
+                    +'</a></div>'
+                    +'<div class="author-card"><div class="author-card-name">'
+                    +'<a href="/user/'+ data.username +'">'+ data.username +'</a>'
+                    +'</div><div class="joke-post-time">'
+                    +'分享于 just now'
+                    +'</div></div></div>'
+                    +'<div class="joke-item-content modal-body">'
+                    +'<p>'+ data.content +'</p>'
+                    +'<ul class="list-inline">'
+                    + pictures
+                    +'</ul></div>'
+                    +'<div class="joke-item-foot modal-footer"><div class="joke-item-footer-bar"><div class="cell cell-comment">'
+                    +'<a class="show-comment" href="/joke/'+ data.jokeid +'">'
+                    +'<i class="fa fa-comments"></i>  comments</a>'
+                    +'</a></div>'
+                    +'<div class="cell-spacer"></div>'
+                    +'<div class="cell cell-likes">'
+                    +'<a class="btn-plus-like" title="plus one" id="'+ data.jokeid +'"><i class="fa fa-heart"></i>'
+                    +'<span>0</span>  likes'
+                    +'</a></div>'
+                    +'<div class="cell-spacer"></div>'
+                    +'<div class="cell cell-share"><a><i class="fa fa-share"></i>  share</a>'
+                    +'</div></div></div></div></div>';
+            var $item = $(html);
+            $('#container').prepend($item);
+            $('#btn-post-photos').attr('disabled', 'disabled');
+        },
+        complete: function() {
+            this.removeAllFiles();
+            $('#content').val('');
+        }
+    };
+</script>
 <script src="/javascripts/js/main.js"></script>

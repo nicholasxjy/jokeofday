@@ -1,10 +1,12 @@
 <% include ../base-top.ejs %>
 <div id="container" class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-3 col-md-offset-2">
             <div class="item box-small">
                 <% include ../common/sidebar.ejs %>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="item box-large">
                 <div class="joke-item-head modal-header">
                     <div class="author-card-thumbnail">
@@ -83,7 +85,7 @@
                         <li>
                             <a href="/user/<%= comment.author.name %>">
                                 <img src="<%= comment.author.profile_image_url %>" alt="<%= comment.author.name %>"
-                                        width="20" height="20" class="img-responsive pull-left"/>
+                                     width="20" height="20" class="img-responsive pull-left"/>
                             </a>
                             <a href="/user/<%= comment.author.name %>" class="pull-left comment-author-name"><%= comment.author.name %>&nbsp;</a>
                             <span class="pull-left">:&nbsp;<%= comment.content %></span>
@@ -94,7 +96,7 @@
                             <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
                             <div id="comment-show" style="display: none">
                                 <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
-                                         width="40" height="40" class="img-responsive pull-left"/>
+                                     width="40" height="40" class="img-responsive pull-left"/>
                                 <textarea id="new-comment-content" class="form-control"></textarea>
                                 <button id="post-comment" class="btn btn-success" value="" disabled="disabled">post comment</button>
                                 <button id="cancel-post-comment" class="btn btn-default">cancel</button>

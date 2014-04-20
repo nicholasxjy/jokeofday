@@ -7,10 +7,7 @@
                     <% include common/sidebar.ejs %>
                 </div>
             </div>
-            <div class="col-md-9" id="container">
-                <% if (locals.current_user) { %>
-                    <% include common/post-joke.ejs %>
-                <% } %>
+            <div class="col-md-6 col-md-offset-1" id="container">
                 <% include common/jokeitem.ejs %>
             </div>
         </div>
@@ -18,9 +15,4 @@
 </div>
 <% include common/footer.ejs %>
 <% include jsfiles.ejs %>
-<script>
-    $('#container').infinitescroll({
-
-    });
-</script>
 <% include base-bottom.ejs %>

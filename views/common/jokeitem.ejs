@@ -26,9 +26,6 @@
         <% if (joke.content) { %>
         <p><%= joke.content %></p>
         <% } %>
-        <% if (joke.link) { %>
-        <a href="<%= joke.link %>"><%= joke.link %></a>
-        <% } %>
         <% if (joke.pictures.length > 1) { %>
         <ul class="list-inline">
             <% joke.pictures.forEach(function(pic){ %>

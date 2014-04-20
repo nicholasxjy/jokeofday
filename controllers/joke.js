@@ -87,19 +87,21 @@ exports.createJoke = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        if (!req.body.content && !req.body.link && req.files.pictures.name === '') {
-            res.render('joke/create', {
-                error: '至少选择一项分享',
-                config: config
-            });
-            return;
+        var content = req.body.content ? validator.trim(req.body.content.toString()) : '';
+        var link = req.body.link ? validator.trim(req.body.link.toString()) : '';
+        //改用dropzone上传图片,由于选择mutiple，所以都是一个数组
+        //上传的图片数组 存于 req.files.file[0]里
+        var upload_pics = [];
+        var upload_files = req.files.file ? req.files.file[0] : [];
+        if (upload_files.length > 1) {
+            for (var j = 0;j< upload_files.length;j++) {
+                upload_pics.push(upload_files[j]);
+            }
+        } else {
+            if(upload_files.name !== '') {
+                upload_pics.push(upload_files);
+            }
         }
-        var content = validator.trim(req.body.content.toString());
-        var link = validator.trim(req.body.link.toString());
-        //当只上传一个文件时，req.files.pictures为Object类型，不能用forEach,当上传多个文件时，就变为Array类型
-        //需要在做一下判断
-        var upload_pics = req.files.pictures;
-
         var pictures = []; //将上传的图片保存在此数组
 
         var proxy = new EventProxy();
@@ -108,56 +110,43 @@ exports.createJoke = function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/');
+                var urls = [];
+                for(var i = 0; i < pictures.length; i++) {
+                    urls.push(pictures[i].url);
+                }
+                Joke.getLatestJokeByUserId(user._id, function(err, jokes) {
+                    res.json({status: 'success', username: user.name, content: content, profileimage: user.profile_image_url,
+                        pictures: urls, jokeid: jokes[0]._id
+                    });
+                });
             });
-
         };
         var dateStamp = Date.now().toString();
         var picDir = path.join(config.upload_pictures_dir, dateStamp, user.name);
-        if (upload_pics.length > 1) {
-        proxy.after('picture_done', upload_pics.length, render);
+        if (upload_pics.length > 0){
+            proxy.after('picture_done', upload_pics.length, render);
             ndir.mkdir(picDir, function(err) {
                 if (err) {
                     return next(err);
                 }
-                upload_pics.forEach(function(picture, i) {
+                upload_pics.forEach(function(picture) {
                     var filename = Date.now() + '_' + picture.name;
                     var savepath = path.resolve(path.join(picDir, filename));
-                    var pic_url = config.site_static_host + '/upload_pics/pictures/'+dateStamp+'/'
-                        +user.name+'/' + filename;
+                    var pic_url = config.site_static_host + '/upload_pics/pictures/' + dateStamp + '/' + user.name + '/'
+                                    + filename;
                     picture.url = pic_url;
-                    pictures[i] = picture;
+                    pictures.push(picture);
                     fs.rename(picture.path, savepath, function(err) {
                         if (err) {
                             return next(err);
                         }
                         proxy.emit('picture_done');
                     });
-                });
+                })
             });
         } else {
             proxy.assign('joke_saved', render);
-            if (upload_pics.name !== '') {
-                ndir.mkdir(picDir, function(err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    var filename = Date.now() + '_' + upload_pics.name;
-                    var savepath = path.resolve(path.join(picDir, filename));
-                    var pic_url = config.site_static_host + '/upload_pics/pictures/'+dateStamp+'/'
-                        +user.name+'/' + filename;
-                    upload_pics.url = pic_url;
-                    pictures[0] = upload_pics;
-                    fs.rename(upload_pics.path, savepath, function(err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        proxy.emit('joke_saved');
-                    });
-                });
-            } else {
-                proxy.emit('joke_saved');
-            }
+            proxy.emit('joke_saved');
         }
     });
 };

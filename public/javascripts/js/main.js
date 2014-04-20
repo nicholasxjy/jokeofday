@@ -1,10 +1,5 @@
 $(document).ready(function() {
 
-    var msnry = new Masonry('#container', {
-        "itemSelector": '.item',
-        "columnWidth": 110,
-        "gutter": 30
-    });
     //add or cancel plus one
     $('.btn-plus-like').click(function() {
         var isPlus = (this.title === 'plus one');
@@ -33,6 +28,7 @@ $(document).ready(function() {
     $('#add-a-comment').focus(function() {
         $('#add-a-comment').hide();
         $('#comment-show').show();
+        $('#new-comment-content').focus();
     });
     $('#cancel-post-comment').click(function() {
         $('#comment-show').hide();
@@ -57,6 +53,7 @@ $(document).ready(function() {
                 $('#comments-count').html(data.comment_count);
                 $('#new-comment-content').val('');
                 $('#comments-list').prev('h3').removeClass('alert').removeClass('alert-success').html('Comments');
+                $('#post-comment').attr('disabled', 'disabled');
                 $('#comment-show').hide();
                 $('#add-a-comment').show();
             } else {
@@ -85,6 +82,12 @@ $(document).ready(function() {
                 alert(data.error);
             }
         }, 'json');
+    });
+    // remove disabled if content is not null
+    $('#content').keyup(function() {
+       if (this.value !== '') {
+           $('#btn-post-photos').removeAttr('disabled', 'disabled');
+       }
     });
 });
 

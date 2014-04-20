@@ -33,9 +33,6 @@
                         <i class="fa fa-star"></i><%=locals.current_user.score %>
                     </a>
                 </li>
-                <li>
-                    <a href="/joke/create" class="btn btn-success">Post</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -62,6 +59,8 @@
             <a href="/about"><i class="fa fa-info"></i>关于</a>
         </li>
         <% if (locals.current_user) { %>
+        <li><a data-toggle="modal" data-target="#postjokemodal" style="cursor: pointer">
+                <i class="fa fa-share-square-o"></i>发表Joke</a></li>
         <li><a href="/settings"><i class="fa fa-gear"></i>设置</a></li>
         <li>
             <a href="/user/messages">
@@ -88,3 +87,6 @@
         </li>
     </ul>
 </div>
+<% if (locals.current_user) { %>
+<% include post-joke.ejs %>
+<% } %>

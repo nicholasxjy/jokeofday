@@ -81,6 +81,14 @@ exports.getJokesCountByQuery = function(query, callback) {
     Joke.count(query, callback);
 };
 /**
+ * 根据userid获得该用户所有的jokes
+ * @param userid
+ * @param callback
+ */
+exports.getLatestJokeByUserId = function(userid, callback) {
+    Joke.find({author_id: userid}, {}, {sort: {create_at: 'desc'}}, callback);
+}
+/**
  * 新增joke
  * @param authotid
  * @param content

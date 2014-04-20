@@ -1,17 +1,24 @@
 <% include ../base-top.ejs %>
 <div class="container" id="container">
-    <div class="item box-small">
-        <% include ../common/userbar.ejs %>
-    </div>
-    <% if (locals.recent_jokes.length > 0) { %>
-           <div class="item box-large">
-               <div id="my-timeline"></div>
-           </div>
-    <% } else { %>
-        <div class="alert alert-success">
-            <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="item box-small">
+                <% include ../common/userbar.ejs %>
+            </div>
         </div>
-    <% } %>
+        <div class="col-md-9">
+            <% if (locals.recent_jokes.length > 0) { %>
+            <div class="item box-large">
+                <div id="my-timeline"></div>
+            </div>
+            <% } else { %>
+            <div class="alert alert-success">
+                <strong>Oops!还没有一条没分享，赶快登录分享。</strong>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
 </div>
 <% include ../common/footer.ejs %>
 <% include ../jsfiles.ejs %>
@@ -23,7 +30,7 @@
             type: 'timeline',
             debug: false,
             source: 'http://127.0.0.1:3000/userprofile/json/<%= locals.user.name %>.json',
-            width: '765',
+            width: '100%',
             height: '500',
             embed_id: 'my-timeline'
         });
