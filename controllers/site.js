@@ -15,7 +15,8 @@ exports.index = function(req, res, next) {
             config: config,
             pages: pages,
             recent_jokes: recent_jokes,
-            limit: limit
+            limit: limit,
+            currentpage: page
         });
     };
     var proxy = EventProxy.create('recent_jokes', 'pages', render);

@@ -37,7 +37,7 @@ exports.index = function(req, res, next) {
                     comments: comments,
                     config: config
                 });
-            } else {
+        } else {
                 var user = req.session.user;
                 LikeRelation.getLikeRelationByJokeId(joke._id, function(err, docs) {
                     if (err) {
@@ -59,16 +59,12 @@ exports.index = function(req, res, next) {
                         config: config
                     });
                 });
-            }
+        }
+        //todo current user and author relation, add follow button in front end side
     });
 };
 
-exports.showCreate = function(req, res, next) {
-    res.render('joke/create', {
-        user: req.session.user,
-        config: config
-    });
-};
+
 /**
  * 发表joke
  * @param req

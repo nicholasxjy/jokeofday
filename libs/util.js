@@ -14,7 +14,7 @@ exports.formatDate = function(date, friendly) {
     var day = date.getDay();
     var hour = date.getHours();
     var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
+    //var seconds = date.getSeconds();
     if (friendly) {
         var now = new Date();
         var msseconds = -(date.getTime() - now.getTime());
@@ -38,12 +38,9 @@ exports.formatDate = function(date, friendly) {
 
 exports.appendJokeString = function(joke, isLast) {
     var jsondata = '';
-    var link = '';
     var content = '';
     var pic_url = '';
-    if (joke.link) {
-        link = joke.link;
-    }
+    var credit = '';
     if (joke.content) {
         content = joke.content;
     }
@@ -51,29 +48,29 @@ exports.appendJokeString = function(joke, isLast) {
         for(var i = 0; i < joke.pictures.length; i++) {
            if (joke.pictures[i].url !== '') {
                pic_url = joke.pictures[i].url;
+               credit = "Posted by " + joke.author.name;
                break;
            }
         }
     }
     if (!isLast) {
-            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear() +'",'
-             + '"headline":' + '"'+ joke.title +'",'
-             + '"text":' +'"<p>'+ content +'</p><p>'
-             + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
+            jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','
+                + (joke.create_at.getDay()+1) +'",'
+             + '"headline":' + '"'+ content +'",'
+             + '"text":' +'"<p>'+ content +'</p>",'
              + '"asset": { '
              + '"media":' + '"' + pic_url +'",'
-             + '"credit":' + '"",'
+             + '"credit":' + '"'+ credit +'",'
              + '"caption":' + '""'
              + '}},';
     } else {
             jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','
                 + (joke.create_at.getDay()+1) +'",'
-             + '"headline":' + '"'+ joke.title +'",'
-             + '"text":' +'"<p>'+ content +'</p><p>'
-             + ("<a href='"+ link +"'>"+ link +"</a>") +'</p>",'
+             + '"headline":' + '"'+ content +'",'
+             + '"text":' +'"<p>'+ content +'</p>",'
              + '"asset": { '
              + '"media":' + '"' + pic_url +'",'
-             + '"credit":' + '"",'
+             + '"credit":' + '"'+ credit +'",'
              + '"caption":' + '""'
              + '}}';
     }

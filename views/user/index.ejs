@@ -31,9 +31,12 @@
             debug: false,
             source: 'http://127.0.0.1:3000/userprofile/json/<%= locals.user.name %>.json',
             width: '100%',
-            height: '500',
+            height: '600',
+            hash_bookmark: true,
+            font: 'NewsCycle-Merriweather',
             embed_id: 'my-timeline'
         });
     });
 </script>
+<script src="/js/storyjs-embed-generator.js"></script>
 <% include ../base-bottom.ejs %>

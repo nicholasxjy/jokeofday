@@ -1,7 +1,7 @@
 <script src="/javascripts/js/jquery.min.js"></script>
-<script src="/javascripts/js/jquery.infinitescroll.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
 <script src="/javascripts/js/dropzone.min.js"></script>
+<script src="/javascripts/js/headroom.js"></script>
 <script>
     Dropzone.options.myDropzone = {
         maxFilesize: 10,
@@ -63,5 +63,19 @@
             $('#content').val('');
         }
     };
+</script>
+<script>
+    (function() {
+        var bttHeadroom = new Headroom(document.getElementById("btt"), {
+            tolerance : 0,
+            offset : 500,
+            classes : {
+                initial : "slide",
+                pinned : "slide--reset",
+                unpinned : "slide--down"
+            }
+        });
+        bttHeadroom.init();
+    }());
 </script>
 <script src="/javascripts/js/main.js"></script>

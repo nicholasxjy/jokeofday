@@ -89,6 +89,17 @@ $(document).ready(function() {
            $('#btn-post-photos').removeAttr('disabled', 'disabled');
        }
     });
+
+    //return to top
+    $('#btt').click(function(){
+        var pos = $('#btt').offset();
+        if(pos) {
+            $('html, body').animate({
+                scrollTop:0
+            }, 1500)
+        }
+
+    });
 });
 
 

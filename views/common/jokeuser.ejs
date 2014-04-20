@@ -1,15 +1,15 @@
 <div class="user-info">
-    <% if (locals.user) { %>
-    <a href="/user/<%= locals.user.name %>">
-        <img src="<%= locals.user.profile_image_url %>"
-             alt="profile thumbnail" title="<%= locals.user.name %>"
+    <% if (locals.author) { %>
+    <a href="/user/<%= locals.author.name %>">
+        <img src="<%= locals.author.profile_image_url %>"
+             alt="profile thumbnail" title="<%= locals.author.name %>"
              class="avatar"/>
     </a>
     <div class="info-content">
-        <h1><a href="/user/<%= locals.user.name %>"><%= locals.user.name %></a></h1>
-        <% if (locals.user.profile) { %>
+        <h1><a href="/user/<%= locals.author.name %>"><%= locals.author.name %></a></h1>
+        <% if (locals.author.profile) { %>
         <div class="user-profile">
-            <%= locals.user.profile %>
+            <%= locals.author.profile %>
         </div>
         <% } else { %>
         <div class="user-profile">
@@ -19,18 +19,18 @@
         <div class="info-data">
             <ul class="list-inline">
                 <li title="粉丝">
-                    <a href="/<%= locals.user.name %>/fans">
-                        <i class="fa fa-users"></i><%= locals.user.follower_count %>
+                    <a href="/<%= locals.author.name %>/fans">
+                        <i class="fa fa-users"></i><%= locals.author.follower_count %>
                     </a>
                 </li>
                 <li title="关注">
-                    <a href="/<%= locals.user.name %>/followings">
-                        <i class="fa fa-heart"></i><%= locals.user.following_count %>
+                    <a href="/<%= locals.author.name %>/followings">
+                        <i class="fa fa-heart"></i><%= locals.author.following_count %>
                     </a>
                 </li>
                 <li title="分数">
                     <a href="/scores/ranking">
-                        <i class="fa fa-star"></i><%=locals.user.score %>
+                        <i class="fa fa-star"></i><%=locals.author.score %>
                     </a>
                 </li>
             </ul>
@@ -39,10 +39,10 @@
             <% if (!locals.isUser) { %>
                 <% if (!locals.relation) { %>
                 <button class="btn btn-success btn-follow" action="add-follow"
-                        id="<%= locals.user._id %>">加入关注</button>
+                        id="<%= locals.author._id %>">加入关注</button>
                 <% } else { %>
                 <button class="btn btn-default btn-follow" action="cancel-follow"
-                        id="<%= locals.user._id %>">取消关注</button>
+                        id="<%= locals.author._id %>">取消关注</button>
                 <% } %>
             <% } %>
         <% } %>

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-3 col-md-offset-2">
             <div class="item box-small">
-                <% include ../common/sidebar.ejs %>
+                <% include ../common/jokeuser.ejs %>
             </div>
         </div>
         <div class="col-md-6">
@@ -92,6 +92,7 @@
                             <span class="pull-left comment-time">&nbsp;&nbsp;on <%= comment.friendly_create_time %></span>
                         </li>
                         <% }); %>
+                        <% if (locals.current_user) { %>
                         <li>
                             <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
                             <div id="comment-show" style="display: none">
@@ -103,8 +104,10 @@
                                 <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
                             </div>
                         </li>
+                        <% } %>
                     </ul>
                     <% } else { %>
+                    <% if (locals.current_user) { %>
                     <h3 class="alert alert-success">Oops!此条还没有任何评论</h3>
                     <ul class="list-inline" id="comments-list">
                         <li>
@@ -119,6 +122,9 @@
                             </div>
                         </li>
                     </ul>
+                    <% } else { %>
+                        <h3 class="alert alert-success">请先登录，才能添加评论。</h3>
+                    <% } %>
                     <% } %>
                 </div>
             </div>

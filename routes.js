@@ -46,7 +46,7 @@ module.exports = function(app) {
     app.get('/:username/fans', user.getMyFans);
     app.get('/:username/followings', user.getFollowings);
 
-    app.get('/joke/create', auth.signInRequired, joke.showCreate);
+
 
     app.get('/joke/:jokeid', joke.index);
 
