@@ -1,9 +1,9 @@
 <% if (locals.recent_jokes && locals.recent_jokes.length > 0) { %>
 <% locals.recent_jokes.forEach(function(joke, index) { %>
 <% if (joke.pictures.length > 3) { %>
-<div class="item box-medium">
+<div class="item box-medium" data-scroll-reveal="enter from the bottom after 0.3s">
 <% } else { %>
-<div class="item box-medium">
+<div class="item box-medium" data-scroll-reveal="enter from the bottom after 0.3s">
 <% } %>
     <div class="joke-item-head modal-header">
         <div class="author-card-thumbnail">
@@ -28,19 +28,29 @@
         <% } %>
         <% if (joke.pictures.length > 1) { %>
         <ul class="list-inline">
-            <% joke.pictures.forEach(function(pic){ %>
             <li>
-                <img alt="300x200" src="<%= pic.url %>" width="130" height="130" class="img-responsive"/>
+                <div class="thumbnail-pictures">
+                    <% joke.pictures.forEach(function(pic, inx){ %>
+                    <a href="<%= pic.url %>" class="image-popup-no-margins">
+                        <img alt="300x200" src="<%= pic.url %>" width="130" height="130" class="img-responsive"
+                             title="the <%= inx+1 %> image"/>
+                    </a>
+                    <% }); %>
+                </div>
             </li>
-            <% }); %>
         </ul>
-        <% } else if (joke.pictures.length === 1) { %>
+        <% } else { %>
         <ul class="list-inline">
-            <% joke.pictures.forEach(function(pic){ %>
             <li>
-                <img alt="300x200" src="<%= pic.url %>" class="img-responsive"/>
+                <div class="thumbnail-pictures">
+                    <% joke.pictures.forEach(function(pic, inx){ %>
+                    <a href="<%= pic.url %>" class="image-popup-no-margins">
+                        <img alt="300x200" src="<%= pic.url %>" class="img-responsive"
+                             title="the <%= inx+1 %> image"/>
+                    </a>
+                    <% }); %>
+                </div>
             </li>
-            <% }); %>
         </ul>
         <% } %>
     </div>
@@ -65,7 +75,7 @@
             </div>
             <div class="cell-spacer"></div>
             <div class="cell cell-share">
-                <a><i class="fa fa-share"></i>  share</a>
+                <a class="bshareDiv" href="http://www.bshare.cn/share"><i class="fa fa-share"></i>  share</a>
             </div>
         </div>
     </div>

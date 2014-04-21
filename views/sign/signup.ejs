@@ -1,5 +1,13 @@
 <% include ../base-top.ejs %>
-<% include ../common/header.ejs %>
+    <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
+    <link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/css/style.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
+    <title>Jokes of Day</title>
+</head>
+<body class="sign-body">
 <div class="col-md-6 col-md-offset-3 signup-section">
     <% if (locals.error) { %>
     <div class="alert alert-warning">
@@ -8,7 +16,7 @@
     <% } %>
     <% if (locals.success) { %>
     <div class="alert alert-success">
-        <strong><%= success %></strong>
+        <strong><%= locals.success %></strong>
     </div>
     <% } else { %>
     <div class=" signup-form">
@@ -64,9 +72,13 @@
             </form>
         </div>
     </div>
+    <div class="back-to-home">
+        <a href="/">Learn more</a> about Joke of Day
+    </div>
     <% } %>
 </div>
 
 <% include ../common/footer.ejs %>
-<% include ../jsfiles.ejs %>
+<script src="/javascripts/js/jquery.min.js"></script>
+<script src="/javascripts/js/bootstrap.min.js"></script>
 <% include ../base-bottom.ejs %>

@@ -1,7 +1,9 @@
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
+<script src="/javascripts/js/scrollReveal.min.js"></script>
 <script src="/javascripts/js/dropzone.min.js"></script>
 <script src="/javascripts/js/headroom.js"></script>
+<script src="/javascripts/js/jquery.magnific-popup.min.js"></script>
 <script>
     Dropzone.options.myDropzone = {
         maxFilesize: 10,
@@ -21,13 +23,13 @@
             var pictures = '';
             if (data.pictures.length > 1) {
                 for(var i = 0; i < data.pictures.length; i++) {
-                    pictures = pictures + ('<li>' + '<img alt="300x200" src="'+ data.pictures[i] +'" class="img-responsive" height="130" width="130"/>' +'</li>');
+                    pictures = pictures + ('<a class="image-popup-no-margins" href="'+ data.pictures[i] +'">' + '<img alt="300x200" src="'+ data.pictures[i] +'" class="img-responsive" height="130" width="130"/>' +'</a>');
                 }
             } else if(data.pictures.length === 1) {
-                pictures = pictures + ('<li>' + '<img alt="300x200" src="'+ data.pictures[i] +'" class="img-responsive"/>' +'</li>');
+                pictures = pictures + ('<a class="image-popup-no-margins" href="'+ data.pictures[0] +'">' + '<img alt="300x200" src="'+ data.pictures[0] +'" class="img-responsive"/>' +'</a>');
             }
 
-            var html = '<div class="item box-medium"><div class="joke-item-head modal-header"><div class="author-card-thumbnail">'
+            var html = '<div class="item box-medium" data-scroll-reveal="enter from the bottom after 0.3s"><div class="joke-item-head modal-header"><div class="author-card-thumbnail">'
                     + '<a href="/user/'+data.username+'">'
                     +'<img src="'+data.profileimage+'" alt="'+ data.username +'"'
                     +'title="'+ data.username +'" width="50" height="50"'+'class="img-circle img-responsive"/>'
@@ -39,9 +41,9 @@
                     +'</div></div></div>'
                     +'<div class="joke-item-content modal-body">'
                     +'<p>'+ data.content +'</p>'
-                    +'<ul class="list-inline">'
+                    +'<ul class="list-inline"><li><div class="thumbnail-pictures">'
                     + pictures
-                    +'</ul></div>'
+                    +'</div></li></ul></div>'
                     +'<div class="joke-item-foot modal-footer"><div class="joke-item-footer-bar"><div class="cell cell-comment">'
                     +'<a class="show-comment" href="/joke/'+ data.jokeid +'">'
                     +'<i class="fa fa-comments"></i>  comments</a>'
@@ -52,8 +54,8 @@
                     +'<span>0</span>  likes'
                     +'</a></div>'
                     +'<div class="cell-spacer"></div>'
-                    +'<div class="cell cell-share"><a><i class="fa fa-share"></i>  share</a>'
-                    +'</div></div></div></div></div>';
+                    +'<div class="cell cell-share"><a class="bshareDiv" href="http://www.bshare.cn/share" style="display: block; text-decoration: none; padding: 0px; margin: 0px; font-size: 12px; height: 21px; width: 90px;"><div class="bsPromo bsPromo1"></div><div class="buzzButton bsStyle10" style="height:21px;color:#333;;background:transparent url(http://static.bshare.cn/frame/images/button_custom10-zh-c-Grey.gif) no-repeat;text-align:center;width:90px;"><span style="font-weight: bold; position: relative; line-height: 22px; float: none; left: 27px;" class="shareCount">18</span></div><div style="clear:both;"></div></a></div>'
+                    +'</div></div></div></div>';
             var $item = $(html);
             $('#container').prepend($item);
             $('#btn-post-photos').attr('disabled', 'disabled');
@@ -79,3 +81,4 @@
     }());
 </script>
 <script src="/javascripts/js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=&amp;style=10&amp;bgcolor=Grey"></script>

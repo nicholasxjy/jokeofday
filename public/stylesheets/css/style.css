@@ -167,7 +167,21 @@ body {
     padding: 20px 60px 20px 60px;
     background-color: #ffffff;
     height: 320px;
+    border-radius: 6px 6px 6px 6px;
 }
+.back-to-home {
+    margin-top: 15px;
+    padding-left: 15px;
+    color: #ffffff;
+    font-family: 'PT Sans';
+    font-size: 14px;
+}
+.back-to-home a {
+    color: #00b7ee;
+    text-decoration: none;
+    font-style: italic;
+}
+
 .sign-form-header {
     border-bottom: 3px solid #e1e1e1;
     margin-bottom: 20px;
@@ -191,17 +205,20 @@ body {
     border: 1px solid #e1e1e1;
     padding: 20px 60px 20px 60px;
     background-color: #ffffff;
+    border-radius: 6px 6px 6px 6px;
 }
 
 .forgot-pass-form {
     border: 1px solid #e1e1e1;
     padding: 20px 60px 20px 60px;
     background-color: #ffffff;
+    border-radius: 6px 6px 6px 6px;
 }
 .setting-form {
     border: 1px solid #e1e1e1;
     padding: 20px 60px 20px 60px;
     background-color: #ffffff;
+    border-radius: 6px 6px 6px 6px;
 }
 /* home page */
 #left-sidebar {
@@ -494,3 +511,60 @@ body {
     -ms-transform:translateY(4em);
     transform:translateY(4em);
 }
+
+.thumbnail-pictures a
+{
+    display: block;
+    float: left;
+    margin: 4px;
+}
+.thumbnail-pictures a img{ border: solid 1px Black; }
+.thumbnail-pictures a:hover img{ border: solid 1px #aaa }
+
+
+/* padding-bottom and top for image */
+.mfp-no-margins img.mfp-img {
+    padding: 0;
+}
+/* position of shadow behind the image */
+.mfp-no-margins .mfp-figure:after {
+    top: 0;
+    bottom: 0;
+}
+/* padding for main container */
+.mfp-no-margins .mfp-container {
+    padding: 0;
+}
+
+
+/*
+
+for zoom animation
+uncomment this part if you haven't added this code anywhere else
+
+*/
+
+
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+	opacity: 0.001; /* chrome opacity transition bug */
+-webkit-backface-visibility: hidden;
+-webkit-transition: all 0.3s ease-out;
+-moz-transition: all 0.3s ease-out;
+-o-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+    opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+    opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container,
+.mfp-with-zoom.mfp-removing.mfp-bg {
+    opacity: 0;
+}
+
+
