@@ -303,9 +303,13 @@ exports.getMyFans = function(req, res, next) {
         return;
     }
     var fansids = [];
+    var isUser = false;
     User.getUserByName(username, function(err, user) {
         if (err) {
             return next(err);
+        }
+        if (req.session.user && req.session.user._id.toString() === user._id.toString()) {
+            isUser = true;
         }
         Relation.getFansByUserId(user._id, function(err, docs) {
             if (docs && docs.length > 0) {
@@ -318,13 +322,17 @@ exports.getMyFans = function(req, res, next) {
                     }
                     res.render('user/fans', {
                         config: config,
-                        fans: fans
+                        fans: fans,
+                        user: user,
+                        isUser: isUser
                     });
                 });
             } else {
                 res.render('user/fans', {
                     config: config,
-                    fans: []
+                    fans: [],
+                    user: user,
+                    isUser: isUser
                 })
             }
         });
@@ -346,9 +354,13 @@ exports.getFollowings = function(req, res, next) {
         return;
     }
     var followids = [];
+    var isUser = false;
     User.getUserByName(username, function(err, user) {
         if (err) {
             return next(err);
+        }
+        if (req.session.user && req.session.user._id.toString() === user._id.toString()) {
+            isUser = true;
         }
         Relation.getFollowingsByUserId(user._id, function(err, docs) {
             if (docs && docs.length > 0) {
@@ -361,13 +373,17 @@ exports.getFollowings = function(req, res, next) {
                     }
                     res.render('user/followings', {
                         config: config,
-                        followings: followings
+                        followings: followings,
+                        user: user,
+                        isUser: isUser
                     });
                 });
             } else {
                 res.render('user/followings', {
                     config: config,
-                    followings: []
+                    followings: [],
+                    user: user,
+                    isUser: isUser
                 });
             }
         });

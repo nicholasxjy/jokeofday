@@ -10,42 +10,46 @@
 <div class="followings-section">
     <div class="container">
         <div class="row">
-            <% if (locals.followings.length > 0) { %>
-            <% locals.followings.forEach(function(following){ %>
-            <div class="col-md-4 user-info">
-                <div class="info-header">
-                    个人信息
+            <div class="col-md-3">
+                <% include ../common/sidebar.ejs %>
+            </div>
+            <div class="col-md-9">
+                <div class="alert-success alert">
+                    <%= locals.user.name %>的关注:
                 </div>
-                <div class="info-content">
-                    <div class="info-thumbnail">
-                        <ul class="list-inline">
-                            <li>
-                                <a href="/user/<%= following.name %>">
-                                    <img src="<%= following.profile_image_url %>"
-                                         alt="profile thumbnail" title="<%= following.name %>"
-                                         class="img-circle img-responsive" width="50" height="50"/>
-                                </a>
-                            </li>
-                            <li class="info-username">
+                <% if (locals.followings.length > 0) { %>
+                <% locals.followings.forEach(function(following){ %>
+                <div class="col-md-5">
+                    <div class="thumbnail">
+                        <img alt="300x200" src="<%= following.profile_image_url %>" title="<%= following.name %>"/>
+                        <div class="caption">
+                            <h3>
                                 <a href="/user/<%= following.name %>"><%= following.name %></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="info-data">
-                        <ul class="list-inline">
-                            <li title="粉丝"><i class="fa fa-users"></i><%= following.follower_count %></li>
-                            <li title="关注"><i class="fa fa-heart"></i><%= following.following_count %></li>
-                            <li title="分数"><i class="fa fa-star"></i><%= following.score %></li>
-                        </ul>
+                            </h3>
+                            <p>
+                                <% if (following.profile) {%>
+                                <%= following.profile %>
+                                <% } else { %>
+                                还没有自我介绍!
+                                <% } %>
+                            </p>
+                            <p>
+                            <ul class="list-inline">
+                                <li><a href="/<%= following.name %>/fans"><i class="fa fa-users"></i> 粉丝  <%= following.follower_count %></a></li>
+                                <li><a href="/<%= following.name %>/followings"><i class="fa fa-heart"></i> 关注  <%= following.following_count %></a></li>
+                                <li><a href="/<%= following.name %>/scores"><i class="fa fa-star"> 分数</i>  <%= following.score %></a></li>
+                            </ul>
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <% }); %>
+                <% } else { %>
+                <div class="alert alert-success">
+                    <strong>Oops!还没有关注任何人。</strong>
+                </div>
+                <% } %>
             </div>
-            <% }); %>
-            <% } else { %>
-            <div class="alert alert-success">
-                <strong>Oops!还没有关注任何人。</strong>
-            </div>
-            <% } %>
         </div>
     </div>
 </div>

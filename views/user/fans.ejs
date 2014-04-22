@@ -10,48 +10,48 @@
 <div class="fans-section">
     <div class="container">
         <div class="row">
-            <% if (locals.fans.length > 0) { %>
-                <% locals.fans.forEach(function(fan){ %>
-                    <div class="col-md-4 user-info">
-                        <div class="info-header">
-                            个人信息
-                        </div>
-                        <div class="info-content">
-                            <div class="info-thumbnail">
+            <div class="col-md-3">
+                <% include ../common/sidebar.ejs %>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="alert-success alert">
+                        <%= locals.user.name %>的粉丝:
+                    </div>
+                    <% if (locals.fans.length > 0) { %>
+                    <% locals.fans.forEach(function(fan){ %>
+                    <div class="col-md-5">
+                        <div class="thumbnail">
+                            <img alt="300x200" src="<%= fan.profile_image_url %>" title="<%= fan.name %>"/>
+                            <div class="caption">
+                                <h3>
+                                    <a href="/user/<%= fan.name %>"><%= fan.name %></a>
+                                </h3>
+                                <p>
+                                    <% if (fan.profile) {%>
+                                    <%= fan.profile %>
+                                    <% } else { %>
+                                    还没有自我介绍!
+                                    <% } %>
+                                </p>
+                                <p>
                                 <ul class="list-inline">
-                                    <li>
-                                        <a href="/user/<%= fan.name %>">
-                                            <img src="<%= fan.profile_image_url %>"
-                                                 alt="profile thumbnail" title="<%= fan.name %>"
-                                                 class="img-circle img-responsive" width="50" height="50"/>
-                                        </a>
-                                    </li>
-                                    <li class="info-username">
-                                        <a href="/user/<%= fan.name %>"><%= fan.name %></a>
-                                    </li>
+                                    <li><a href="/<%= fan.name %>/fans"><i class="fa fa-users"></i> 粉丝  <%= fan.follower_count %></a></li>
+                                    <li><a href="/<%= fan.name %>/followings"><i class="fa fa-heart"></i> 关注  <%= fan.following_count %></a></li>
+                                    <li><a href="/<%= fan.name %>/scores"><i class="fa fa-star"> 分数</i>  <%= fan.score %></a></li>
                                 </ul>
-                            </div>
-                            <div class="info-data">
-                                <ul class="list-inline">
-                                    <li title="粉丝"><i class="fa fa-users"></i><%= fan.follower_count %></li>
-                                    <li title="关注"><i class="fa fa-heart"></i><%= fan.following_count %></li>
-                                    <li title="分数"><i class="fa fa-star"></i><%= fan.score %></li>
-                                </ul>
+                                </p>
                             </div>
                         </div>
                     </div>
-            <div class="back-to-home">
-                <a href="/">Learn more</a> about Joke of Day
-            </div>
-                <% }); %>
-            <% } else { %>
-                <div class="alert alert-success">
-                    <strong>Oops!还没有粉丝，分享点给力的，加油</strong>
+                    <% }); %>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        <strong>Oops!还没有粉丝，分享点给力的，加油</strong>
+                    </div>
+                    <% } %>
                 </div>
-            <div class="back-to-home">
-                <a href="/">Learn more</a> about Joke of Day
             </div>
-            <% } %>
         </div>
     </div>
 </div>
