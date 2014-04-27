@@ -20,21 +20,23 @@
             </div>
             <div class="col-md-6 col-md-offset-1" id="container">
                 <% include common/jokeitem.ejs %>
-                <ul class="pager">
-                    <% if (locals.currentpage === 1) { %>
-                        <li class="previous disabled"><a>&larr;Previous</a></li>
-                        <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
-                    <% } else if (locals.currentpage === 2) { %>
-                        <li class="previous"><a href="/">&larr;Previous</a></li>
-                        <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
-                    <% } else if (locals.currentpage < locals.pages){ %>
-                        <li class="previous"><a href="/?page=<%= locals.currentpage-1 %>">&larr;Previous</a></li>
-                        <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
-                    <% } else { %>
-                        <li class="previous"><a href="/?page=<%= locals.currentpage-1 %>">&larr;Previous</a></li>
-                        <li class="next disabled"><a>Next &rarr;</a></li>
-                    <% } %>
-                </ul>
+                <% if (locals.pages > 1) { %>
+                    <ul class="pager">
+                        <% if (locals.currentpage === 1) { %>
+                            <li class="previous disabled"><a>&larr;Previous</a></li>
+                            <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
+                        <% } else if (locals.currentpage === 2) { %>
+                            <li class="previous"><a href="/">&larr;Previous</a></li>
+                            <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
+                        <% } else if (locals.currentpage < locals.pages){ %>
+                            <li class="previous"><a href="/?page=<%= locals.currentpage-1 %>">&larr;Previous</a></li>
+                            <li class="next"><a href="/?page=<%= locals.currentpage+1 %>">Next &rarr;</a></li>
+                        <% } else { %>
+                            <li class="previous"><a href="/?page=<%= locals.currentpage-1 %>">&larr;Previous</a></li>
+                            <li class="next disabled"><a>Next &rarr;</a></li>
+                        <% } %>
+                    </ul>
+                <% } %>
             </div>
             <div class="btt btn" href="#" id="btt"><svg id="rocket" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewbox="0 0 64 64">
                     <path fill="#CCCCCC" d="M42.057,37.732c0,0,4.139-25.58-9.78-36.207c-0.307-0.233-0.573-0.322-0.802-0.329
