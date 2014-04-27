@@ -1,6 +1,6 @@
 var config = require('../config');
 var User = require('../proxy').User;
-var EventProxy = require('EventProxy');
+var EventProxy = require('eventproxy');
 var Joke = require('../proxy').Joke;
 var Message = require('../proxy').Message;
 var LikeRelation = require('../proxy').LikeRelation;
