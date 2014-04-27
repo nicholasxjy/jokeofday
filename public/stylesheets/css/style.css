@@ -2,7 +2,7 @@ html {
     background-color: #343640;
     background-size: auto !important;
     background-attachment: scroll !important;
-    background: url("http://127.0.0.1:3000/images/low_contrast_linen.png") repeat scroll;
+    background: url("http://jokeofday.herokuapp.com//images/low_contrast_linen.png") repeat scroll;
     padding: 0;
 }
 .main-section {

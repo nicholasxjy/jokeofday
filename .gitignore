@@ -2,5 +2,4 @@ node_modules
 .idea
 public/upload
 public/upload_pics
-public/userprofile
 .DS_Store
