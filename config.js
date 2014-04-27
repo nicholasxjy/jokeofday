@@ -21,7 +21,7 @@
     upload_pictures_dir: path.join(__dirname, 'public', 'upload_pics', 'pictures'),
     default_image: 'http://127.0.0.1:3000/userprofile/default_user_icon.jpg',
     user_json_file: path.join(__dirname, 'public', 'userprofile', 'json'),
- 	db: 'mongodb://127.0.0.1/jokeofday_dev',
+ 	db: 'mongodb://nicholas:hilariousrock@oceanic.mongohq.com:10072/jokeofday',
  	session_secret: 'jokeday',
  	auth_cookie_name: 'jokeday',
  	port: 3000,
