@@ -32,7 +32,7 @@ app.use(express.bodyParser({uploadDir: config.upload_dir}));
 //app.use(express.multipart({uploadDir: config.upload_dir}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({secret: config.session_secret
+app.use(express.session({secret: config.session_secret,
                         url: config.db}));
 
 
