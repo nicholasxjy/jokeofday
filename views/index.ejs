@@ -11,13 +11,9 @@
 </head>
 <body>
 <div class="main-section">
+    <% include header.ejs %>
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
-                <div class="item box-small" id="left-sidebar" data-scroll-reveal="enter from the left after 0.4s">
-                    <% include common/sidebar.ejs %>
-                </div>
-            </div>
             <div class="col-md-6 col-md-offset-1" id="container">
                 <% include common/jokeitem.ejs %>
                 <% if (locals.pages > 1) { %>

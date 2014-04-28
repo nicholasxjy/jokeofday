@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                             data-target="#bs-example-navbar-collapse-1">
@@ -14,22 +14,20 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" />
-                        </div> <button type="submit" class="btn btn-sm btn-success">Search</button>
-                    </form>
                     <ul class="nav navbar-nav navbar-right" style="padding-right: 30px;">
-                        <li>
-                            <a href="/">首页</a>
-                        </li>
                         <% if (locals.current_user) { %>
-                        <li><a href="/settings">设置</a></li>
-                        <li><a href="/signout" data-method="post" rel="nofollow">退出</a></li>
+                        <li><p class="navbar-text">Hi, <a href="/user/<%= locals.current_user.name %>"><%= locals.current_user.name %></a></p></li>
+                        <li class="hello">
+                            <img class="img-circle img-responsive" src="<%= locals.current_user.profile_image_url %>" width="30" height="30" alt=""/>
+                        </li>
+                        <li><a class="sign-out-button" href="/signout" data-method="post" rel="nofollow">Sign out</a></li>
                         <% } else { %>
-                        <li><a href="/signup">注册</a></li>
-                        <li><a href="/signin">登录</a></li>
+                        <li>
+                            <a class="sign-button" href="/signup">注册</a>
+                        </li>
+                        <li>
+                            <a class="sign-button" href="/signin">登录</a>
+                        </li>
                         <% } %>
                     </ul>
                 </div>

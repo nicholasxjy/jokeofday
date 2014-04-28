@@ -14,17 +14,17 @@
 
  	google_tracer_id: '*******', //google analysis
 
-  host: 'http://jokeofday.herokuapp.com',
+  host: 'http://127.0.0.1:3000',
  	site_icon: '',//网站小图标
-  site_static_host: 'http://jokeofday.herokuapp.com',
+  site_static_host: 'http://127.0.0.1:3000',
  	upload_dir: path.join(__dirname, 'public', 'userprofile', 'images'),
   upload_pictures_dir: path.join(__dirname, 'public', 'upload_pics', 'pictures'),
-  default_image: 'http://jokeofday.herokuapp.com/userprofile/default_user_icon.jpg',
+  default_image: 'http://127.0.0.1:3000/userprofile/default_user_icon.jpg',
   user_json_file: path.join(__dirname, 'public', 'userprofile', 'json'),
- 	db: 'mongodb://nicholas:hilariousrock@oceanic.mongohq.com:10072/jokeofday',
+ 	db: 'mongodb://127.0.0.1/jokeday_dev',
  	session_secret: 'jokeday',
  	auth_cookie_name: 'jokeday',
- 	port: 5000,
+ 	port: 3000,
 
  	//每页显示 标签数量，为分页准备
  	joke_per_page: 7,
