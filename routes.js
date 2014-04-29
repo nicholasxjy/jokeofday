@@ -47,11 +47,9 @@ module.exports = function(app) {
     app.get('/:username/followings', user.getFollowings);
 
 
-
-    app.get('/joke/:jokeid', joke.index);
-
-
+    app.get('/joke/create', joke.showCreate);
     app.post('/joke/create', joke.createJoke);
+    app.get('/joke/:jokeid', joke.index);
 
     //like or cancel like
     app.post('/joke/like-or-not', joke.plusOne);//这里设置需要登录才可点赞

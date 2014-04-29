@@ -7,10 +7,7 @@ html {
     font-family: 'PT Sans';
 }
 .main-section {
-    min-height: 400px;
-    max-width: 1400px;
-    min-width: 960px;
-    position: relative;
+    padding-top: 80px;
 }
 
 .signup-section {
@@ -176,21 +173,98 @@ body {
 .joke-content-content {
     margin-bottom: 15px;
 }
+.formoid-solid-green label.title{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #999999;
+}
+.formoid-solid-green div.submit a {
+    color: #999999;
+    font-size: 12px;
+    text-decoration: none;
+    padding-right: 20px;
+}
+.formoid-flat-green label.title {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #999999;
+}
+.user-info-top img {
+    margin-top: 20px;
+}
+.caption p {
+    padding: 10px 0 10px 10px;
+}
+.user-info-top h3 a {
+    font-family: "Pacifico";
+    font-size: 20px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: 700;
+}
+.user-fans {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "PT Sans";
+    font-weight: 700;
+}
+.user-fans:hover {
+    text-decoration: none;
+    color: #428bca;
+}
+.user-followings {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "PT Sans";
+    color: #b71a1a;
+    font-weight: 700;
+}
+.user-followings:hover {
+    text-decoration: none;
+    color: #b71a1a;
+}
+.user-score {
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "PT Sans";
+    color: #2e8736;
+    font-weight: 700;
+}
+.user-score:hover {
+    text-decoration: none;
+    color: #2e8736;
+}
+.joke-create-bar {
+    padding-bottom: 15px;
+    padding-top: 10px;
+}
+.user-card {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+}
+.user-card .thumbnail {
+    border: none;
+}
+.not-read-message span {
+    color: #ffffff;
+    background-color: red;
+}
+.dropzone {
+    padding: 0;
+}
+.dropzone .dz-default.dz-message {
+    top:0;
+    left: 0;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.joke-create-submit {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 .user-info .avatar {

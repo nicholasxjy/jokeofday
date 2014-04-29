@@ -20,6 +20,11 @@
                         <li class="hello">
                             <img class="img-circle img-responsive" src="<%= locals.current_user.profile_image_url %>" width="30" height="30" alt=""/>
                         </li>
+                        <li>
+                            <a class="not-read-message" href="/user/messages">
+                                <span class="badge"><%= locals.current_user.message_not_read %></span>
+                            </a>
+                        </li>
                         <li><a class="sign-out-button" href="/signout" data-method="post" rel="nofollow">Sign out</a></li>
                         <% } else { %>
                         <li>

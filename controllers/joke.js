@@ -64,7 +64,14 @@ exports.index = function(req, res, next) {
     });
 };
 
-
+exports.showCreate = function(req, res, next) {
+  if (!req.session.user) {
+      return res.redirect('/signin');
+  }
+  res.render('joke/create', {
+      config: config
+  });
+};
 /**
  * 发表joke
  * @param req
@@ -73,31 +80,36 @@ exports.index = function(req, res, next) {
  */
 exports.createJoke = function(req, res, next) {
     if (!req.session.user) {
+        return res.redirect('/signin');
+    }
+    if (!req.body.title) {
         res.render('joke/create', {
-            config: config,
-            error: '请先登录'
+            error: '请输入标题',
+            config: config
         });
         return;
+    }
+    var title = req.body.title;
+    var content = req.body.content ? validator.trim(req.body.content.toString()) : '';
+    var link = req.body.link ? validator.trim(req.body.link.toString()) : '';
+    //改用dropzone上传图片,由于选择mutiple，所以都是一个数组
+    //上传的图片数组 存于 req.files.file[0]里
+    var upload_pics = [];
+    var upload_files = req.files.file ? req.files.file[0] : [];
+    if (upload_files.length > 1) {
+        for (var j = 0;j< upload_files.length;j++) {
+            upload_pics.push(upload_files[j]);
+        }
+    } else {
+        if(upload_files.name !== '') {
+            upload_pics.push(upload_files);
+        }
     }
     User.getUserById(req.session.user._id, function(err, user) {
         if (err) {
             return next(err);
         }
-        var content = req.body.content ? validator.trim(req.body.content.toString()) : '';
-        var link = req.body.link ? validator.trim(req.body.link.toString()) : '';
-        //改用dropzone上传图片,由于选择mutiple，所以都是一个数组
-        //上传的图片数组 存于 req.files.file[0]里
-        var upload_pics = [];
-        var upload_files = req.files.file ? req.files.file[0] : [];
-        if (upload_files.length > 1) {
-            for (var j = 0;j< upload_files.length;j++) {
-                upload_pics.push(upload_files[j]);
-            }
-        } else {
-            if(upload_files.name !== '') {
-                upload_pics.push(upload_files);
-            }
-        }
+
         var pictures = []; //将上传的图片保存在此数组
 
         var proxy = new EventProxy();
@@ -111,9 +123,7 @@ exports.createJoke = function(req, res, next) {
                     urls.push(pictures[i].url);
                 }
                 Joke.getLatestJokeByUserId(user._id, function(err, jokes) {
-                    res.json({status: 'success', username: user.name, content: content, profileimage: user.profile_image_url,
-                        pictures: urls, jokeid: jokes[0]._id
-                    });
+                    return res.redirect('/');
                 });
             });
         };

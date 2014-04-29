@@ -140,7 +140,7 @@ exports.active_account = function(req, res, next) {
             });
         });
     });
-}
+};
 
 /**
  * 展示login page

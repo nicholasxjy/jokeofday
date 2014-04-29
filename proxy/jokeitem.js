@@ -87,18 +87,20 @@ exports.getJokesCountByQuery = function(query, callback) {
  */
 exports.getLatestJokeByUserId = function(userid, callback) {
     Joke.find({author_id: userid}, {}, {sort: {create_at: 'desc'}}, callback);
-}
+};
 /**
  * 新增joke
  * @param authotid
+ * @param title
  * @param content
  * @param pictures
  * @param link
  * @param callback
  */
-exports.newAndSave = function(authotid, content, pictures, link, callback) {
+exports.newAndSave = function(authotid, title, content, pictures, link, callback) {
     var joke = new Joke();
     joke.author_id = authotid;
+    joke.title = title;
     joke.content = content;
     joke.pictures = pictures;
     joke.link = link;
