@@ -1,12 +1,15 @@
 <% include ../base-top.ejs %>
 <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
 <link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
+<link href="/stylesheets/css/formoid-flat-green.css" rel="stylesheet">
 <link rel="stylesheet" href="/stylesheets/css/style.css"/>
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
 <title>Jokes of Day</title>
 </head>
+<body class="blurBg-false">
+<% include ../header.ejs %>
 <div class="container setting-section">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -20,62 +23,67 @@
                     <strong><%= user.success %></strong>
                 </div>
             <% } %>
-            <div class="setting-form">
-                <div class="sign-form-header">
-                    <h3>信息设置</h3>
+            <form enctype="multipart/form-data" class="formoid-flat-green" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#666666;max-width:580px;min-width:250px" method="post" action="/settings">
+                <div class="title"><h2>更改信息</h2></div>
+                <div class="element-input">
+                    <label class="title">用户名</label>
+                    <input class="large" type="text" name="name" readonly="true" value="<%= locals.user.name %>" />
                 </div>
-                <div class="sign-form-content">
-                    <form action="/settings" method="post" role="form" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="name" class="control-label">用户名</label>
-                            <input type="text" name="name" size="30" readonly="true" class="form-control"
-                                   value="<%= user.name %>"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="control-label">邮箱地址</label>
-                            <input type="email" class="form-control" size="30" readonly="true" name="email"
-                                   value="<%= user.email %>"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="gender" class="control-label">性别</label>
-                            <% if (locals.user.gender === 0) { %>
-                            <input type="radio" value="0" name="gender" checked="true"/>男
-                            <input type="radio" value="1" name="gender"/>女
-                            <% } else {%>
-                            <input type="radio" value="0" name="gender"/>男
-                            <input type="radio" value="1" name="gender" checked="true" />女
-                            <% } %>
-                        </div>
-                        <div class="form-group">
-                            <label for="location" class="control-label">所在地点</label>
-                            <% if (locals.user.location) { %>
-                            <input type="text" class="form-control" name="location" size="30"
-                                   value="<%= locals.user.location %>"/>
-                            <% } else { %>
-                            <input type="text" class="form-control" name="location" size="30"/>
-                            <% } %>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile" class="control-label">个人简介</label>
-                            <% if (locals.user.profile) { %>
-                            <textarea name="profile" id="profile" rows="4" class="form-control"><%= locals.user.profile %></textarea>
-                            <% } else { %>
-                            <textarea class="form-control" name="profile" rows="4"></textarea>
-                            <% } %>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-image" class="control-label">更改头像</label>
-                            <input type="file" name="thumbnail"/>
-                        </div>
-                        <div class="form-action">
-                            <input type="submit" class="btn btn-info" value="确定"/>
-                        </div>
-                    </form>
+                <div class="element-email">
+                    <label class="title">邮箱地址</label>
+                    <input class="large" type="email" name="email" readonly="true" value="<%= locals.user.email %>" />
                 </div>
-            </div>
-            <div class="back-to-home">
-                <a href="/">Learn more</a> about Joke of Day
-            </div>
+                <div class="element-radio">
+                    <label class="title">性别</label>
+                    <% if (locals.user.gender === 0) { %>
+                        <div class="column column2">
+                            <label><input type="radio" name="gender" value="0" checked="true"/><span>男</span></label>
+                        </div>
+                        <div class="column column2">
+                            <label><input type="radio" name="gender" value="1" /><span>女</span></label>
+                        </div>
+                        <span class="clearfix"></span>
+                    <% } else { %>
+                        <div class="column column2">
+                            <label><input type="radio" name="gender" value="0"/><span>男</span></label>
+                        </div>
+                        <span class="clearfix"></span>
+                        <div class="column column2">
+                            <label><input type="radio" name="gender" value="1" checked="true"/><span>女</span></label>
+                        </div>
+                        <span class="clearfix"></span>
+                    <% } %>
+                </div>
+                <div class="element-input">
+                    <label class="title">所在地点</label>
+                    <% if (locals.user.location) { %>
+                        <input class="large" type="text" name="location" value="<%= locals.user.location %>" />
+                    <% } else { %>
+                        <input class="large" type="text" name="location" value=""/>
+                    <% } %>
+                </div>
+                <div class="element-textarea">
+                    <label class="title">个人简介</label>
+                    <% if (locals.user.profile) { %>
+                        <textarea class="medium" name="profile" cols="20" rows="5"><%= locals.user.profile %></textarea>
+                    <% } else { %>
+                        <textarea class="medium" name="profile" cols="20" rows="5" ></textarea>
+                    <% } %>
+                </div>
+                <div class="element-file">
+                    <label class="title">更改头像</label>
+                    <label class="large" >
+                        <div class="button">Choose File</div>
+                        <input type="file" class="file_input" name="thumbnail" />
+                        <div class="file_text">No file selected</div>
+                    </label>
+                </div>
+                <div class="submit">
+                    <input type="submit" value="提交"/>
+                </div>
+            </form>
+            
+            
         </div>
     </div>
 </div>
@@ -83,4 +91,6 @@
 <%include ../common/footer.ejs %>
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
+<script src="/javascripts/js/formoid-flat-green.js"></script>
+</body>
 <% include ../base-bottom.ejs %>

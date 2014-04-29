@@ -10,7 +10,7 @@ exports.index = function(req, res, next) {
     var page = parseInt(req.query.page, 10) || 1;
     var limit = config.joke_per_page;
     //查询当前用户的message 和 最近joke需要分页
-    var render = function(recent_jokes, messages, pages) {
+    var render = function(recent_jokes, pages) {
         res.render('index', {
             config: config,
             pages: pages,

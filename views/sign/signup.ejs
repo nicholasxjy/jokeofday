@@ -1,13 +1,14 @@
 <% include ../base-top.ejs %>
     <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
     <link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/css/formoid-solid-green.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/css/style.css"/>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
     <title>Jokes of Day</title>
 </head>
-<body class="sign-body">
+<body class="sign-body blurBg-false">
 <% include ../header.ejs %>
 <div class="col-md-6 col-md-offset-3 signup-section">
     <% if (locals.error) { %>
@@ -20,61 +21,51 @@
         <strong><%= locals.success %></strong>
     </div>
     <% } else { %>
-    <div class=" signup-form">
-        <div class="sign-form-header">
-            <h3>注册新用户</h3>
+    <form class="formoid-solid-green" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="/signup">
+        <div class="title"><h2>注册新用户</h2></div>
+        <div class="element-input">
+            <label class="title">用户名：</label>
+            <div class="item-cont">
+                <% if (locals.name) { %>
+                <input class="large" type="text" name="input" value="<%= locals.name %>"/>
+                <% } else { %>
+                <input class="large" type="text" name="input" placeholder="用户名由字母和数字组成"/>
+                <% } %>
+                <span class="icon-place"></span>
+            </div>
         </div>
-        <div class="sign-form-content">
-            <form action="/signup" role="form" id="signup-form" method="post" class="form-horizontal">
-                <!--csrf could be here-->
-
-                <div class="form-group">
-                    <label for="name" class="control-label col-sm-3">用户名：</label>
-                    <div class="col-sm-9">
-                        <% if (locals.name) { %>
-                        <input type="text" class="form-control" name="name" size="30" value="<%= name %>"/>
-                        <% } else { %>
-                        <input type="text" class="form-control" name="name" size="30" value=""
-                               placeholder="用户名由字母和数字组成"/>
-                        <% } %>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="control-label col-sm-3">邮箱：</label>
-                    <div class="col-sm-9">
-                        <% if (locals.email) { %>
-                        <input type="email" class="form-control" name="email" size="30" value="<%= email %>"/>
-                        <% } else { %>
-                        <input type="email" class="form-control" name="email" size="30" value=""
-                               placeholder="输入正确邮箱地址">
-                        <% } %>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="pass" class="control-label col-sm-3">密码：</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" name="pass" size="30" value=""
-                               placeholder="输入密码,最少长度6位"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="re_pass" class="control-label col-sm-3">确认密码：</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" name="repass" size="30" value=""
-                               placeholder="确认密码"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <input type="submit" class="btn-info btn" value="注册"/>
-                        <a href="/signin" class="already-signup">已有账号,登录</a>
-                    </div>
-                </div>
-            </form>
+        <div class="element-email">
+            <label class="title">邮箱：</label>
+            <div class="item-cont">
+                <% if (locals.email) { %>
+                <input class="large" type="email" name="email" value="<%= locals.email %>" />
+                <% } else { %>
+                <input class="large" type="email" name="email" value="" placeholder="输入正确邮箱地址"/>
+                <% } %>
+                <span class="icon-place"></span>
+            </div>
         </div>
-    </div>
+        <div class="element-password">
+            <label class="title">密码：</label>
+            <div class="item-cont">
+                <input class="large" type="password" name="password" value="" placeholder="输入密码,最少长度6位"/>
+                <span class="icon-place"></span>
+            </div>
+        </div>
+        <div class="element-password">
+            <label class="title">确认密码：</label>
+            <div class="item-cont">
+                <input class="large" type="password" name="repass" value="" placeholder="确认密码"/>
+                <span class="icon-place"></span>
+            </div>
+        </div>
+        <div class="submit">
+            <a href="/signin">已注册，直接登录</a>
+            <input type="submit" value="注册"/>
+        </div>
+    </form>
     <div class="back-to-home">
-        <a href="/">Learn more</a> about Joke of Day
+       <a href="/">Learn more</a> about Joke of Day
     </div>
     <% } %>
 </div>
@@ -82,4 +73,5 @@
 <% include ../common/footer.ejs %>
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
+<script src="/javascripts/js/formoid-solid-green.js"></script>
 <% include ../base-bottom.ejs %>

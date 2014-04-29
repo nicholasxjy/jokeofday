@@ -291,57 +291,39 @@ body {
     letter-spacing: 1px;
     height: 28px;
 }
+#search-form div input:focus {
+    outline: 0;
+}
 
 .item {
     margin-bottom: 30px;
 }
-/* signin form */
-.signin-form {
-    margin-top: 80px;
-    border: 1px solid #e1e1e1;
-    padding: 20px 60px 20px 60px;
-    background-color: #ffffff;
-    height: 320px;
-    border-radius: 6px 6px 6px 6px;
-}
+
 .back-to-home {
     margin-top: 15px;
-    padding-left: 15px;
-    color: #ffffff;
+    padding-left: 105px;
+    color: #5dade2;
     font-family: 'PT Sans';
     font-size: 14px;
+    font-style: italic;
 }
 .back-to-home a {
     color: #00b7ee;
     text-decoration: none;
     font-style: italic;
 }
-
-.sign-form-header {
-    border-bottom: 3px solid #e1e1e1;
-    margin-bottom: 20px;
-}
-.sign-form-header h3 {
+.forgot-pass-part {
+    margin-top: 15px;
     padding: 10px;
-    color: #d2322d;
-}
-.sign-form-content form .form-group {
-    margin-top: 20px;
+    text-align: center;
 }
 .forgot-pass-part a {
-    padding-top: 10px;
     color: #c0c0c0;
     font-size: 14px;
     text-decoration: none;
+    padding-left: 20px;
 }
-/* signin form */
-.signup-form {
-    margin-top: 80px;
-    border: 1px solid #e1e1e1;
-    padding: 20px 60px 20px 60px;
-    background-color: #ffffff;
-    border-radius: 6px 6px 6px 6px;
-}
+
 
 .forgot-pass-form {
     border: 1px solid #e1e1e1;
@@ -349,12 +331,7 @@ body {
     background-color: #ffffff;
     border-radius: 6px 6px 6px 6px;
 }
-.setting-form {
-    border: 1px solid #e1e1e1;
-    padding: 20px 60px 20px 60px;
-    background-color: #ffffff;
-    border-radius: 6px 6px 6px 6px;
-}
+
 /* home page */
 #left-sidebar {
     margin: 30px auto 139px auto;
@@ -363,20 +340,7 @@ body {
     line-height: 1.5;
     word-wrap: break-word;
 }
-.joke-item-head {
-    padding-top: 15px;
-    padding-left: 15px;
-    border-bottom: none;
-    height: 80px;
-    background: #ffffff;
-    color: #000000;
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    -o-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-    -ms-border-radius: 6px 6px 0 0;
-    border-bottom: 1px solid #e0e0e0;
-}
+
 .author-card-thumbnail {
     float: left;
     width: 60px;
@@ -392,10 +356,7 @@ body {
     color:#f64c3f;
     font-size: 12px;
 }
-.joke-item-content {
-    background-color: #ffffff;
-    min-height: 150px;
-}
+
 .joke-body {
     background: url("http://127.0.0.1:3000/images/low_contrast_linen.png") repeat scroll;
     padding: 0;
