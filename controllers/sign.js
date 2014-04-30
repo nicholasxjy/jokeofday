@@ -201,7 +201,6 @@ exports.signin = function(req, res, next) {
         }
         //此处 做了cookie设置
         generate_session(user, res);
-        //var refer = req.session._loginReferer || '/';
         req.session.user = user;
         res.redirect('/');
     });

@@ -113,12 +113,16 @@ exports.createJoke = function(req, res, next) {
         var pictures = []; //将上传的图片保存在此数组
 
         var proxy = new EventProxy();
+        proxy.assign('redirect_home', function() {
+            console.log('I quit');
+            res.redirect('/');
+        });
         var render = function() {
-            Joke.newAndSave(user._id, title, content, pictures, link, function(err, joke) {
+            Joke.newAndSave(user._id, title, content, pictures, link, function(err) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/joke/'+joke._id);
+                proxy.emit('redirect_home');
             });
         };
         var dateStamp = Date.now().toString();

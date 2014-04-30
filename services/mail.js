@@ -50,7 +50,7 @@ exports.sendResetPasswordEmail = function(touser, key, name) {
     var to = touser;
     var subject = config.name + "重置密码";
     var html = "<p>您好，</p>" + "<p>请在24小时内点击下面的链接，来重置您的密码。</p>" +
-        "<a href='" + SITE_ROOT_URL +"/reset-pass?key="+ key +"&name="+ name +"'>重置密码链接</a>";
+        "<a href='" + SITE_ROOT_URL +"/reset-password?key="+ key +"&name="+ name +"'>重置密码链接</a>";
     sendEmail({
         from: from,
         to: to,
