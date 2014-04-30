@@ -2,5 +2,7 @@ node_modules
 .idea
 public/upload
 public/upload_pics
+public/userprofile/images
+public/userprofile/json
 .DS_Store
 Procfile

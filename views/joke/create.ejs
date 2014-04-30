@@ -19,10 +19,10 @@
                     <strong><%= error %></strong>
                 </div>
             <% } %>
-            <form class="formoid-solid-green"
+            <form class="formoid-solid-green dropzone"
                   style="background-color:#FFFFFF;font-size:14px;
                   font-family:'Roboto',Arial,Helvetica,sans-serif;
-                  color:#34495E;"
+                  color:#34495E;min-height:500px;"
                   method="post" action="/joke/create"
                   enctype="multipart/form-data"
                   id="joke-create-form">
@@ -48,13 +48,8 @@
                         <span class="icon-place"></span>
                     </div>
                 </div>
-                <div class="dropzone" id="my-dropzone">
-
-                </div>
-                <div class="submit">
-                    <input id="joke-create-submit" type="submit" value="submit"/>
-                </div>
             </form>
+            <a id="joke-create-submit" class="pull-right">submit</a>
         </div>
     </div>
 </div>
@@ -64,10 +59,10 @@
 <script src="/javascripts/js/formoid-solid-green.js"></script>
 <script src="/javascripts/js/dropzone.min.js"></script>
 <script>
-    var myDropzone = new Dropzone('div#my-dropzone', {
-        url: '/joke/create',
-        method: 'post',
+    Dropzone.options.jokeCreateForm = {
+        paramName: 'file',
         maxFilesize: 10,
+        parallelUploads: 6,
         acceptedFiles: 'image/*',
         addRemoveLinks: true,
         autoProcessQueue: false,
@@ -76,11 +71,9 @@
             var btnpost = document.getElementById('joke-create-submit');
             var myDropzone = this;
             btnpost.addEventListener('click', function(e) {
-                e.preventDefault();
                 myDropzone.processQueue();
-                $('#joke-create-form').submit();
             });
         }
-    });
+    };
 </script>
 <% include ../base-bottom.ejs %>

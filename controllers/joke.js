@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created by nicholas_xue on 14-3-30.
  */
 
@@ -114,17 +114,11 @@ exports.createJoke = function(req, res, next) {
 
         var proxy = new EventProxy();
         var render = function() {
-            Joke.newAndSave(user._id, content, pictures, link, function(err) {
+            Joke.newAndSave(user._id, title, content, pictures, link, function(err, joke) {
                 if (err) {
                     return next(err);
                 }
-                var urls = [];
-                for(var i = 0; i < pictures.length; i++) {
-                    urls.push(pictures[i].url);
-                }
-                Joke.getLatestJokeByUserId(user._id, function(err, jokes) {
-                    return res.redirect('/');
-                });
+                res.redirect('/joke/'+joke._id);
             });
         };
         var dateStamp = Date.now().toString();
