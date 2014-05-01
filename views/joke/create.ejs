@@ -61,7 +61,7 @@
     Dropzone.options.jokeCreateForm = {
         paramName: 'file',
         maxFilesize: 10,
-        parallelUploads: 6,
+        parallelUploads: 10,
         acceptedFiles: 'image/*',
         addRemoveLinks: true,
         autoProcessQueue: false,
@@ -69,8 +69,10 @@
         init: function() {
             var btnpost = document.getElementById('joke-create-submit');
             var myDropzone = this;
-            btnpost.addEventListener('click', function(e) {
-                myDropzone.processQueue();
+            this.on("addedfile", function(file) {
+                btnpost.addEventListener('click', function(e) {
+                    myDropzone.processQueue();
+                });
             });
         }
     };

@@ -95,40 +95,48 @@ exports.createJoke = function(req, res, next) {
     //改用dropzone上传图片,由于选择mutiple，所以都是一个数组
     //上传的图片数组 存于 req.files.file[0]里
     var upload_pics = [];
-    var upload_files = req.files.file ? req.files.file[0] : [];
-    if (upload_files.length > 1) {
-        for (var j = 0;j< upload_files.length;j++) {
-            upload_pics.push(upload_files[j]);
-        }
-    } else {
-        if(upload_files.name !== '') {
-            upload_pics.push(upload_files);
+    var upload_files = req.files.file;
+    if (upload_files) {
+        if (upload_files.length === 1) {
+            if (upload_files[0].length > 0) {
+                for (var j = 0;j< upload_files[0].length;j++) {
+                    upload_pics.push(upload_files[0][j]);
+                }
+            } else {
+                if(upload_files[0].name !== '') {
+                    upload_pics.push(upload_files[0]);
+                }
+            }
+
+        } else {
+            //TODO too many images upload >10
         }
     }
+
     User.getUserById(req.session.user._id, function(err, user) {
         if (err) {
             return next(err);
         }
 
         var pictures = []; //将上传的图片保存在此数组
-
-        var proxy = new EventProxy();
-        proxy.assign('redirect_home', function() {
-            console.log('I quit');
-            res.redirect('/');
-        });
         var render = function() {
             Joke.newAndSave(user._id, title, content, pictures, link, function(err) {
                 if (err) {
                     return next(err);
                 }
-                proxy.emit('redirect_home');
+                console.log('I quit');
+                res.redirect('/');
+                return;
             });
         };
+        var proxy = EventProxy.create('joke_save', render);
+
         var dateStamp = Date.now().toString();
         var picDir = path.join(config.upload_pictures_dir, dateStamp, user.name);
         if (upload_pics.length > 0){
-            proxy.after('picture_done', upload_pics.length, render);
+            proxy.after('picture_done', upload_pics.length, function(pictureslist) {
+                proxy.emit('joke_save');
+            });
             ndir.mkdir(picDir, function(err) {
                 if (err) {
                     return next(err);
@@ -149,8 +157,7 @@ exports.createJoke = function(req, res, next) {
                 })
             });
         } else {
-            proxy.assign('joke_saved', render);
-            proxy.emit('joke_saved');
+            proxy.emit('joke_save');
         }
     });
 };

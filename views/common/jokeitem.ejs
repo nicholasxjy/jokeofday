@@ -15,6 +15,11 @@
             </div>
         </div>
         <div class="joke-item-content">
+            <% if (joke.title) { %>
+            <p>
+                <strong><%= joke.title %></strong>
+            </p>
+            <% } %>
             <p class="joke-content-content">
                 <%if (joke.content) { %>
                     <%= joke.content %>

@@ -240,10 +240,7 @@ body {
     padding: 0;
 }
 .dropzone .dz-default.dz-message {
-    top:0;
-    left: 0;
-    position: static;
-    margin: 0 0 0 20px;
+    top:80%;
 }
 
 #joke-create-submit {
