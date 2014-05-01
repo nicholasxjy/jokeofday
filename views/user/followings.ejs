@@ -7,40 +7,58 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
 <title>Jokes of Day</title>
 </head>
+<body class="followings-body">
 <div class="followings-section">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <% include ../common/sidebar.ejs %>
+                <% include ../common/userbar.ejs %>
             </div>
             <div class="col-md-9">
-                <div class="alert-success alert">
-                    <%= locals.user.name %>的关注:
-                </div>
                 <% if (locals.followings.length > 0) { %>
+                <div class="alert-success alert">
+                    <strong><%= locals.user.name %>的关注:</strong>
+                </div>
                 <% locals.followings.forEach(function(following){ %>
-                <div class="col-md-5">
-                    <div class="thumbnail">
-                        <img alt="300x200" src="<%= following.profile_image_url %>" title="<%= following.name %>"/>
-                        <div class="caption">
+                <div class="col-lg-4 user-card">
+                    <div class="user-info-top row">
+                        <div class="col-lg-3">
+                            <img class="pull-left" alt="300x200" src="<%= following.profile_image_url %>"
+                                 title="<%= following.name %>"
+                                 width="40"
+                                 height="40"/>
+                        </div>
+                        <div class="col-lg-9">
                             <h3>
                                 <a href="/user/<%= following.name %>"><%= following.name %></a>
                             </h3>
-                            <p>
-                                <% if (following.profile) {%>
-                                <%= following.profile %>
-                                <% } else { %>
-                                还没有自我介绍!
-                                <% } %>
-                            </p>
-                            <p>
-                            <ul class="list-inline">
-                                <li><a href="/<%= following.name %>/fans"><i class="fa fa-users"></i> 粉丝  <%= following.follower_count %></a></li>
-                                <li><a href="/<%= following.name %>/followings"><i class="fa fa-heart"></i> 关注  <%= following.following_count %></a></li>
-                                <li><a href="/<%= following.name %>/scores"><i class="fa fa-star"> 分数</i>  <%= following.score %></a></li>
-                            </ul>
-                            </p>
+                            <h4>
+                                <ul class="list-inline">
+                                    <li title="粉丝">
+                                        <a class="user-fans" href="/<%= following.name %>/fans">
+                                            <i class="fa fa-users"></i> <%= following.follower_count %>
+                                        </a>
+                                    </li>
+                                    <li title="关注">
+                                        <a class="user-followings" href="/<%= following.name %>/followings">
+                                            <i class="fa fa-heart"></i> <%= following.following_count %>
+                                        </a>
+                                    </li>
+                                    <li title="分数">
+                                        <a class="user-score" href="/scores/ranking">
+                                            <i class="fa fa-star"></i> <%= following.score %>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </h4>
                         </div>
+                    </div>
+                    <div class="col-lg-12 user-info-intro">
+                        <% if (following.profile) { %>
+                        <p><%= following.profile %></p>
+                        <% } else { %>
+                        <p>你还没有添加自己的个人简介！赶快添加让大家更多的了解你。</p>
+                        <% } %>
                     </div>
                 </div>
                 <% }); %>

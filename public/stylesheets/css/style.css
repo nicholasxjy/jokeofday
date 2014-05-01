@@ -6,43 +6,17 @@ html {
     padding: 0;
     font-family: 'PT Sans';
 }
-.main-section {
-    padding-top: 80px;
+
+.joke-section, .signup-section,
+.main-section, .user-page-section,
+.signin-section, .forgot-pass-section,
+.notify-section, .user-section,
+.setting-section, .section-create,
+.fans-section, .followings-section,
+.messages-section {
+    padding: 80px 15px 30px 15px;
 }
 
-.signup-section {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.signin-section {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.forgot-pass-section {
-    padding-top: 80px;
-}
-.notify-section {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.user-section {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.setting-section {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.section-create {
-    padding-top: 80px;
-    padding-bottom: 30px;
-}
-.fans-section {
-    padding-top: 80px;
-}
-.followings-section {
-    padding-top: 80px;
-}
 body {
     background: url("http://127.0.0.1:3000/images/bg.png") repeat scroll;
     padding: 0;
@@ -137,18 +111,23 @@ body {
 }
 
 #container {
-    margin-top: 80px;
+    max-width: 850px;
     font-family: 'PT Sans';
     font-size: 14px;
     line-height: 1.5;
     word-wrap: break-word;
+    margin: 0 auto;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 .joke-item {
+    float: left;
     box-shadow: 0 2px 3px #ccc;
     border-top: 1px solid #ddd;
     border-radius:0px;
     padding: 20px;
     background-color: #ffffff;
+    width: 380px;
     margin-bottom: 30px;
 }
 .joke-item-header {
@@ -201,16 +180,16 @@ body {
 }
 .user-info-top h3 a {
     font-family: "Pacifico";
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     color: #000000;
-    font-weight: 700;
 }
 .user-fans {
     text-decoration: none;
     font-size: 16px;
     font-family: "PT Sans";
     font-weight: 700;
+    color: #428bca;
 }
 .user-fans:hover {
     text-decoration: none;
@@ -252,6 +231,10 @@ body {
 .not-read-message span {
     color: #ffffff;
     background-color: red;
+}
+.zero-not-read-message span {
+    color: #ffffff;
+    background-color: #999999;
 }
 .dropzone {
     padding: 0;
@@ -304,65 +287,44 @@ body {
 	position:relative;
 	top:1px;
 }
-
-
-.user-info .avatar {
-    display: block;
-    width: 100%;
-    border-radius: 6px 6px 0 0;
-    max-height: 260px;
-}
-.info-content {
-    position: relative;
-    padding: 20px;
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
     background-color: #262626;
-    border-radius: 0 0 6px 6px;
-}
-.info-content h1 {
-    font-size: 18px;
-    font-family: 'PT Sans';
-}
-.info-content h1 a {
-    color: #ffffff;
-    text-decoration: none;
-}
-.user-profile {
-    color: #91949d;
-    margin: 1em 0;
-    margin-bottom: 1.5em;
-}
-.info-data ul li {
-    padding-right: 10px;
-}
-.info-data ul li a {
-    color: #ffffff;
-    text-decoration: none;
-}
-.info-data ul li a i {
-    padding-right: 10px;
 }
 #navigation-bar {
-    list-style-type: none;
-    padding: 0;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin:0;
-    letter-spacing: 1px;
-    border-radius: 0 0 6px 6px;
-}
-#navigation-bar li {
+    margin-left: 10px;
     background-color: #262626;
-    margin-top: 1px;
+}
+.bar-button {
+    min-width: 100px;
+    background-color: #262626;
+}
+.navbar-default .navbar-nav>li>a.bar-button:hover {
+    background-color: #262626;
+}
+.bar-button i {
+    font-size: 20px;
+    color: #ffffff;
+}
+.bar-button strong {
+    color: #ffffff;
+    margin-left: 15px;
+}
+.navbar-nav>li>.dropdown-menu {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+#fun-bar li:hover, #fun-bar li a:hover {
+    background-color: #d2322d;
+    color: #ffffff;
+}
+#fun-bar li {
+    background-color: #262626;
     position: relative;
+    min-width: 220px;
 }
-#navigation-bar li:first-child {
-    border-radius: 6px 6px 0 0;
-}
-#navigation-bar li:last-child {
-    border-radius: 0 0 6px 6px;
-}
-#navigation-bar li a {
+#fun-bar li a {
     display: block;
     height: 48px;
     line-height: 48px;
@@ -370,14 +332,12 @@ body {
     color: #ffffff;
     text-decoration: none;
 }
-#navigation-bar li:hover {
-    background-color: #d2322d;
-}
-#navigation-bar li span {
-    background-color: #d2322d;
+
+#fun-bar li span {
+    background-color: #428bca;
     color: #ffffff;
 }
-#navigation-bar li i {
+#fun-bar li i {
     padding-right: 10px;
     width: 30px;
 }
@@ -408,8 +368,108 @@ body {
     outline: 0;
 }
 
+#user-navigation-bar {
+    list-style-type: none;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin:10px 0 0 0;
+    letter-spacing: 1px;
+    border-radius: 0 0 6px 6px;
+}
+#user-navigation-bar li {
+    background-color: #262626;
+    margin-top: 1px;
+    position: relative;
+}
+#user-navigation-bar li:first-child {
+    border-radius: 6px 6px 0 0;
+}
+#user-navigation-bar li:last-child {
+    border-radius: 0 0 6px 6px;
+}
+#user-navigation-bar li a {
+    display: block;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 20px;
+    color: #ffffff;
+    text-decoration: none;
+}
+#user-navigation-bar li:hover {
+    background-color: #d2322d;
+}
+#user-navigation-bar li span {
+    background-color: #d2322d;
+    color: #ffffff;
+}
+#user-navigation-bar li i {
+    padding-right: 10px;
+    width: 30px;
+}
+
+.joke-item-head .col-lg-2, .joke-item-head .col-lg-10 {
+    padding-top: 10px;
+}
+
+.user-info-top h3 {
+    margin-top: 13px;
+    margin-bottom: 0;
+}
+.user-info-top h4 {
+    margin-top: 5px;
+}
+.user-info-top h4 ul li a {
+    font-size: 13px;
+}
+.user-info-intro {
+    padding: 5px;
+}
+
+.user-profile {
+    font-family: "PT Sans";
+    color: #ffffff;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+
+
+.user-info .avatar {
+    display: block;
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    max-height: 260px;
+}
+.info-content {
+    position: relative;
+    padding: 20px;
+    background-color: #262626;
+    border-radius: 0 0 6px 6px;
+}
+.info-content h1 {
+    font-size: 18px;
+    font-family: 'PT Sans';
+}
+.info-content h1 a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.info-data ul li {
+    padding-right: 10px;
+}
+
+.info-data ul li a i {
+    padding-right: 10px;
+}
+
 .item {
     margin-bottom: 30px;
+    background-color: #ffffff;
+    border-radius: 6px;
 }
 
 .back-to-home {
@@ -444,7 +504,15 @@ body {
     background-color: #ffffff;
     border-radius: 6px 6px 6px 6px;
 }
-
+.message-info table tr td, .message-info table tr td a {
+    font-family: "pt sans";
+    font-size: 13px;
+    text-decoration: none;
+    color: #262626;
+}
+.message-info table tr td a.message-detail {
+    color:#00b7ee;
+}
 /* home page */
 #left-sidebar {
     margin: 30px auto 139px auto;
@@ -465,22 +533,37 @@ body {
     float: left;
     padding: 5px;
 }
+.author-card-name {
+    margin-top: 8px;
+}
 .author-card-name a {
     color:#f64c3f;
-    font-size: 12px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-.joke-body {
+.joke-body, .fans-body, .followings-body,
+.messages-body {
     background: url("http://127.0.0.1:3000/images/low_contrast_linen.png") repeat scroll;
     padding: 0;
     margin: 0;
 }
+.user-page-body {
+    background: url("http://127.0.0.1:3000/images/mooning.jpg") repeat scroll;
+    padding: 0;
+    margin: 0;
+ }
 .joke-body #container {
     padding: 0;
     margin: 0;
 }
-.joke-body .joke-page-content {
-    padding-top: 80px;
+.joke-page-content p {
+    padding: 20px;
+    font-family: "PT Sans";
+    font-size: 16px;
+}
+.joke-page-content ul {
+    padding-left: 10px;
 }
 .post-joke-body {
     background-color: #ffffff;
@@ -502,15 +585,24 @@ body {
     -o-border-radius: 0 0 6px 6px;
     border-radius: 0 0 6px 6px;
     -ms-border-radius: 0 0 6px 6px;
+    padding-left: 0;
+    padding-right: 0;
 }
-.joke-item-footer-bar a:hover {
+.joke-item-footer-bar .list-inline>li:first-child {
+    padding-left: 27px;
+}
+.joke-item-footer-bar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: "PT Sans";
+}
+.joke-item-footer-bar ul li a:hover {
     color: #d2322d;
 }
-.cell {
+.joke-item-footer-bar ul li {
     display: table-cell;
     position: relative;
     padding: 0 45px 0 35px;
-    min-width: 50px;
     white-space: nowrap;
     height: 48px;
     cursor: pointer;
@@ -521,23 +613,16 @@ body {
     font-weight: 700;
     text-align: center;
 }
-.cell a {
-    color: #8d8d8d;
-    text-decoration: none;
-}
-.cell-spacer {
-    display: table-cell;
-    width: 1px;
-    height: 1px;
-}
 .joke-comments {
     background-color: #ffffff;
     border-radius: 6px 6px 6px 6px;
     min-height: 90px;
 }
-
+.joke-comments ul {
+    list-style: none;
+    padding-left: 10px;
+}
 .joke-comments ul li {
-    width: 502px;
     min-height: 30px;
     line-height: 30px;
     padding: 0;
@@ -549,12 +634,13 @@ body {
     margin-top: 20px;
     background-color: #ffffff;
     border-radius: 0 0 6px 6px;
+    margin-right: 20px;
 }
 .joke-comments ul li input {
     margin-top: 20px;
     margin-left: 20px;
     margin-bottom: 20px;
-    width: 473px;
+    max-width: 500px;
 }
 #new-comment-content {
     float: left;

@@ -1,0 +1,86 @@
+<% include ../base-top.ejs %>
+<link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
+<link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/stylesheets/css/style.css"/>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
+<title>Jokes of Day</title>
+</head>
+<body class="messages-body">
+<div class="messages-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <% include ../common/userbar.ejs %>
+            </div>
+            <div class="col-md-8 message-info">
+                <div class="row">
+                    <% if (locals.messages.length > 0) { %>
+                    <table class="table table-hover table-condensed">
+                        <tbody>
+                        <% locals.messages.forEach(function(message) {%>
+                        <% if (message.type === 'add like') { %>
+                        <tr class="active">
+                            <td>
+                            <img src="<%= message.author.profile_image_url %>" alt="author"
+                                 class="img-responsive img-circle"
+                                 width="30" height="30"
+                                 title="<%= message.author.name %>"/>
+                            </td>
+                            <td>
+                            <a href="/user/<%= message.author.name %>"><%= message.author.name %></a>
+                            &nbsp;赞了你的Joke话题
+                            </td>
+                            <td>
+                                <a class="message-detail" href="/joke/<%= message.jokeid %>">View details »</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                        <% if (message.type === 'new comment') { %>
+                        <tr class="active">
+                            <td>
+                            <img src="<%= message.author.profile_image_url %>" alt="author"
+                                 class="img-responsive img-circle"
+                                 width="30" height="30"
+                                 title="<%= message.author.name %>"/>
+                            </td>
+                            <td>
+                            <a href="/user/<%= message.author.name %>"><%= message.author.name %></a>
+                            &nbsp;在Joke话题中回复了你
+                            </td>
+                            <td><a class="message-detail" href="/joke/<%= message.jokeid %>">View details »</a></td>
+                        </tr>
+                        <% } %>
+                        <% }); %>
+                        </tbody>
+                    </table>
+                    <button id="read-all-message" class="btn btn-info">确认查看了所有未读信息</button>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        <strong>近期没有什么信息</strong>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../common/footer.ejs %>
+<script src="/javascripts/js/jquery.min.js"></script>
+<script src="/javascripts/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+       $('#read-all-message').click(function() {
+          var url = location.href;
+          var userid = $(this).attr('data-id');
+           $.post('/messages/empty', {}, function(data) {
+                if (data.status === 'success') {
+                   $('#read-all-message').removeClass('btn-info').addClass('btn-default');
+                    location.href = url;
+                }
+           });
+       });
+    });
+</script>
+<% include ../base-bottom.ejs %>

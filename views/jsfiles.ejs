@@ -1,6 +1,15 @@
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
-<script src="/javascripts/js/scrollReveal.min.js"></script>
+<script src="/javascripts/js/masonry.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#container').masonry({
+            itemSelector: '.joke-item',
+            columnWidth: 380,
+            gutterWidth: 30
+        });
+    });
+</script>
 <script src="/javascripts/js/headroom.js"></script>
 <script>
     (function() {

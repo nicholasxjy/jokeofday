@@ -9,24 +9,22 @@
 <title>Jokes of Day</title>
 </head>
 <body class="joke-body">
-<div id="container" class="container">
-    <div class="row joke-page-content">
-        <div class="col-md-3 col-md-offset-2">
-            <div class="item box-small">
-                <% include ../common/jokeuser.ejs %>
-            </div>
+<div class="container joke-section">
+    <div class="row">
+        <div class="col-md-3 col-md-offset-1 col-sm-3">
+            <% include ../common/jokeuser.ejs %>
         </div>
-        <div class="col-md-6">
-            <div class="item box-large">
-                <div class="joke-item-head modal-header">
-                    <div class="author-card-thumbnail">
+        <div class="col-md-6 col-sm-6 col-md-offset-1">
+            <div class="item row">
+                <div class="joke-item-head">
+                    <div class="col-lg-2">
                         <a href="/user/<%= locals.author.name %>">
                             <img src="<%= locals.author.profile_image_url %>" alt="<%= locals.author.name %>"
-                                 title="<%= locals.author.name %>" width="50" height="50"
+                                 title="<%= locals.author.name %>" width="60" height="60"
                                  class="img-circle img-responsive"/>
                         </a>
                     </div>
-                    <div class="author-card">
+                    <div class="col-lg-10">
                         <div class="author-card-name">
                             <a href="/user/<%= locals.author.name %>"><%= locals.author.name %></a>
                         </div>
@@ -35,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="joke-item-content modal-body">
+                <div class="col-lg-12 joke-page-content">
                     <% if (locals.joke.content) { %>
                     <p><%= locals.joke.content %></p>
                     <% } %>
@@ -60,37 +58,30 @@
                     </ul>
                     <% } %>
                 </div>
-                <div class="joke-item-foot modal-footer">
-                    <div class="joke-item-footer-bar">
-                        <div class="cell cell-comment">
+                <div class="col-lg-12 joke-item-footer-bar">
+                    <ul class="list-inline">
+                        <li>
                             <a class="show-comment-0">
                                 <i class="fa fa-comments"></i>  <span id="comments-count"><%= locals.comments.length %></span>  comments
                             </a>
-                        </div>
-                        <div class="cell-spacer"></div>
-                        <div class="cell cell-likes">
-                            <% if (!locals.joke.has_plus_one) { %>
-                            <a class="btn-plus-like" title="plus one" id="<%= locals.joke._id %>"><i class="fa fa-heart"></i>
+                        </li>
+                        <li>
+                            <a title="plus one" id="<%= locals.joke._id %>"><i class="fa fa-heart"></i>
                                 <span><%= locals.joke.like_count %></span>  likes
                             </a>
-                            <% } else { %>
-                            <a class="btn-plus-like" title="sub one" id="<%= locals.joke._id %>" style="color:#f64c3f"><i class="fa fa-heart"></i>
-                                <span><%= locals.joke.like_count %></span>  likes
-                            </a>
-                            <% } %>
-                        </div>
-                        <div class="cell-spacer"></div>
-                        <div class="cell cell-share">
+                        </li>
+                        <li>
                             <a><i class="fa fa-share"></i>  share</a>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
-            <div class="item box-large">
+            <div class="item row">
                 <div class="joke-comments">
                     <% if (locals.comments.length > 0) { %>
                     <h3>Comments</h3>
-                    <ul class="list-inline" id="comments-list">
+                    <ul id="comments-list">
                         <% locals.comments.forEach(function(comment){ %>
                         <li>
                             <a href="/user/<%= comment.author.name %>">
@@ -119,7 +110,7 @@
                     <% } else { %>
                     <% if (locals.current_user) { %>
                     <h3 class="alert alert-success">Oops!此条还没有任何评论</h3>
-                    <ul class="list-inline" id="comments-list">
+                    <ul id="comments-list">
                         <li>
                             <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
                             <div id="comment-show" style="display: none">

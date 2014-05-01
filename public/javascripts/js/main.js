@@ -1,21 +1,5 @@
 $(document).ready(function() {
-    //initial scrollreveal
-    window.scrollReveal = new scrollReveal();
-    // images display
-    $('.image-popup-no-margins').magnificPopup({
-        type: 'image',
-        closeOnContentClick: true,
-        closeBtnInside: false,
-        fixedContentPos: true,
-        mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
-        image: {
-            verticalFit: true
-        },
-        zoom: {
-            enabled: true,
-            duration: 300 // don't foget to change the duration also in CSS
-        }
-    });
+    $('#message-tooltip').tooltip();
     //add or cancel plus one
     $('.btn-plus-like').click(function() {
         var isPlus = (this.title === 'plus one');
@@ -25,11 +9,13 @@ $(document).ready(function() {
                 var $btn = $('#'+ data.id);
                 if ($btn.attr('title') === 'plus one') {
                     $btn.attr('title', 'sub one');
-                    $btn.css('color', '#f64c3f');
+                    $btn.css('color', '#ffffff');
+                    $btn.css('background-color', '#d2322d');
                     $btn.find('span').html(data.likes);
                 } else {
                     $btn.attr('title', 'plus one');
-                    $btn.css('color', '#8d8d8d');
+                    $btn.css('color', '#333333');
+                    $btn.css('background-color', '#ffffff');
                     $btn.find('span').html(data.likes);
                 }
             } else {
@@ -112,7 +98,7 @@ $(document).ready(function() {
         if(pos) {
             $('html, body').animate({
                 scrollTop:0
-            }, 1500)
+            }, 1000)
         }
 
     });

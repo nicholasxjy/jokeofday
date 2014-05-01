@@ -12,7 +12,7 @@ var fs = require('fs');
 var ndir = require('ndir');
 var path = require('path');
 var Util = require('../libs/util');
-var ndir = require('ndir');
+
 /**
  * 用户主页
  * @param req
@@ -28,7 +28,7 @@ exports.index = function(req, res, next) {
         if (!user) {
             res.render('notify/notify', {
                 error: "该用户不存在。",
-                config: config,
+                config: config
             });
             return;
         }
@@ -389,5 +389,80 @@ exports.getFollowings = function(req, res, next) {
         });
     });
 };
-
-
+/**
+ * 登录用户未读信息页面
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getMessages = function(req, res, next) {
+    if (!req.session.user) {
+        res.redirect('/signin');
+        return;
+    }
+    //var not_read_ms = [];
+    var render = function(messages) {
+        res.render('user/messages', {
+            config: config,
+            messages: messages,
+            user: req.session.user
+        });
+    };
+    var proxy = EventProxy.create('messages_done', render);
+    proxy.fail(next);
+    Message.getMessageByUserId(req.session.user._id, function(err, docs) {
+       if (err) {
+           return next(err);
+       }
+        proxy.after('message_done', docs.length, function(messages) {
+           proxy.emit('messages_done', messages);
+        });
+       //根据回复者的id查出其信息
+        docs.forEach(function(doc) {
+            User.getUserById(doc.authorid, function(err, author) {
+                if (err) {
+                    return next(err);
+                }
+                doc.author = author;
+                proxy.emit('message_done', doc);
+            });
+        });
+    });
+};
+/**
+ * 清空未读信息
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.emptyMessages = function(req, res, next) {
+    var user = req.session.user;
+    if (!user) {
+        res.json({
+            error: '发生错误',
+            status: 'failed'
+        });
+    }
+    var proxy = EventProxy.create('done', function() {
+       res.json({
+           status: 'success'
+       });
+    });
+    Message.getMessageByUserId(user._id, function(err, docs) {
+       if (err) {
+           return next(err);
+       }
+        proxy.after('save_done', docs.length, function() {
+           proxy.emit('done');
+        });
+        docs.forEach(function(doc) {
+           doc.has_read = true;
+           doc.save(function(err) {
+               if (err) {
+                   return next(err);
+               }
+               proxy.emit('save_done');
+           });
+        });
+    });
+};

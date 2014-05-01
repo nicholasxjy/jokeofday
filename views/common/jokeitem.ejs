@@ -51,9 +51,16 @@
             <ul class="list-inline">
                 <li><a href="/joke/<%= joke._id %>" class="btn btn-default">Comment</a></li>
                 <% if (!joke.has_plus_one) { %>
-                <li><a class="btn btn-default btn-plus-like" title="plus one" id="<%= joke._id %>">+<span><%= joke.like_count %></span></a></li>
+                <li><a class="btn btn-default btn-plus-like" title="plus one" id="<%= joke._id %>">
+                        +<span><%= joke.like_count %></span>
+                    </a>
+                </li>
                 <% } else { %>
-                <li><a class="btn btn-default btn-plus-like" title="sub one" id="<%= joke._id %>">+<span><%= joke.like_count %></span></a></li>
+                <li><a class="btn btn-default btn-plus-like" title="sub one" id="<%= joke._id %>"
+                       style="color: #ffffff;background-color: #d2322d;">
+                        +<span><%= joke.like_count %></span>
+                    </a>
+                </li>
                 <% } %>
                 <li><a class="btn btn-default">Share</a></li>
             </ul>

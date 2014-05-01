@@ -45,7 +45,7 @@ module.exports = function(app) {
     //get fans
     app.get('/:username/fans', user.getMyFans);
     app.get('/:username/followings', user.getFollowings);
-
+    app.get('/u/messages', user.getMessages);
 
     app.get('/joke/create', joke.showCreate);
     app.post('/joke/create', joke.createJoke);
@@ -56,5 +56,5 @@ module.exports = function(app) {
     //comment
 
     app.post('/comment/add-comment', comment.addComment);
-    
+    app.post('/messages/empty', user.emptyMessages);
 };

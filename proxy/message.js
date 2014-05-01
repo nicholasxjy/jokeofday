@@ -14,7 +14,7 @@ exports.getMessageCountByUserId = function(id, callback) {
  * @param callback
  */
 exports.getMessageByUserId = function(userid, callback) {
-    Message.find({masterid: id, has_read: false}, callback);
+    Message.find({masterid: userid, has_read: false}, callback);
 };
 /**
  * 新消息

@@ -21,7 +21,7 @@ exports.index = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        joke.visit_count += 1;
+        //joke.visit_count += 1;
         joke.friendly_create_time = Util.formatDate(joke.create_at, true);
         joke.save(function(err) {
             if (err) {

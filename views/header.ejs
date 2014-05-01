@@ -14,6 +14,60 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" id="navigation-bar">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle bar-button" data-toggle="dropdown">
+                                <i class="fa fa-home"></i><strong class="caret"></strong>
+                            </a>
+                            <ul class="dropdown-menu" id="fun-bar">
+                                <li>
+                                    <a href="/"><i class="fa fa-home"></i>首页</a>
+                                </li>
+                                <% if (locals.current_user) { %>
+                                <li>
+                                    <a href="/user/<%= locals.current_user.name %>"><i class="fa fa-user"></i>个人主页</a>
+                                </li>
+                                <li title="粉丝">
+                                    <a href="/<%= locals.current_user.name %>/fans">
+                                        <i class="fa fa-users"></i>粉丝
+                                        <span class="badge"><%= locals.current_user.follower_count %></span>
+                                    </a>
+                                </li>
+                                <li title="关注">
+                                    <a href="/<%= locals.current_user.name %>/followings">
+                                        <i class="fa fa-heart"></i>关注
+                                        <span class="badge"><%= locals.current_user.following_count %></span>
+                                    </a>
+                                </li>
+                                <li title="分数">
+                                    <a href="/scores/ranking">
+                                        <i class="fa fa-star"></i>积分
+                                        <span class="badge"><%=locals.current_user.score %></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/joke/create"><i class="fa fa-share"></i>发表Joke</a>
+                                </li>
+                                <li>
+                                    <a href="/settings"><i class="fa fa-gear"></i>设置</a>
+                                </li>
+                                <% } %>
+                                <li>
+                                    <a href="/about"><i class="fa fa-info"></i>关于</a>
+                                </li>
+                                <li>
+                                    <form action="/search" method="post" id="search-form">
+                                        <div class="input-group">
+                                            <i class="fa fa-search"></i>
+                                            <input type="text" name="q" id="search" value="Search"
+                                                   onfocus="if (this.value === 'Search') this.value='';"
+                                                   onblur="if (this.value=== '') this.value='Search';"/>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right" style="padding-right: 30px;">
                         <% if (locals.current_user) { %>
                         <li><p class="navbar-text">Hi, <a href="/user/<%= locals.current_user.name %>"><%= locals.current_user.name %></a></p></li>
@@ -21,9 +75,21 @@
                             <img class="img-circle img-responsive" src="<%= locals.current_user.profile_image_url %>" width="30" height="30" alt=""/>
                         </li>
                         <li>
-                            <a class="not-read-message" href="/user/messages">
-                                <span class="badge"><%= locals.current_user.message_not_read %></span>
+                            <% if (locals.current_user.message_not_read === 0) { %>
+                            <a class="zero-not-read-message" href="/u/messages">
+                                <span id="message-tooltip" class="badge" data-toggle="tooltip"
+                                      data-placement="bottom" title="未读消息">
+                                    <%= locals.current_user.message_not_read %>
+                                </span>
                             </a>
+                            <% } else { %>
+                            <a class="not-read-message" href="/u/messages">
+                                <span id="message-tooltip" class="badge" data-toggle="tooltip"
+                                      data-placement="bottom" title="未读消息">
+                                    <%= locals.current_user.message_not_read %>
+                                </span>
+                            </a>
+                            <% } %>
                         </li>
                         <li><a class="sign-out-button" href="/signout" data-method="post" rel="nofollow">Sign out</a></li>
                         <% } else { %>

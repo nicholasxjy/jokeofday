@@ -19,36 +19,36 @@
         <div class="info-data">
             <ul class="list-inline">
                 <li title="粉丝">
-                    <a href="/<%= locals.user.name %>/fans">
+                    <a class="user-fans" href="/<%= locals.user.name %>/fans">
                         <i class="fa fa-users"></i><%= locals.user.follower_count %>
                     </a>
                 </li>
                 <li title="关注">
-                    <a href="/<%= locals.user.name %>/followings">
+                    <a class="user-followings" href="/<%= locals.user.name %>/followings">
                         <i class="fa fa-heart"></i><%= locals.user.following_count %>
                     </a>
                 </li>
                 <li title="分数">
-                    <a href="/scores/ranking">
+                    <a class="user-score" href="/scores/ranking">
                         <i class="fa fa-star"></i><%=locals.user.score %>
                     </a>
                 </li>
             </ul>
         </div>
         <% if (locals.current_user) { %>
-            <% if (!locals.isUser) { %>
-                <% if (!locals.relation) { %>
-                <button class="btn btn-success btn-follow" action="add-follow"
-                        id="<%= locals.user._id %>">加入关注</button>
-                <% } else { %>
-                <button class="btn btn-default btn-follow" action="cancel-follow"
-                        id="<%= locals.user._id %>">取消关注</button>
-                <% } %>
-            <% } %>
+        <% if (locals.current_user._id.toString() !== locals.user._id.toString()) { %>
+        <% if (!locals.relation) { %>
+        <button class="btn btn-success btn-follow" action="add-follow"
+                id="<%= locals.user._id %>">加入关注</button>
+        <% } else { %>
+        <button class="btn btn-default btn-follow" action="cancel-follow"
+                id="<%= locals.user._id %>">取消关注</button>
+        <% } %>
+        <% } %>
         <% } %>
     </div>
     <% } else { %>
-    <a href="">
+    <a href="/">
         <img src="<%= locals.config.default_image %>"
              alt="profile thumbnail" title="joke of day"
              class="avatar"/>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <% } %>
-    <ul id="navigation-bar">
+    <ul id="user-navigation-bar">
         <li>
             <a href="/"><i class="fa fa-home"></i>首页</a>
         </li>
@@ -70,15 +70,20 @@
             <a href="/about"><i class="fa fa-info"></i>关于</a>
         </li>
         <% if (locals.current_user) { %>
-        <li><a href="/settings"><i class="fa fa-gear"></i>设置</a></li>
         <li>
-            <a href="/user/messages">
+            <a href="/user/<%= locals.current_user.name %>"><i class="fa fa-user"></i>个人主页</a>
+        </li>
+        <li><a href="/settings"><i class="fa fa-gear"></i>设置</a></li>
+        <% if (locals.current_user._id.toString() === locals.user._id.toString()) { %>
+        <li>
+            <a href="/u/messages">
                 <i class="fa fa-envelope"></i>消息
                 <% if (locals.current_user.message_not_read !== 0) { %>
                 <span class="badge"><%= locals.current_user.message_not_read %></span>
                 <% } %>
             </a>
         </li>
+        <% } %>
         <li><a href="/signout"><i class="fa fa-sign-out"></i>退出</a></li>
         <% } else { %>
         <li><a href="/signup"><i class="fa fa-user"></i>注册</a></li>

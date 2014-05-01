@@ -27,7 +27,7 @@
  	port: 3000,
 
  	//每页显示 标签数量，为分页准备
- 	joke_per_page: 4,
+ 	joke_per_page: 10,
 
  	//限制发帖时间间隔，防止不良dude, come on.is this necessary?
  	post_interval: 100000, //10s
