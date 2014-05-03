@@ -555,12 +555,13 @@ body {
     margin: 0;
 }
 .joke-page-content p {
-    padding: 20px;
+    padding: 10px;
     font-family: "PT Sans";
     font-size: 16px;
 }
 .joke-page-content ul {
     padding-left: 10px;
+    margin-top: 10px;
 }
 .post-joke-body {
     background-color: #ffffff;
@@ -734,6 +735,66 @@ body {
 }
 .pager li a {
     margin: 20px;
+}
+
+.formoid-flat-green .dropzone {
+    min-height: 170px;
+}
+.formoid-flat-green .dropzone .dz-default.dz-message {
+    top:50%;
+}
+
+/**** Transitions ****/
+
+.transitions-enabled.masonry,
+.transitions-enabled.masonry .masonry-brick {
+    -webkit-transition-duration: 0.7s;
+    -moz-transition-duration: 0.7s;
+    -ms-transition-duration: 0.7s;
+    -o-transition-duration: 0.7s;
+    transition-duration: 0.7s;
+}
+
+.transitions-enabled.masonry {
+    -webkit-transition-property: height, width;
+    -moz-transition-property: height, width;
+    -ms-transition-property: height, width;
+    -o-transition-property: height, width;
+    transition-property: height, width;
+}
+
+.transitions-enabled.masonry  .masonry-brick {
+    -webkit-transition-property: left, right, top;
+    -moz-transition-property: left, right, top;
+    -ms-transition-property: left, right, top;
+    -o-transition-property: left, right, top;
+    transition-property: left, right, top;
+}
+
+
+/* disable transitions on container */
+.transitions-enabled.infinite-scroll.masonry {
+    -webkit-transition-property: none;
+    -moz-transition-property: none;
+    -ms-transition-property: none;
+    -o-transition-property: none;
+    transition-property: none;
+}
+/* Infinite Scroll loader */
+#infscr-loading {
+    text-align: center;
+    z-index: 100;
+    position: fixed;
+    left: 45%;
+    bottom: 40px;
+    width: 200px;
+    padding: 10px;
+    background: #000;
+    opacity: 0.8;
+    color: #FFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .btt {

@@ -12,6 +12,7 @@ var fs = require('fs');
 var ndir = require('ndir');
 var path = require('path');
 var Util = require('../libs/util');
+var gm = require('gm');
 
 /**
  * 用户主页
@@ -147,7 +148,7 @@ exports.settings = function(req, res, next) {
         res.redirect('/');
         return;
     }
-    var gender = req.body.gender;
+    var gender = parseInt(req.body.gender);
     var location = validator.trim(req.body.location.toString());
     var profile = validator.trim(req.body.profile.toString());
     var profileimage = req.files.thumbnail;
@@ -167,17 +168,21 @@ exports.settings = function(req, res, next) {
                 var filename = Date.now() + '_' + profileimage.name;
                 var savepath = path.resolve(path.join(userDir, filename));
                 user.profile_image_url = config.site_static_host + '/userprofile/images/'+uid+'/'+filename;
-                fs.rename(profileimage.path, savepath, function(err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    user.save(function(err) {
+
+                gm(profileimage.path)
+                .resize(200, 200)
+                    .noProfile()
+                    .write(savepath, function (err) {
                         if (err) {
                             return next(err);
                         }
-						return res.redirect('/settings?save=success');
+                        user.save(function(err) {
+                            if (err) {
+                                return next(err);
+                            }
+                            return res.redirect('/settings?save=success');
+                        });
                     });
-                });
             });
         } else {
             if (user.profile_image_url) {

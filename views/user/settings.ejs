@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
 <link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
 <link href="/stylesheets/css/formoid-flat-green.css" rel="stylesheet">
+<link rel="stylesheet" href="/stylesheets/css/dropzone.css"/>
 <link rel="stylesheet" href="/stylesheets/css/style.css"/>
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
@@ -23,7 +24,12 @@
                     <strong><%= user.success %></strong>
                 </div>
             <% } %>
-            <form enctype="multipart/form-data" class="formoid-flat-green" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#666666;max-width:580px;min-width:250px" method="post" action="/settings">
+            <form enctype="multipart/form-data" class="formoid-flat-green"
+                  style="background-color:#FFFFFF;font-size:14px;
+                  font-family:'Roboto',Arial,Helvetica,sans-serif;
+                  color:#666666;max-width:580px;min-width:250px"
+                  method="post" action="/settings"
+                  id="setting-form">
                 <div class="title"><h2>更改信息</h2></div>
                 <div class="element-input">
                     <label class="title">用户名</label>
@@ -37,7 +43,7 @@
                     <label class="title">性别</label>
                     <% if (locals.user.gender === 0) { %>
                         <div class="column column2">
-                            <label><input type="radio" name="gender" value="0" checked="true"/><span>男</span></label>
+                            <label><input type="radio" name="gender" value="0"/><span>男</span></label>
                         </div>
                         <div class="column column2">
                             <label><input type="radio" name="gender" value="1" /><span>女</span></label>
@@ -57,33 +63,30 @@
                 <div class="element-input">
                     <label class="title">所在地点</label>
                     <% if (locals.user.location) { %>
-                        <input class="large" type="text" name="location" value="<%= locals.user.location %>" />
+                        <input id="setting-location" class="large" type="text" name="location" value="<%= locals.user.location %>" />
                     <% } else { %>
-                        <input class="large" type="text" name="location" value=""/>
+                        <input id="setting-location" class="large" type="text" name="location" value=""/>
                     <% } %>
                 </div>
                 <div class="element-textarea">
                     <label class="title">个人简介</label>
                     <% if (locals.user.profile) { %>
-                        <textarea class="medium" name="profile" cols="20" rows="5"><%= locals.user.profile %></textarea>
+                        <textarea id="setting-profile" class="medium" name="profile" cols="20" rows="5"><%= locals.user.profile %></textarea>
                     <% } else { %>
-                        <textarea class="medium" name="profile" cols="20" rows="5" ></textarea>
+                        <textarea id="setting-profile" class="medium" name="profile" cols="20" rows="5" ></textarea>
                     <% } %>
                 </div>
                 <div class="element-file">
                     <label class="title">更改头像</label>
-                    <label class="large" >
-                        <div class="button">Choose File</div>
-                        <input type="file" class="file_input" name="thumbnail" />
-                        <div class="file_text">No file selected</div>
-                    </label>
+                    <label class="title" style="font-size: 12px;font-style:italic;color: #bbbbbb;">(为了更好的显示，我们会对您的图片进行裁剪，谢谢!)</label>
+                    <div class="dropzone" id="profile-image-zone">
+
+                    </div>
                 </div>
                 <div class="submit">
-                    <input type="submit" value="提交"/>
+                    <input id="setting-submit-button" type="submit" value="提交"/>
                 </div>
             </form>
-            
-            
         </div>
     </div>
 </div>
@@ -91,4 +94,37 @@
 <%include ../common/footer.ejs %>
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
+<script src="/javascripts/js/dropzone.min.js"></script>
+<script>
+    var dropzone =new Dropzone('div#profile-image-zone', {
+        url: '/settings',
+        method: 'post',
+        paramName: 'thumbnail',
+        maxFilesize: 10,
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        autoProcessQueue: false,
+        init: function() {
+            var btnpost = document.getElementById('setting-submit-button');
+            var myDropzone = this;
+            btnpost.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (myDropzone.files && myDropzone.files.length !== 0) {
+                    myDropzone.processQueue();
+                } else {
+                    $('#setting-form').submit();
+                }
+            });
+            this.on('sending', function(file, xhr, formData) {
+                formData.append('gender', $('input:radio').val());
+                formData.append('location', $('#setting-location').val());
+                formData.append('profile', $('#setting-profile').val());
+            });
+            this.on('success', function(file, req) {
+
+            });
+        }
+    });
+</script>
 <% include ../base-bottom.ejs %>

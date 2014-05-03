@@ -1,30 +1,6 @@
 $(document).ready(function() {
     $('#message-tooltip').tooltip();
-    //add or cancel plus one
-    $('.btn-plus-like').click(function() {
-        var isPlus = (this.title === 'plus one');
-        var jokeId = this.id;
-        $.post('/joke/like-or-not', {'isPlus': isPlus, 'jokeId': jokeId}, function(data) {
-            if (data.status === 'success') {
-                var $btn = $('#'+ data.id);
-                if ($btn.attr('title') === 'plus one') {
-                    $btn.attr('title', 'sub one');
-                    $btn.css('color', '#ffffff');
-                    $btn.css('background-color', '#d2322d');
-                    $btn.find('span').html(data.likes);
-                } else {
-                    $btn.attr('title', 'plus one');
-                    $btn.css('color', '#333333');
-                    $btn.css('background-color', '#ffffff');
-                    $btn.find('span').html(data.likes);
-                }
-            } else {
-                if (data.error) {
-                    alert(data.error);
-                }
-            }
-        }, 'json');
-    });
+
 
     //show comment
     $('#add-a-comment').focus(function() {

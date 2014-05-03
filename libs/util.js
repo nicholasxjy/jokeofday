@@ -56,7 +56,7 @@ exports.appendJokeString = function(joke, isLast) {
     if (!isLast) {
             jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','
                 + (joke.create_at.getDay()+1) +'",'
-             + '"headline":' + '"'+ content +'",'
+             + '"headline":' + '"'+ joke.title +'",'
              + '"text":' +'"<p>'+ content +'</p>",'
              + '"asset": { '
              + '"media":' + '"' + pic_url +'",'
@@ -66,7 +66,7 @@ exports.appendJokeString = function(joke, isLast) {
     } else {
             jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','
                 + (joke.create_at.getDay()+1) +'",'
-             + '"headline":' + '"'+ content +'",'
+             + '"headline":' + '"'+ joke.title +'",'
              + '"text":' +'"<p>'+ content +'</p>",'
              + '"asset": { '
              + '"media":' + '"' + pic_url +'",'

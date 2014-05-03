@@ -1,13 +1,71 @@
 <script src="/javascripts/js/jquery.min.js"></script>
 <script src="/javascripts/js/bootstrap.min.js"></script>
 <script src="/javascripts/js/masonry.min.js"></script>
+<script src="/javascripts/js/jquery.infinitescroll.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#container').masonry({
+        var $container = $('#container');
+        $container.masonry({
             itemSelector: '.joke-item',
             columnWidth: 380,
-            gutterWidth: 30
+            gutterWidth: 30,
+            isAnimated: true
         });
+        $container.infinitescroll({
+                    navSelector  : '#page-nav',    // selector for the paged navigation
+                    nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+                    itemSelector : '.joke-item',     // selector for all items you'll retrieve
+                    loading: {
+                        finishedMsg: 'No more pages to load.',
+                        img: 'http://i.imgur.com/6RMhx.gif',
+                        msgText: "<em>Loading the next set of posts...</em>"
+                    },
+                    animate: true
+                },
+                // trigger Masonry as a callback
+                function( newElements ) {
+                    // hide new items while they are loading
+                    var $newElems = $( newElements ).css({ opacity: 0 });
+                    // ensure that images load before adding to masonry layout
+                    $newElems.imagesLoaded(function(){
+                        // show elems now they're ready
+                        $newElems.animate({ opacity: 1 });
+                        $container.masonry( 'appended', $newElems, true );
+                    });
+                }
+        );
+        $container.click(function(e) {
+            var btn = $(e.target);
+            if (btn.is('a.btn-plus-like') || btn.is('span.span-like-count')) {
+                if (btn.is('span.span-like-count')) {
+                    btn = btn.parent('a.btn-plus-like');
+                }
+                var isPlus = (btn.attr('title') === 'plus one');
+                var jokeId = btn.attr('id');
+                $.post('/joke/like-or-not', {'isPlus': isPlus, 'jokeId': jokeId}, function(data) {
+                    if (data.status === 'success') {
+                        var $btn = $('#'+ data.id);
+                        if ($btn.attr('title') === 'plus one') {
+                            $btn.attr('title', 'sub one');
+                            $btn.css('color', '#ffffff');
+                            $btn.css('background-color', '#d2322d');
+                            $btn.find('span').html(data.likes);
+                        } else {
+                            $btn.attr('title', 'plus one');
+                            $btn.css('color', '#333333');
+                            $btn.css('background-color', '#ffffff');
+                            $btn.find('span').html(data.likes);
+                        }
+                    } else {
+                        if (data.error) {
+                            alert(data.error);
+                        }
+                    }
+                }, 'json');
+            }
+        });
+        //add or cancel plus one
+
     });
 </script>
 <script src="/javascripts/js/headroom.js"></script>
