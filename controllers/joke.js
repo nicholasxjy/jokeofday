@@ -124,19 +124,19 @@ exports.createJoke = function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                console.log('I quit');
-                res.redirect('/');
-                return;
+                return res.redirect('/');
             });
         };
         var proxy = EventProxy.create('joke_save', render);
-
+        proxy.fail(next);
         var dateStamp = Date.now().toString();
         var picDir = path.join(config.upload_pictures_dir, dateStamp, user.name);
         if (upload_pics.length > 0){
-            proxy.after('picture_done', upload_pics.length, function(pictureslist) {
+            var ep = new EventProxy();
+            ep.after('picture_done', upload_pics.length, function(pictureslist) {
                 proxy.emit('joke_save');
             });
+            ep.fail(next);
             ndir.mkdir(picDir, function(err) {
                 if (err) {
                     return next(err);
@@ -152,7 +152,7 @@ exports.createJoke = function(req, res, next) {
                         if (err) {
                             return next(err);
                         }
-                        proxy.emit('picture_done');
+                        ep.emit('picture_done', picture);
                     });
                 })
             });

@@ -31,17 +31,20 @@
                         <% if (joke.pictures.length > 1) { %>
                         <% joke.pictures.forEach(function(picture) {%>
                             <li>
-                                <img class="img-responsive" src="<%= picture.url  %>"
-                                     alt="Joke Thumbnail"
-                                     width="100"
-                                     height="100"/>
-
+                                <a href="<%= picture.url %>" class="fancybox" rel="gallery<%= index %>">
+                                    <img class="img-responsive" src="<%= picture.url  %>"
+                                         alt="Joke Thumbnail"
+                                         width="150"
+                                         height="150"/>
+                                </a>
                             </li>
                         <% }); %>
                         <% } else { %>
                         <% joke.pictures.forEach(function(picture) {%>
                             <li>
-                                <img class="img-responsive" src="<%= picture.url  %>" alt="Joke Thumbnail"/>
+                                <a href="<%= picture.url %>" class="fancybox" rel="gallery<%= index %>">
+                                    <img class="img-responsive" src="<%= picture.url  %>" alt="Joke Thumbnail"/>
+                                </a>
                             </li>
                         <% }); %>
                         <% } %>

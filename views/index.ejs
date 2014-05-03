@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
     <link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/css/dropzone.css"/>
-    <link rel="stylesheet" href="/stylesheets/css/magnific-popup.css"/>
+    <link rel="stylesheet" href="/stylesheets/css/jquery.fancybox.css"/>
     <link rel="stylesheet" href="/stylesheets/css/style.css"/>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
@@ -28,4 +28,10 @@
 </div>
 <% include common/footer.ejs %>
 <% include jsfiles.ejs %>
+<script src="/javascripts/js/jquery.fancybox.pack.js"></script>
+<script>
+    $(document).ready(function() {
+       $('.fancybox').fancybox();
+    });
+</script>
 <% include base-bottom.ejs %>

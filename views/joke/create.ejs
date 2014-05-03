@@ -30,26 +30,26 @@
                 <div class="element-input">
                     <label class="title"></label>
                     <div class="item-cont">
-                        <input class="large" type="text" name="title" placeholder="添加标题（必填）"/>
+                        <input id="title" class="large" type="text" name="title" placeholder="添加标题（必填）"/>
                         <span class="icon-place"></span>
                     </div>
                 </div>
                 <div class="element-textarea">
                     <label class="title"></label>
                     <div class="item-cont">
-                        <textarea class="medium" name="content" cols="20" rows="5" placeholder="添加内容（可选）"></textarea>
+                        <textarea id="content" class="medium" name="content" cols="20" rows="5" placeholder="添加内容（可选）"></textarea>
                         <span class="icon-place"></span>
                     </div>
                 </div>
                 <div class="element-url">
                     <label class="title"></label>
                     <div class="item-cont">
-                        <input class="large" type="url" name="link"  placeholder="添加链接地址（可选）"/>
+                        <input id="url" class="large" type="url" name="link"  placeholder="添加链接地址（可选）"/>
                         <span class="icon-place"></span>
                     </div>
                 </div>
             </form>
-            <a id="joke-create-submit" class="pull-right">submit</a>
+            <button id="joke-create-submit" type="submit" class="pull-right">submit</button>
         </div>
     </div>
 </div>
@@ -69,10 +69,17 @@
         init: function() {
             var btnpost = document.getElementById('joke-create-submit');
             var myDropzone = this;
-            this.on("addedfile", function(file) {
-                btnpost.addEventListener('click', function(e) {
+            btnpost.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (myDropzone.files && myDropzone.files.length !== 0) {
                     myDropzone.processQueue();
-                });
+                } else {
+                    $('#joke-create-form').submit();
+                }
+            });
+            this.on('successmultiple', function(file, req) {
+                location.href = '<%= locals.config.host %>';
             });
         }
     };
