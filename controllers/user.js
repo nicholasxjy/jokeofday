@@ -12,7 +12,7 @@ var fs = require('fs');
 var ndir = require('ndir');
 var path = require('path');
 var Util = require('../libs/util');
-var gm = require('gm');
+
 
 /**
  * 用户主页
@@ -158,7 +158,7 @@ exports.settings = function(req, res, next) {
         user.profile = profile;
         //这里修改头像，将上传图片经过处理的url赋给profile-image-url
         //图片的路径赋值为uid/date.now+file.name
-        if (profileimage.name !== '') {
+        if (profileimage && profileimage.name && profileimage.name !== '') {
             var uid = user._id.toString();
             var userDir = path.join(config.upload_dir, uid);
             ndir.mkdir(userDir, function(err) {
@@ -168,21 +168,18 @@ exports.settings = function(req, res, next) {
                 var filename = Date.now() + '_' + profileimage.name;
                 var savepath = path.resolve(path.join(userDir, filename));
                 user.profile_image_url = config.site_static_host + '/userprofile/images/'+uid+'/'+filename;
-
-                gm(profileimage.path)
-                .resize(200, 200)
-                    .noProfile()
-                    .write(savepath, function (err) {
+                fs.rename(profileimage.path, savepath, function(err) {
+                    if (err) {
+                       return next(err);
+                    }
+                    user.save(function(err) {
                         if (err) {
                             return next(err);
                         }
-                        user.save(function(err) {
-                            if (err) {
-                                return next(err);
-                            }
-                            return res.redirect('/settings?save=success');
-                        });
+                        return res.redirect('/settings?save=success');
                     });
+                });
+
             });
         } else {
             if (user.profile_image_url) {

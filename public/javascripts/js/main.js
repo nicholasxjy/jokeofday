@@ -74,7 +74,7 @@ $(document).ready(function() {
         if(pos) {
             $('html, body').animate({
                 scrollTop:0
-            }, 1000)
+            }, 1500)
         }
 
     });

@@ -43,7 +43,7 @@
                     <label class="title">性别</label>
                     <% if (locals.user.gender === 0) { %>
                         <div class="column column2">
-                            <label><input type="radio" name="gender" value="0"/><span>男</span></label>
+                            <label><input type="radio" name="gender" value="0" checked="true"/><span>男</span></label>
                         </div>
                         <div class="column column2">
                             <label><input type="radio" name="gender" value="1" /><span>女</span></label>
@@ -53,7 +53,6 @@
                         <div class="column column2">
                             <label><input type="radio" name="gender" value="0"/><span>男</span></label>
                         </div>
-                        <span class="clearfix"></span>
                         <div class="column column2">
                             <label><input type="radio" name="gender" value="1" checked="true"/><span>女</span></label>
                         </div>
@@ -78,7 +77,7 @@
                 </div>
                 <div class="element-file">
                     <label class="title">更改头像</label>
-                    <label class="title" style="font-size: 12px;font-style:italic;color: #bbbbbb;">(为了更好的显示，我们会对您的图片进行裁剪，谢谢!)</label>
+                    <label class="title" style="font-size: 12px;font-style:italic;color: #bbbbbb;">(为了更好的显示，上传一张正方形图片，谢谢!)</label>
                     <div class="dropzone" id="profile-image-zone">
 
                     </div>
@@ -104,6 +103,7 @@
         acceptedFiles: 'image/*',
         addRemoveLinks: true,
         autoProcessQueue: false,
+
         init: function() {
             var btnpost = document.getElementById('setting-submit-button');
             var myDropzone = this;
@@ -117,12 +117,12 @@
                 }
             });
             this.on('sending', function(file, xhr, formData) {
-                formData.append('gender', $('input:radio').val());
+                formData.append('gender', $('input[type=radio]:checked').val());
                 formData.append('location', $('#setting-location').val());
                 formData.append('profile', $('#setting-profile').val());
             });
             this.on('success', function(file, req) {
-
+                location.href = '<%= locals.config.host %>/settings?save=success';
             });
         }
     });

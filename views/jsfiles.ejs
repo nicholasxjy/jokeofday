@@ -17,10 +17,9 @@
                     itemSelector : '.joke-item',     // selector for all items you'll retrieve
                     loading: {
                         finishedMsg: 'No more pages to load.',
-                        img: 'http://i.imgur.com/6RMhx.gif',
+                        img: '<%= locals.config.host%>/images/loading.gif',
                         msgText: "<em>Loading the next set of posts...</em>"
-                    },
-                    animate: true
+                    }
                 },
                 // trigger Masonry as a callback
                 function( newElements ) {
@@ -64,8 +63,6 @@
                 }, 'json');
             }
         });
-        //add or cancel plus one
-
     });
 </script>
 <script src="/javascripts/js/headroom.js"></script>

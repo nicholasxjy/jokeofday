@@ -57,4 +57,7 @@ module.exports = function(app) {
 
     app.post('/comment/add-comment', comment.addComment);
     app.post('/messages/empty', user.emptyMessages);
+
+
+    app.get('/about', site.siteAbout);
 };

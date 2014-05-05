@@ -25,6 +25,11 @@
                     <%= joke.content %>
                 <% } %>
             </p>
+            <% if (joke.link) { %>
+            <p>
+                <a href="<%= joke.link %>" target="_blank"><%= joke.link %></a>
+            </p>
+            <% } %>
             <div class="joke-images">
                 <% if (joke.pictures && joke.pictures.length > 0) { %>
                     <ul class="list-inline">
@@ -43,7 +48,8 @@
                         <% joke.pictures.forEach(function(picture) {%>
                             <li>
                                 <a href="<%= picture.url %>" class="fancybox" rel="gallery-<%= locals.currentpage %>-<%= index %>">
-                                    <img class="img-responsive" src="<%= picture.url  %>" alt="Joke Thumbnail"/>
+                                    <img class="img-responsive" src="<%= picture.url  %>" alt="Joke Thumbnail"
+                                         style="max-width: 335px;"/>
                                 </a>
                             </li>
                         <% }); %>

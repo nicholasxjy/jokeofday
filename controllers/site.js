@@ -64,3 +64,14 @@ exports.index = function(req, res, next) {
         proxy.emit('pages', pages);
     }));
 };
+/**
+ * 关于 页面
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.siteAbout = function(req, res, next) {
+  res.render('about', {
+      config: config
+  });
+};
