@@ -17,11 +17,11 @@ exports.showSignup = function(req, res) {
 };
 
 exports.signup = function(req, res, next) {
-    var name = validator.trim(req.body.name.toString()) ;
+    var name = validator.trim(req.body.name) ;
     var loginname = name.toLowerCase();
-    var pass = validator.trim(req.body.pass.toString());
-    var email = validator.trim(req.body.email.toString());
-    var re_pass = validator.trim(req.body.repass.toString());
+    var pass = validator.trim(req.body.pass);
+    var email = validator.trim(req.body.email);
+    var re_pass = validator.trim(req.body.repass);
     //info validate
     if (name === '' || pass === '' || re_pass === '' || email === '') {
         res.render('sign/signup', {

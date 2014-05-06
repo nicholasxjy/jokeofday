@@ -27,9 +27,9 @@
             <label class="title">用户名：</label>
             <div class="item-cont">
                 <% if (locals.name) { %>
-                <input class="large" type="text" name="input" value="<%= locals.name %>"/>
+                <input class="large" type="text" name="name" value="<%= locals.name %>"/>
                 <% } else { %>
-                <input class="large" type="text" name="input" placeholder="用户名由字母和数字组成"/>
+                <input class="large" type="text" name="name" placeholder="用户名由字母和数字组成"/>
                 <% } %>
                 <span class="icon-place"></span>
             </div>
@@ -48,7 +48,7 @@
         <div class="element-password">
             <label class="title">密码：</label>
             <div class="item-cont">
-                <input class="large" type="password" name="password" value="" placeholder="输入密码,最少长度6位"/>
+                <input class="large" type="password" name="pass" value="" placeholder="输入密码,最少长度6位"/>
                 <span class="icon-place"></span>
             </div>
         </div>
