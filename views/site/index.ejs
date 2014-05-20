@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../meta.ejs %>
+        <link rel="stylesheet" href="css/assets/site.min.css"/>
+        <link rel="stylesheet" href="css/fancybox/jquery.fancybox.css"/>
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="css/assets/index.css"/>
+        <link rel="stylesheet" href="css/assets/siderbar.css"/>
+    </head>
+    <body>
+        <div class="st-container" id="st-container">
+            <% include ../common/siderbar.ejs %>
+            <button id="showsidebar" class="site-nav-logo">
+                <span class="icons icons-logo-m"></span>
+            </button>
+            <div class="st-pusher">
+                <div class="header">
+                    <div class="site-img">
+                        <a href="/">
+                            <% if (locals.current_user) { %>
+                            <img src="<%= locals.current_user.profile_image_url %>" alt="Logo" class="img-responsive img-circle"
+                                 width="120" height="120"
+                                 tiltle="<%= locals.current_user.name %>"/>
+                            <% } else { %>
+                            <img src="images/default_user_icon.jpg" alt="Logo" class="img-responsive img-circle"
+                                 width="120" height="120"
+                                 tiltle="username"/>
+                            <% } %>
+                        </a>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 intro-info">
+                                <h1>
+                                    <% if (locals.current_user) { %>
+                                    <a href="/<%= locals.current_user.name %>/timeline"><%= locals.current_user.name %></a>
+                                    <% } else { %>
+                                    <a href="/">JokeofDay</a>
+                                    <% } %>
+                                </h1>
+                                <% if (locals.current_user) { %>
+                                <p><%= locals.current_user.profile %></p>
+                                <a href="/joke/create" class="myButton" style="background-color: #ffffff;color:#18ab29;">Post now</a>
+                                <% } else { %>
+                                <p>A smile is a facial expression formed by flexing the muscles near both ends of the mouth and by flexing muscles throughout the mouth. </p>
+                                <a href="/signup" class="myButton" style="background-color: #ffffff;color:#18ab29;">Join in</a>
+                                <% } %>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="container">
+                        <div id="contents" class="transitions-enabled infinite-scroll">
+                            <% include ../common/jokeitem.ejs %>
+                        </div>
+                        <nav id="page-nav">
+                            <a href="/?page=2"></a>
+                        </nav>
+                    </div>
+                    <div class="btt btn" href="#" id="btt">
+                        <svg id="rocket" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewbox="0 0 64 64">
+                            <path fill="#CCCCCC" d="M42.057,37.732c0,0,4.139-25.58-9.78-36.207c-0.307-0.233-0.573-0.322-0.802-0.329
+                                c-0.227,0.002-0.493,0.083-0.796,0.311c-13.676,10.31-8.95,35.992-8.95,35.992c-10.18,8-7.703,9.151-1.894,23.262
+                                c1.108,2.693,3.048,2.06,3.926,0.115c0.877-1.943,2.815-6.232,2.815-6.232l11.029,0.128c0,0,2.035,4.334,2.959,6.298
+                                c0.922,1.965,2.877,2.644,3.924-0.024C49.974,47.064,52.423,45.969,42.057,37.732z M31.726,23.155
+                                c-2.546-0.03-4.633-2.118-4.664-4.665c-0.029-2.547,2.012-4.587,4.559-4.558c2.546,0.029,4.634,2.117,4.663,4.664
+                                C36.314,21.143,34.272,23.184,31.726,23.155z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- load js here -->
+        <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/utils/site.min.js"></script>
+        <script src="js/utils/masonry.min.js"></script>
+        <script src="js/utils/jquery.infinitescroll.min.js"></script>
+        <script src="js/utils/jquery.fancybox.pack.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.fancybox').fancybox();
+                var $container = $('#contents');
+                $container.masonry( {
+                    columnWidth: 360,
+                    itemSelector: '.item',
+                    gutterWidth: 30,
+                    isAnimated: true
+                });
+                $container.infinitescroll({
+                            navSelector  : '#page-nav',    // selector for the paged navigation
+                            nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+                            itemSelector : '.item',     // selector for all items you'll retrieve
+                            loading: {
+                                finishedMsg: 'No more pages to load.',
+                                img: '<%= locals.config.host%>/images/loading.gif',
+                                msgText: "<em>Loading the next set of posts...</em>"
+                            }
+                        },
+                        // trigger Masonry as a callback
+                        function( newElements ) {
+                            // hide new items while they are loading
+                            var $newElems = $( newElements ).css({ opacity: 0 });
+                            // ensure that images load before adding to masonry layout
+                            $newElems.imagesLoaded(function(){
+                                // show elems now they're ready
+                                $newElems.animate({ opacity: 1 });
+                                $container.masonry( 'appended', $newElems, true );
+                            });
+                        }
+                );
+                $('#showsidebar').click(function(e) {
+                     e.stopPropagation();
+                     $('#st-container').addClass('st-effect-1 st-menu-open');
+                     $(this).hide('slow');
+                     $('body').addClass('show-sidebar-no-scroll');
+                });
+                $('.st-pusher').click(function() {
+                    $('#st-container').removeClass('st-menu-open');
+                    $('#showsidebar').show('slow');
+                    $('body').removeClass('show-sidebar-no-scroll');
+                });
+                $container.click(function(e) {
+                    var btn = $(e.target);
+                    if (btn.is('a.btn-plus-like')) {
+                        var jokeId = btn.attr('id');
+                        $.post('/joke/like-or-not', {'jokeId': jokeId}, function(data) {
+                            if (data.status === 'success') {
+                                var $btn = $('#'+ data.id);
+                                $btn.css('color', '#ffffff');
+                                $btn.css('background-color', '#d2322d');
+                                $btn.html('').html('+'+data.likes);
+                                $btn.removeClass('btn-plus-like');
+                            } else {
+                                if (data.error) {
+                                    alert(data.error);
+                                }
+                            }
+                        }, 'json');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
+
+
+
+

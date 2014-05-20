@@ -11,4 +11,4 @@ exports.signInRequired = function(req, res, next) {
         });
     }
     next();
-}
+};

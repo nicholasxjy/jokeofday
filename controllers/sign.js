@@ -165,7 +165,7 @@ exports.signin = function(req, res, next) {
 
     if (!loginname || !pass) {
         res.render('sign/signin', {
-            error: "信息不完整，亲!",
+            error: "请检查信息的填写",
             config: config
         });
         return;
@@ -221,7 +221,7 @@ exports.signout = function(req, res, next) {
  * @param res
  */
 exports.showForgotPassword = function(req, res) {
-    res.render('sign/forgot-password', {
+    res.render('sign/forget-pass', {
         config: config
     });
 };
@@ -235,7 +235,7 @@ exports.findPassword = function findPassword(req, res, next) {
     var email = validator.trim(req.body.email.toString());
     email = email.toLowerCase();
     if (!validator.isEmail(email)) {
-        res.render('sign/forgot-password', {
+        res.render('sign/forget-pass', {
             config: config,
             error: "邮箱地址不正确"
         });
@@ -249,7 +249,7 @@ exports.findPassword = function findPassword(req, res, next) {
             return next(err);
         }
         if (!user) {
-            res.render('sign/forgot-password', {
+            res.render('sign/forget-pass', {
                 error: "此邮箱不存在",
                 config: config
             });
@@ -300,7 +300,7 @@ exports.resetPassword = function(req, res, next) {
             return;
         }
         //如果验证信息通过，则展示重置密码的界面
-        res.render('sign/reset-password', {
+        res.render('sign/reset-pass', {
             name: name,
             key: key,
             config: config
@@ -319,7 +319,7 @@ exports.updateNewPassword = function(req, res, next) {
     var pass = req.body.pass || "";
     var repass = req.body.repass || "";
     if (pass !== repass) {
-        res.render('sign/reset-password', {
+        res.render('sign/reset-pass', {
             error: "两次密码输入不一致。",
             config:config
         });

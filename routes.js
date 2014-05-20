@@ -36,15 +36,15 @@ module.exports = function(app) {
     app.post('/reset-password', sign.updateNewPassword);
 
     //user related operations
-    app.get('/user/:name', user.index);
+    app.get('/:name/timeline', user.index);
     app.get('/settings', user.showSettings);
     app.post('/settings', user.settings);
     //follow unfollow
     app.post('/user/follow', user.addFollow);
 
     //get fans
-    app.get('/:username/fans', user.getMyFans);
-    app.get('/:username/followings', user.getFollowings);
+    app.get('/:name/fans', user.getMyFans);
+    app.get('/:name/followings', user.getFollowings);
     app.get('/u/messages', user.getMessages);
 
     app.get('/joke/create', joke.showCreate);

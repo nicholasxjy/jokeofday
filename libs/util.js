@@ -45,13 +45,8 @@ exports.appendJokeString = function(joke, isLast) {
         content = joke.content;
     }
     if (joke.pictures.length > 0) {
-        for(var i = 0; i < joke.pictures.length; i++) {
-           if (joke.pictures[i].url !== '') {
-               pic_url = joke.pictures[i].url;
-               credit = "Posted by " + joke.author.name;
-               break;
-           }
-        }
+        pic_url = joke.pictures[0];
+        credit = "Posted by " + joke.author.name;
     }
     if (!isLast) {
             jsondata = '{"startDate":' +'"'+ joke.create_at.getFullYear()+','+ (joke.create_at.getMonth()+1)+','

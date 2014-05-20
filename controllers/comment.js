@@ -22,7 +22,7 @@ exports.addComment = function(req, res, next) {
     var views = 0;
     var comment_count = 0;
     var proxy = EventProxy.create('joke_save', 'new_comment', 'new_message', function() {
-       res.json({status: 'success', jokeid: jokeid, content: content, user: user, comment_count: comment_count});
+       return res.json({status: 'success'});
     });
     proxy.fail(next);
     Joke.getJokeById(jokeid, function(err, joke, author, comments) {
@@ -30,7 +30,7 @@ exports.addComment = function(req, res, next) {
             return next(err);
         }
         if (!joke) {
-            res.json({status: 'failed', error: '信息有误!'});
+            return res.json({status: 'failed', error: '信息有误!'});
         }
         joke.visit_count += 1;
         views = joke.visit_count;

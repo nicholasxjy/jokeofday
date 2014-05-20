@@ -57,7 +57,7 @@ exports.index = function(req, res, next) {
         proxy.fail(next);
 
         var query = {author_id:user._id};
-        var opts = {limit: 5, sort:{create_at:'desc'}};
+        var opts = {sort:{create_at:'desc'}};
         
         Joke.getJokesByQuery(query, opts, function(err, recent_jokes) {
             if (err) {
@@ -120,17 +120,13 @@ exports.index = function(req, res, next) {
  */
 exports.showSettings = function(req, res, next) {
     if (!req.session.user) {
-        res.redirect('home');
+        res.redirect('/');
         return;
     }
     User.getUserById(req.session.user._id, function(err, user) {
         if (err) {
             return next(err);
         }
-        if (req.query.save === 'success') {
-            user.success = "保存成功";
-        }
-        user.error = null;
         return res.render('user/settings', {
             user: user,
             config: config
@@ -149,37 +145,41 @@ exports.settings = function(req, res, next) {
         return;
     }
     var gender = parseInt(req.body.gender);
-    var location = validator.trim(req.body.location.toString());
-    var profile = validator.trim(req.body.profile.toString());
-    var profileimage = req.files.thumbnail;
+    var location = req.body.location;
+    var profile = req.body.profile;
+    //这里是base64 data的图片
+    var base64Data = req.body.file;
+
     User.getUserById(req.session.user._id, function(err, user) {
         user.gender = gender;
         user.location = location;
         user.profile = profile;
         //这里修改头像，将上传图片经过处理的url赋给profile-image-url
         //图片的路径赋值为uid/date.now+file.name
-        if (profileimage && profileimage.name && profileimage.name !== '') {
+        if (base64Data) {
+            base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
+            base64Data  +=  base64Data.replace('+', ' ');
+            var binaryData = new Buffer(base64Data, 'base64').toString('binary');
             var uid = user._id.toString();
             var userDir = path.join(config.upload_dir, uid);
             ndir.mkdir(userDir, function(err) {
                 if (err) {
                     return next(err);
                 }
-                var filename = Date.now() + '_' + profileimage.name;
+                var filename = Date.now() + '_' + user.name +'_profileimage.png';
                 var savepath = path.resolve(path.join(userDir, filename));
                 user.profile_image_url = config.site_static_host + '/userprofile/images/'+uid+'/'+filename;
-                fs.rename(profileimage.path, savepath, function(err) {
+                fs.writeFile(savepath, binaryData, 'binary', function(err) {
                     if (err) {
-                       return next(err);
+                        return next(err);
                     }
                     user.save(function(err) {
                         if (err) {
                             return next(err);
                         }
-                        return res.redirect('/settings?save=success');
-                    });
+                        return res.json({status: 'success'});
+                    })
                 });
-
             });
         } else {
             if (user.profile_image_url) {
@@ -189,7 +189,7 @@ exports.settings = function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('/settings?save=success');
+                return res.json({status: 'success'});
             });
         }
 

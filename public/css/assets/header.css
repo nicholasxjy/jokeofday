@@ -1,0 +1,71 @@
+.navbar-inverse .navbar-brand {
+    color: #ffffff;
+    font-family: "Palatino";
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 700;
+    font-size: 20px;
+}
+.navbar-inverse .navbar-brand:hover {
+    color: #ffffff;
+}
+.navbar-inverse .navbar-text {
+    font-family: 'PT Sans';
+    color: #ffffff;
+    font-style: italic;
+}
+.navbar-text a {
+    text-decoration: none;
+    color: #0b68e3;
+}
+.hello img {
+    margin-top: 10px;
+}
+.not-read-message span {
+    color: #ffffff;
+    background-color: red;
+}
+.zero-not-read-message span {
+    color: #ffffff;
+    background-color: #999999;
+}
+.navbar-inverse .navbar-nav>li>a.sign-out-button {
+    background-color:#44c767;
+    -moz-border-radius:28px;
+    -webkit-border-radius:28px;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:15px;
+    padding:6px 19px;
+    margin-top: 8px;
+    margin-left: 10px;
+    margin-right: 50px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+}
+.sign-out-button:hover {
+    background-color:#5cbf2a;
+}
+.sign-out-button:active {
+    position:relative;
+    top:1px;
+}
+.menu-bar .dropdown-toggle {
+    font-family: "Pacifico";
+    font-size: 16px;
+}
+.menu-bar .dropdown-menu li {
+    height: 48px;
+    width: 200px;
+}
+.dropdown-menu li a {
+    padding: 14px 20px;
+    font-size: 16px;
+    font-family: "PT Sans";
+}
+.dropdown-menu li a i {
+    margin-right: 10px;
+}

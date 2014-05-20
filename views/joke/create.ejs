@@ -1,87 +1,157 @@
-<% include ../base-top.ejs %>
-<link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
-<link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
-<link href="/stylesheets/css/formoid-solid-green.css" rel="stylesheet">
-<link rel="stylesheet" href="/stylesheets/css/dropzone.css"/>
-<link rel="stylesheet" href="/stylesheets/css/style.css"/>
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
-<title>Jokes of Day</title>
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../meta.ejs %>
+    <link rel="stylesheet" href="../css/assets/site.min.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/assets/header.css"/>
+    <link rel="stylesheet" href="../css/assets/joke.css"/>
+    <link rel="stylesheet" href="../build/imgly.css"/>
 </head>
-<body class="blurBg-false">
-<% include ../header.ejs %>
-<div class="container section-create">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-md-offset-3">
-            <% if (locals.error) { %>
-                <div class="alert alert-danger">
-                    <strong><%= error %></strong>
-                </div>
-            <% } %>
-            <form class="formoid-solid-green dropzone"
-                  style="background-color:#FFFFFF;font-size:14px;
-                  font-family:'Roboto',Arial,Helvetica,sans-serif;
-                  color:#34495E;min-height:500px;"
-                  method="post" action="/joke/create"
-                  enctype="multipart/form-data"
-                  id="joke-create-form">
-                <div class="title"><h2>Post Joke</h2></div>
-                <div class="element-input">
-                    <label class="title"></label>
-                    <div class="item-cont">
-                        <input id="title" class="large" type="text" name="title" placeholder="添加标题（必填）" size="30"/>
-                        <span class="icon-place"></span>
+<body>
+    <% include ../common/header.ejs %>
+    <section class="create-section">
+        <div class="container">
+            <div class="row share-field">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="col-md-6 col-xs-12">
+                        <img src="<%= locals.current_user.profile_image_url %>" alt="100*100"
+                             class="img-responsive img-circle" width="80" height="80"/>
+                        <input type="text" required class="form-control share-title" placeholder="添加标题(必填)..." name="title"/>
+                        <textarea name="content" rows="10" class="form-control share-content" placeholder="添加所属心情(可选)..."></textarea>
                     </div>
-                </div>
-                <div class="element-textarea">
-                    <label class="title"></label>
-                    <div class="item-cont">
-                        <textarea id="content" class="medium" name="content" cols="20" rows="5" placeholder="添加内容（可选）"></textarea>
-                        <span class="icon-place"></span>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="upload">
+                            <input type="file" id="file"/>
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>点击添加图片，编辑属于自己的个性美图</strong>
+                        </div>
+                        <div id="container"></div>
+                        <button class="btn btn-info" id="renderButton">查看效果</button>
+                        <div id="image-render-field">
+                        </div>
                     </div>
-                </div>
-                <div class="element-url">
-                    <label class="title"></label>
-                    <div class="item-cont">
-                        <input id="url" class="large" type="url" name="link"  placeholder="添加链接地址（可选）"/>
-                        <span class="icon-place"></span>
-                    </div>
-                </div>
-            </form>
-            <button id="joke-create-submit" type="submit" class="pull-right">submit</button>
+                    <button id="post-form" class="btn btn-info btn-lg">确定发表</button>
+                </form>
+            </div>
         </div>
-    </div>
-</div>
-<% include ../common/footer.ejs %>
-<script src="/javascripts/js/jquery.min.js"></script>
-<script src="/javascripts/js/bootstrap.min.js"></script>
-<script src="/javascripts/js/dropzone.min.js"></script>
-<script>
-    Dropzone.options.jokeCreateForm = {
-        paramName: 'file',
-        maxFilesize: 10,
-        parallelUploads: 10,
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        init: function() {
-            var btnpost = document.getElementById('joke-create-submit');
-            var myDropzone = this;
-            btnpost.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (myDropzone.files && myDropzone.files.length !== 0) {
-                    myDropzone.processQueue();
+    </section>
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../js/utils/site.min.js"></script>
+    <script src="../build/imgly.concat.js"></script>
+    <script>
+        /**
+         * imglyKit
+         * integration example
+         *
+         * Copyright (c) 2013 img.ly
+         */
+
+        $(function () {
+            var fileInput = document.getElementById("file")
+                    , renderButton = $("#renderButton")
+                    , imgly = new imglyKit({
+                        container: "#container"
+                    });
+
+            // As soon as the user selects a file...
+            fileInput.addEventListener("change", function (event) {
+                var file;
+
+                // Find the selected file
+                if(event.target.files) {
+                    file = event.target.files[0];
                 } else {
-                    $('#joke-create-form').submit();
+                    file = event.target.value;
                 }
+
+                // Use FileReader to turn the selected
+                // file into a data url. imglyKit needs
+                // a data url or an image
+                var reader = new FileReader();
+                reader.onload = (function(file) {
+                    return function (e) {
+                        data = e.target.result;
+
+                        // Run imglyKit with the selected file
+                        try {
+                            imgly.run(data);
+                        } catch (e) {
+                            if(e.name == "NoSupportError") {
+                                alert("Your browser does not support canvas.");
+                            } else if(e.name == "InvalidError") {
+                                alert("The given file is not an image");
+                            }
+                        }
+                    };
+                })(file);
+                reader.readAsDataURL(file);
             });
-            this.on('successmultiple', function(file, req) {
-                location.href = '<%= locals.config.host %>';
+
+            // As soon as the user clicks the render button...
+            // Listen for "Render final image" click
+            renderButton.click(function (event) {
+                var dataUrl;
+                event.preventDefault();
+                // dataUrl = imgly.renderToDataURL("png", function (err, dataUrl) {});
+                // `dataUrl` now contains the full-sized rendered image
+                // Caution: This string will probably exceed the maximum
+                // dataURL size of 2M. You will not be able to set location.href
+                // or an <img> tag's `src` attribute to this dataUrl.
+
+                // dataUrl = imgly.renderToDataURL("png", { maxSize: "100x100" }, function (err, dataUrl) {});
+                // `dataUrl` now contains a resized rendered image that
+                // does not exceed 100x100 while keeping the ratio
+
+                // dataUrl = imgly.renderToDataURL("png", { size: "100x100" }, function (err, dataUrl) {});
+                // `dataUrl` now contains a resized rendered image with
+                // a size of 100x100 pixels while _not_ keeping the ratio
+
+                imgly.renderToDataURL("png", { size: "300x" }, function (err, dataUrl) {
+                    // `dataUrl` now contains a resized rendered image with
+                    // a width of 300 pixels while keeping the ratio
+
+                    $("<img>").attr({
+                        src: dataUrl
+                    }).appendTo($("#image-render-field"));
+                });
             });
-        }
-    };
-</script>
-<% include ../base-bottom.ejs %>
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+           $('#post-form').click(function(e) {
+               e.preventDefault();
+               e.stopPropagation();
+               var container = document.getElementById('container');
+               var title = $('.share-title').val();
+               var content = $('.share-content').val() || '';
+               var canvas = container.getElementsByTagName('canvas')[0];
+               var file;
+               if (canvas) {
+                   file = canvas.toDataURL();
+               }
+               $.ajax({
+                   url: '/joke/create',
+                   type: 'POST',
+                   dataType: 'json',
+                   data: {
+                       'title': title,
+                       'content': content,
+                       'file': file
+                   }
+               }).done(function(data) {
+                   if (data.status === 'success') {
+                       window.location.href = '<%= locals.config.host %>';
+                   } else {
+                       alert('oops, something problem here.');
+                   }
+               }).fail(function(data) {
+                   alert('oops, something wrong.')
+               });
+           });
+        });
+    </script>
+</body>
+</html>

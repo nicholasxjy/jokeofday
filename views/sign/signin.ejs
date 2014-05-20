@@ -1,51 +1,45 @@
-<% include ../base-top.ejs %>
-<link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
-<link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
-<link href="/stylesheets/css/formoid-solid-light-green.css" rel="stylesheet">
-<link rel="stylesheet" href="/stylesheets/css/style.css"/>
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
-<title>Jokes of Day</title>
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../meta.ejs %>
+    <link rel="stylesheet" href="css/assets/site.min.css"/>
+    <link rel="stylesheet" href="css/assets/sign.css"/>
+    <link rel="stylesheet" href="css/assets/header.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/3.1.0/animate.css">
 </head>
-<body class="blurBg-false">
-<% include ../header.ejs %>
-<div class="container signin-section">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <% if (locals.error) { %>
-                <div class="alert alert-warning">
-                    <strong><%= error %></strong>
-                </div>
-            <% } %>
-            <form class="formoid-solid-light-green" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="/signin">
-                <div class="title"><h2>登录</h2></div>
-	            <div class="element-name">
-                    <label class="title"></label>
-                    <div class="nameLast" style="width:100%;">
-                        <input class="large" type="text" name="name" placeholder="输入用户名"/><span class="icon-place"></span>
-                    </div>
-                </div>
-
-	            <div class="element-password">
-                    <label class="title"></label>
-                    <div class="item-cont">
-                        <input class="large" type="password" name="pass" value="" placeholder="输入密码"/><span class="icon-place"></span>                         </div>
-                </div>
-                <div class="submit">
-                    <input type="submit" value="确定"/>
-                </div>
-            </form>
-            
-            <div class="forgot-pass-part">
-                    <a href="/signup" >注册新用户</a>
-                    <a href="/forgot-password" >忘记密码？</a>
-            </div>
+<body class="signin-body">
+<div class="blur-wrap"></div>
+<% include ../common/header.ejs %>
+<section class="login-form">
+      <div class="form-title">
+          <h4>登录</h4>
+      </div>
+      <form  role="form" action="/signin" method="post">
+          <% if (locals.error) { %>
+          <div class="form-group">
+              <div class="alert alert-warning">
+                  <strong><%= locals.error %></strong>
+              </div>
+          </div>
+          <% } %>
+          <div class="form-group">
+              <label for="username" class="control-label">用户名</label>
+              <input type="text" class="form-control" name="name" size="20" data-anijs="if:focus, do:swing animated, after: removeAnim, to:.login-form">
+          </div>
+          <div class="form-group">
+              <label for="password" class="control-label">密码</label>
+              <input type="password" class="form-control" name="pass" size="30" data-anijs="if:focus, do:shake animated, after: removeAnim, to:.login-form">
+          </div>
+          <div class="form-group">
+              <button type="submit" class="btn btn-info">登录</button>
+              <a class="link-signin" href="/signup">还没账户，点击注册</a>
+              <a class="link-forget" href="/forgot-password">忘记密码？</a>
         </div>
-    </div>
-</div>
-<% include ../common/footer.ejs %>
-<script src="/javascripts/js/jquery.min.js"></script>
-<script src="/javascripts/js/bootstrap.min.js"></script>
-<script src="/javascripts/js/main.js"></script>
-<% include ../base-bottom.ejs %>
+    </form>
+</section>
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/utils/site.min.js"></script>
+<script src="js/utils/anijs-min.js"></script>
+</body>
+</html>

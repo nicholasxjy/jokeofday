@@ -4,19 +4,20 @@ var EventProxy = require('eventproxy');
 var Joke = require('../proxy').Joke;
 var Message = require('../proxy').Message;
 var LikeRelation = require('../proxy').LikeRelation;
-var Util = require('../libs/util');
+var Loader = require('loader');
 
 exports.index = function(req, res, next) {
     var page = parseInt(req.query.page, 10) || 1;
     var limit = config.joke_per_page;
     //查询当前用户的message 和 最近joke需要分页
     var render = function(recent_jokes, pages) {
-        res.render('index', {
+        res.render('site/index', {
             config: config,
             pages: pages,
             recent_jokes: recent_jokes,
             limit: limit,
-            currentpage: page
+            currentpage: page,
+            Loader: Loader
         });
     };
     var proxy = EventProxy.create('recent_jokes', 'pages', render);
@@ -46,7 +47,6 @@ exports.index = function(req, res, next) {
                     joke.has_plus_one = false;
                     var i = 0;
                     while(i < docs.length) {
-                        console.log(i);
                         if (docs[i].user_id.toString() === user._id.toString()) {
                             joke.has_plus_one = true;
                             break;

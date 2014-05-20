@@ -1,140 +1,172 @@
-<% include ../base-top.ejs %>
-<link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css"/>
-<link href="/stylesheets/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/stylesheets/css/dropzone.css"/>
-<link rel="stylesheet" href="/stylesheets/css/style.css"/>
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic" media="screen" rel="stylesheet" type="text/css" />
-<title>Jokes of Day</title>
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../meta.ejs %>
+    <link rel="stylesheet" href="../css/assets/site.min.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/assets/siderbar.css"/>
+    <link rel="stylesheet" href="../css/assets/joke.css"/>
 </head>
-<body class="joke-body">
-<div class="container joke-section">
-    <div class="row">
-        <div class="col-md-3 col-md-offset-1 col-sm-3">
-            <% include ../common/jokeuser.ejs %>
-        </div>
-        <div class="col-md-6 col-sm-6 col-md-offset-1">
-            <div class="item row">
-                <div class="joke-item-head">
-                    <div class="col-lg-2">
-                        <a href="/user/<%= locals.author.name %>">
-                            <img src="<%= locals.author.profile_image_url %>" alt="<%= locals.author.name %>"
-                                 title="<%= locals.author.name %>" width="60" height="60"
-                                 class="img-circle img-responsive"/>
-                        </a>
-                    </div>
-                    <div class="col-lg-10">
-                        <div class="author-card-name">
-                            <a href="/user/<%= locals.author.name %>"><%= locals.author.name %></a>
-                        </div>
-                        <div class="joke-post-time">
-                            分享于 <%= locals.joke.friendly_create_time %>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 joke-page-content">
-                    <% if (locals.joke.title) { %>
-                    <p><strong><%= locals.joke.title %></strong></p>
-                    <% } %>
-                    <% if (locals.joke.content) { %>
-                    <p><%= locals.joke.content %></p>
-                    <% } %>
-                    <% if (locals.joke.link) { %>
-                    <p><a href="<%= locals.joke.link %>"><%= locals.joke.link %></a></p>
-                    <% } %>
-                    <% if (locals.joke.pictures.length > 1) { %>
-                    <ul class="list-inline">
-                        <% locals.joke.pictures.forEach(function(pic){ %>
-                        <li>
-                            <img alt="300x200" src="<%= pic.url %>" class="img-responsive" style="max-width: 540px;"/>
-                        </li>
-                        <% }); %>
-                    </ul>
-                    <% } else if (locals.joke.pictures.length === 1) { %>
-                    <ul class="list-inline">
-                        <% locals.joke.pictures.forEach(function(pic){ %>
-                        <li>
-                            <img alt="300x200" src="<%= pic.url %>" class="img-responsive" style="max-width: 540px;"/>
-                        </li>
-                        <% }); %>
-                    </ul>
-                    <% } %>
-                </div>
-                <div class="col-lg-12 joke-item-footer-bar">
-                    <ul class="list-inline">
-                        <li>
-                            <a class="show-comment-0">
-                                <i class="fa fa-comments"></i>  <span id="comments-count"><%= locals.comments.length %></span>  comments
-                            </a>
-                        </li>
-                        <li>
-                            <a title="plus one" id="<%= locals.joke._id %>"><i class="fa fa-heart"></i>
-                                <span><%= locals.joke.like_count %></span>  likes
-                            </a>
-                        </li>
-                        <li>
-                            <a><i class="fa fa-share"></i>  share</a>
-                        </li>
-                    </ul>
-
-                </div>
+<body style="background: url(<%= locals.config.host %>/images/low_contrast_linen.png) repeat 0 0;">
+<div class="st-container" id="st-container">
+    <% include ../common/siderbar.ejs %>
+    <button id="showsidebar" class="site-nav-logo">
+        <span class="icons icons-logo-m"></span>
+    </button>
+    <div class="st-pusher">
+        <div class="header">
+            <div class="site-img">
+                <a href="/">
+                    <img src="<%= locals.user.profile_image_url %>" alt="Logo" class="img-responsive img-circle"
+                         width="120" height="120"
+                         tiltle="<%= locals.user.name %>"/>
+                </a>
             </div>
-            <div class="item row">
-                <div class="joke-comments">
-                    <% if (locals.comments.length > 0) { %>
-                    <h3>Comments</h3>
-                    <ul id="comments-list">
-                        <% locals.comments.forEach(function(comment){ %>
-                        <li>
-                            <a href="/user/<%= comment.author.name %>">
-                                <img src="<%= comment.author.profile_image_url %>" alt="<%= comment.author.name %>"
-                                     width="20" height="20" class="img-responsive pull-left"/>
-                            </a>
-                            <a href="/user/<%= comment.author.name %>" class="pull-left comment-author-name"><%= comment.author.name %>&nbsp;</a>
-                            <span class="pull-left">:&nbsp;<%= comment.content %></span>
-                            <span class="pull-left comment-time">&nbsp;&nbsp;on <%= comment.friendly_create_time %></span>
-                        </li>
-                        <% }); %>
-                        <% if (locals.current_user) { %>
-                        <li>
-                            <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
-                            <div id="comment-show" style="display: none">
-                                <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
-                                     width="40" height="40" class="img-responsive pull-left"/>
-                                <textarea id="new-comment-content" class="form-control"></textarea>
-                                <button id="post-comment" class="btn btn-success" value="" disabled="disabled">post comment</button>
-                                <button id="cancel-post-comment" class="btn btn-default">cancel</button>
-                                <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
-                            </div>
-                        </li>
+        </div>
+        <div class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 intro-info">
+                        <h1>
+                            <a href="/<%= locals.user.name %>/timeline"><%= locals.user.name %></a>
+                        </h1>
+                        <% if (locals.user.profile) { %>
+                        <p style="color: #ffffff;font-size: 14px;"><%= locals.user.profile %></p>
+                        <% } else { %>
+                        <p style="color: #ffffff;font-size: 14px;">Programmer & artist. Creator of the Luna programming language, Koa, Express, Stylus, Cluster, Mocha, Jade, node-canvas, component and many others.</p>
                         <% } %>
-                    </ul>
-                    <% } else { %>
-                    <% if (locals.current_user) { %>
-                    <h3 class="alert alert-success">Oops!此条还没有任何评论</h3>
-                    <ul id="comments-list">
-                        <li>
-                            <input type="text" class="form-control" placeholder="Add a comment" id="add-a-comment"/>
-                            <div id="comment-show" style="display: none">
-                                <img src="<%= locals.current_user.profile_image_url %>" alt="<%= locals.current_user.name %>"
-                                     width="40" height="40" class="img-responsive pull-left"/>
-                                <textarea id="new-comment-content" class="form-control"></textarea>
-                                <button id="post-comment" class="btn btn-success" value="" disabled="disabled">post comment</button>
-                                <button id="cancel-post-comment" class="btn btn-default">cancel</button>
-                                <input type="hidden" value="<%= locals.joke._id %>" id="joke-info-id"/>
+                    </div>
+                </div>
+                <div class="row info-content">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="jumbotron">
+                            <% if (locals.joke.pictures && locals.joke.pictures.length > 0) { %>
+                                <div class="jumbotron-photo">
+                                    <img src="<%= locals.joke.pictures[0]%>" class="img-responsive" />
+                                </div>
+                            <% } %>
+                            <div class="jumbotron-contents">
+                                <h2><%= locals.joke.title %></h2>
+                                <% if (locals.joke.content) { %>
+                                <p><%= locals.joke.content %></p>
+                                <% } %>
                             </div>
-                        </li>
-                    </ul>
-                    <% } else { %>
-                        <h3 class="alert alert-success">请先登录，才能添加评论。</h3>
-                    <% } %>
-                    <% } %>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="alert alert-success">
+                            <strong>Comments</strong>
+                        </div>
+                        <ul class="media-list comment-list">
+                            <% if (locals.comments && locals.comments.length > 0) { %>
+                            <% locals.comments.forEach(function(comment){ %>
+                            <li class="media">
+                                <a class="pull-left" href="/<%= comment.author.name %>/timeline">
+                                    <img class="media-object img-rounded img-responsive" src="<%= comment.author.profile_image_url %>"
+                                            width="50" height="50">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><%= comment.author.name %></h4>
+                                    <p>发表于 <%= comment.friendly_create_time %></p>
+                                    <p><%= comment.content %></p>
+                                </div>
+                            </li>
+                            <% });%>
+                            <% } %>
+                            <li class="media">
+                                <a class="pull-left" href="/<%= locals.current_user.name %>/timeline">
+                                    <img class="media-object img-circle" src="<%= locals.current_user.profile_image_url %>"
+                                         width="50" height="50">
+                                </a>
+                                <div class="media-body">
+                                    <p>
+                                        <textarea id="comment-field" class="form-control" rows="1" placeholder="Add a comment..."></textarea>
+                                        <button class="btn btn-success" id="post-comment" disabled="disabled"
+                                                data="<%= locals.joke._id %>">Post comment</button>
+                                        <button class="btn btn-default" id="cancel-comment">Cancel</button>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<% include ../common/footer.ejs %>
-<% include ../jsfiles.ejs %>
-<% include ../base-bottom.ejs %>
+<!-- load js here -->
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../js/utils/site.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#showsidebar').click(function(e) {
+        e.stopPropagation();
+        $('#st-container').addClass('st-effect-1 st-menu-open');
+        $(this).hide('slow');
+        $('body').addClass('show-sidebar-no-scroll');
+    });
+    $('.st-pusher').click(function() {
+        $('#st-container').removeClass('st-menu-open');
+        $('#showsidebar').show('slow');
+        $('body').removeClass('show-sidebar-no-scroll');
+    });
+    var $field = $('#comment-field');
+    $field.focus(function() {
+        $(this).attr('rows', '3');
+        $('#post-comment').show();
+        $('#cancel-comment').show();
+    });
+    $field.keyup(function() {
+        if (this.value !== '') {
+            $('#post-comment').removeAttr('disabled');
+        } else {
+            $('#post-comment').attr('disabled', 'disabled');
+        }
+    });
+    $('#cancel-comment').click(function() {
+        $field.attr('rows', '1');
+        $field.val('');
+        $('#post-comment').hide();
+        $('#cancel-comment').hide();
+    });
+    $('#post-comment').click(function() {
+        var jokeid = $(this).attr('data');
+        var content = $('#comment-field').val();
+        $.ajax({
+            url: '/comment/add-comment',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'jokeid': jokeid,
+                'content': content
+            }
+        }).done(function(data) {
+            if (data.status === 'success') {
+                var addnode = '<li class="media"><a class="pull-left" href="/<%= locals.current_user.name %>/timeline">' +
+                        '<img class="media-object img-rounded img-responsive" ' +
+                        'src="<%= locals.user.profile_image_url %>" width="50" height="50"></a><div class="media-body"><h4 class="media-heading"><%= locals.current_user.name %></h4><p>发表于 刚刚</p><p>'+ content +'</p></div></li>';
+                $('.comment-list').prepend($(addnode));
+                $field.attr('rows', '1');
+                $field.val('');
+                $('#post-comment').attr('disabled', 'disabled').hide();
+                $('#cancel-comment').hide();
+            } else {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert('oops, something wrong.')
+                }
+
+            }
+        }).fail(function() {
+           alert('oops, something wrong.')
+        });
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+

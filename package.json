@@ -14,7 +14,9 @@
     "nodemailer": "*",
     "utility": "*",
     "xss": "*",
-    "eventproxy":"*",
-    "gm": "*"
+    "eventproxy": "*",
+    "loader": "*",
+    "qn": "~0.2.2",
+    "rimraf": "~2.2.8"
   }
 }
